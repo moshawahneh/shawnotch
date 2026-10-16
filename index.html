@@ -44,20 +44,50 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 p { margin: 0; }
 
 /* The screen */
-.screen { position: relative; background: var(--screen); overflow: hidden; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.screen { --s: 1; position: relative; display: grid; align-content: end; min-height: max(calc(152px * var(--s) + 150px), min(64vh, 640px)); background: var(--screen); overflow: hidden; padding: calc(152px * var(--s) + 26px) 16px 36px; }
 .screen .wallpaper { position: absolute; inset: 0; background: center 38% / cover no-repeat url(images/poster-midnight.jpg); opacity: 0.9; }
-.menubar { position: relative; display: flex; justify-content: space-between; align-items: center; height: 34px; max-width: 1180px; margin: 0 auto; font: 500 13px/1 var(--body); color: #F2F0F7; }
-.menubar .left { display: flex; gap: 18px; }
+.screen::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; background: linear-gradient(rgba(11, 10, 15, 0), rgba(11, 10, 15, 0.86)); pointer-events: none; }
+.menubar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; height: calc(32px * var(--s)); padding-inline: 14px; font: 500 clamp(10px, calc(13px * var(--s)), 14px)/1 var(--body); color: #F2F0F7; }
+.menubar .left { display: flex; gap: 1.4em; }
 .menubar .left b { font-weight: 600; }
 .menubar .right { font-variant-numeric: tabular-nums; }
-.stagehand { position: relative; display: grid; justify-items: center; padding-block: 0 56px; }
-.notch { position: relative; display: block; margin-top: -34px; padding: 0; border: 0; background: none; cursor: pointer; width: min(530px, 100%); aspect-ratio: 530 / 152; }
-.notch img { position: absolute; left: 50%; top: 0; transform-origin: 50% 0; transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.25, 1.12); }
-.notch .nook { width: 100%; transform: translateX(-50%) scale(1); }
-.notch .wings { width: 51.5%; transform: translateX(-50%) scale(1); opacity: 0; }
-.notch[aria-expanded="false"] .nook { opacity: 0; transform: translateX(-50%) scaleX(0.52) scaleY(0.21); }
-.notch[aria-expanded="false"] .wings { opacity: 1; }
-.hint { position: relative; margin-top: 14px; font: 500 12px/1 var(--mono); letter-spacing: 0.04em; color: rgba(242, 240, 247, 0.72); }
+
+/* The notch, rebuilt from the app at its real size: a 185 × 32 notch on a 1,512-point-wide screen, opening into a 530 × 152 nook with a 340-point drawer either side. The whole window is scaled to fit, and the black shape is redrawn each frame with the app's own springs. */
+.stage { position: absolute; top: 0; left: 50%; width: 1210px; height: 152px; transform-origin: 0 0; transform: translateX(calc(var(--pan, 0px) - 605px * var(--s))) scale(var(--s)); z-index: 2; font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.shape { position: absolute; inset: 0; background: #000; clip-path: path('M512.5 0 L697.5 0 L697.5 32 L512.5 32 Z'); -webkit-tap-highlight-color: transparent; }
+.wings { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.stage.wings-on .wings { opacity: 1; transition: opacity 0.15s ease-out; }
+.wings .mini { position: absolute; left: 483px; top: 5.5px; width: 21px; height: 21px; }
+.wings canvas { position: absolute; left: 702.5px; top: 7px; width: 28px; height: 18px; }
+.open { position: absolute; inset: 0; opacity: 0; transform: scale(0.94); transform-origin: 605px 0; visibility: hidden; transition: opacity 0.12s ease-in, transform 0s linear 0.12s, visibility 0s linear 0.12s; }
+.stage.expanded .open { opacity: 1; transform: none; visibility: visible; transition: opacity 0.22s ease-out 0.08s, transform 0.22s ease-out 0.08s; }
+.drawer { position: absolute; top: 0; width: 340px; height: 152px; opacity: 0; transition: opacity 0.3s ease; }
+.drawer > img { width: 340px; height: 152px; max-width: none; }
+.drawer.mirror { left: 0; }
+.drawer.calendar { left: 870px; }
+.stage[data-drawer="mirror"] .drawer.mirror, .stage[data-drawer="calendar"] .drawer.calendar { opacity: 1; }
+.camera { position: absolute; left: 18px; top: 14px; width: 166px; height: 124px; border-radius: 14px; object-fit: cover; transform: scaleX(-1); background: #111; display: none; }
+.stage.camera-on .camera { display: block; }
+.use-camera { position: absolute; left: 101px; top: 110px; transform: translateX(-50%); padding: 5px 12px; border: 0; border-radius: 999px; background: #fff; color: #000; font: 600 11px/1.2 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; white-space: nowrap; cursor: pointer; }
+.nook { position: absolute; left: 340px; top: 0; width: 530px; height: 152px; overflow: hidden; touch-action: pan-y; }
+.pages { position: absolute; inset: 0; display: flex; }
+.page { position: relative; flex: 0 0 530px; height: 152px; }
+.page > img { width: 530px; height: 152px; max-width: none; user-select: none; -webkit-user-drag: none; }
+.page .record { position: absolute; left: 22px; top: 16px; width: 110px; height: 110px; }
+.page .arm { position: absolute; left: 0; top: 0; overflow: visible; }
+.spins { animation: spin 8s linear infinite; }
+.screen:not(.in-view) .spins { animation-play-state: paused; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.dots { position: absolute; left: 77px; top: 139px; transform: translate(-50%, -50%); display: flex; gap: 6px; }
+.dots button { padding: 4px 2px; border: 0; background: none; cursor: pointer; }
+.dots span { display: block; width: 5px; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.25); transition: width 0.25s ease, background 0.25s ease; }
+.dots button[aria-current="true"] span { width: 14px; background: #fff; }
+.demo { position: relative; z-index: 1; display: grid; justify-items: center; gap: 12px; text-align: center; }
+.demo-hint { font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; color: rgba(242, 240, 247, 0.78); }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.chips button { padding: 9px 15px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 999px; background: rgba(20, 16, 28, 0.55); color: #F2F0F7; font: 500 13px/1 var(--body); cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.chips button[aria-pressed="true"] { background: #F2F0F7; border-color: #F2F0F7; color: #14101C; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Reading column */
 .column { max-width: 1180px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
@@ -113,7 +143,10 @@ p { margin: 0; }
 .row figure img { width: auto; max-height: 64px; }
 .row .shot-wide img { max-height: none; width: min(100%, 360px); }
 .row .tag { font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink); }
-.edge { justify-self: center; font: 500 14px/1.4 var(--mono); color: var(--muted); border: 1.5px dashed var(--line); border-radius: 12px; padding: 14px 18px; }
+.row .shot img { width: min(100%, 340px); max-height: none; border-radius: 0 0 22px 22px; }
+.row .shot.wide img { width: min(100%, 420px); }
+.try { justify-self: start; margin-top: 4px; padding: 0; border: 0; background: none; color: var(--pink); font: 600 14px/1.4 var(--body); cursor: pointer; }
+.try:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Numbers */
 .numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding-block: 56px; border-top: 1px solid var(--line); }
@@ -149,12 +182,13 @@ footer .fine { font-size: 12.5px; }
 @media (max-width: 860px) {
   .mm, .price { grid-template-columns: minmax(0, 1fr); }
   .row { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .row figure, .edge { justify-self: start; }
+  .row figure { justify-self: start; }
   .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .menubar .left span:nth-child(n+4) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+  .spins { animation: none; }
 }
 </style>
 </head>
@@ -163,14 +197,57 @@ footer .fine { font-size: 12.5px; }
   <div class="wallpaper" aria-hidden="true"></div>
   <div class="menubar" aria-hidden="true">
     <div class="left"><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span></div>
-    <div class="right" id="clock">Fri 16 Oct 21:40</div>
+    <div class="right" id="clock">Fri 16 Oct 09:35</div>
   </div>
-  <div class="stagehand">
-    <button class="notch" id="notch" aria-expanded="true" aria-label="Close the notch">
-      <img class="wings" src="images/wings.png" alt="">
-      <img class="nook" src="images/nook.png" alt="ShawNotch's open notch: Midnight Drive by Neon Coast spinning as a record, with a playback line and controls">
-    </button>
-    <p class="hint" id="hint">Click the notch to close it</p>
+  <div class="stage wings-on" id="stage" data-drawer="none">
+    <div class="shape" id="shape">
+      <div class="wings" aria-hidden="true">
+        <img class="mini spins" src="images/notch-mini-record.png" alt="">
+        <canvas id="wave" width="84" height="54"></canvas>
+      </div>
+      <div class="open">
+        <div class="drawer mirror">
+          <img src="images/notch-mirror.png" alt="The Mirror: a camera preview showing Live, Good light and Centered, with buttons to flip, snap a photo and light your face">
+          <video class="camera" id="camera" muted playsinline></video>
+          <button class="use-camera" id="use-camera" type="button">Use my camera</button>
+        </div>
+        <div class="nook" id="nook">
+          <div class="pages" id="pages">
+            <div class="page">
+              <img src="images/notch-playing.png" alt="Now Playing: Midnight Drive by Neon Coast spinning as a record, with a playback line and controls" draggable="false">
+              <img class="record spins" src="images/notch-record.png" alt="" draggable="false">
+              <svg class="arm" width="168" height="132" viewBox="0 0 168 132" aria-hidden="true">
+                <line x1="152" y1="20" x2="118" y2="88" stroke="#BDBDBD" stroke-width="2.5" stroke-linecap="round"/>
+                <rect x="110.5" y="82.5" width="15" height="11" rx="2" fill="#D9D9D9" transform="rotate(116.57 118 88)"/>
+                <circle cx="152" cy="20" r="6.25" fill="#1C1C1C" stroke="#545454" stroke-width="1.5"/>
+                <circle cx="152" cy="20" r="2.5" fill="#878787"/>
+              </svg>
+            </div>
+            <div class="page">
+              <img src="images/notch-tray.png" alt="The Tray: five files kept for later, with a cover image, a boarding pass, a photo, a setlist and a demo mix" draggable="false">
+            </div>
+          </div>
+          <div class="dots" id="dots">
+            <button type="button" aria-label="Now Playing" aria-current="true"><span></span></button>
+            <button type="button" aria-label="Tray" aria-current="false"><span></span></button>
+          </div>
+        </div>
+        <div class="drawer calendar">
+          <img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a design review in 25 minutes with a Join button, and lunch at 1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="demo">
+    <p class="demo-hint" id="demo-hint">Hover the notch, then push to its left or right edge</p>
+    <div class="chips" role="group" aria-label="Show a part of the notch">
+      <button type="button" data-show="closed" aria-pressed="true">Closed</button>
+      <button type="button" data-show="playing" aria-pressed="false">Now Playing</button>
+      <button type="button" data-show="tray" aria-pressed="false">Tray</button>
+      <button type="button" data-show="mirror" aria-pressed="false">Mirror</button>
+      <button type="button" data-show="calendar" aria-pressed="false">Calendar</button>
+    </div>
+    <p class="visually-hidden" id="demo-status" aria-live="polite"></p>
   </div>
 </header>
 
@@ -225,16 +302,16 @@ footer .fine { font-size: 12.5px; }
           <figure><img src="images/peek.png" alt="The notch showing AirPods Pro at 82 and 79 percent" width="333" height="32"></figure>
         </div>
         <div class="row">
-          <div class="text"><span class="tag">Left edge</span><h3>A mirror before every call</h3><p>Push the pointer to the notch's left edge for your camera. It checks your lighting and framing, and in a dark room it can light your face from the edges of the screen. The camera is only on while the mirror is open.</p></div>
-          <p class="edge">← push left</p>
+          <div class="text"><span class="tag">Left edge</span><h3>A mirror before every call</h3><p>Push the pointer to the notch's left edge for your camera. It checks your lighting and framing, and in a dark room it can light your face from the edges of the screen. The camera is only on while the mirror is open.</p><button class="try" type="button" data-try="mirror">Open it in the notch ↑</button></div>
+          <figure class="shot"><img src="images/notch-mirror.png" alt="The Mirror: a camera preview showing Live, Good light and Centered, with buttons to flip, snap a photo and light your face" width="340" height="152" loading="lazy"></figure>
         </div>
         <div class="row">
-          <div class="text"><span class="tag">Right edge</span><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p></div>
-          <p class="edge">push right →</p>
+          <div class="text"><span class="tag">Right edge</span><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch ↑</button></div>
+          <figure class="shot"><img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a design review in 25 minutes with a Join button, and lunch at 1" width="340" height="152" loading="lazy"></figure>
         </div>
         <div class="row">
-          <div class="text"><span class="tag">Tray</span><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away.</p></div>
-          <p class="edge">drop files here ↓</p>
+          <div class="text"><span class="tag">Tray</span><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away.</p><button class="try" type="button" data-try="tray">Open it in the notch ↑</button></div>
+          <figure class="shot wide"><img src="images/notch-tray.png" alt="The Tray: five files kept for later, with buttons for Downloads and Recent" width="530" height="152" loading="lazy"></figure>
         </div>
       </div>
     </section>
@@ -294,18 +371,433 @@ footer .fine { font-size: 12.5px; }
 </footer>
 
 <script>
-const notch = document.getElementById('notch');
-const hint = document.getElementById('hint');
-function setOpen(open) {
-  notch.setAttribute('aria-expanded', String(open));
-  notch.setAttribute('aria-label', open ? 'Close the notch' : 'Open the notch');
-  hint.textContent = open ? 'Click the notch to close it' : 'Click the notch to open it';
-}
-notch.addEventListener('click', () => setOpen(notch.getAttribute('aria-expanded') !== 'true'));
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  setOpen(false);
-  setTimeout(() => setOpen(true), 900);
-}
+// The notch at the top of the page, rebuilt from the app: the sizes, springs,
+// hover delays and edge rules are NotchViewModel's, and the pictures are the
+// app's own views.
+(() => {
+  const stage = document.getElementById('stage');
+  const screen = stage.closest('.screen');
+  const shape = document.getElementById('shape');
+  const nook = document.getElementById('nook');
+  const pagesRow = document.getElementById('pages');
+  const pages = [...pagesRow.children];
+  const dots = [...document.querySelectorAll('#dots button')];
+  const chips = [...document.querySelectorAll('[data-show]')];
+  const status = document.getElementById('demo-status');
+  const wave = document.getElementById('wave');
+  const video = document.getElementById('camera');
+  const cameraButton = document.getElementById('use-camera');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Window coordinates, in points: the nook between a drawer on each side.
+  const width = 1210, height = 152, drawerWidth = 340;
+  const nookRect = { x: 340, w: 530 };
+  const notch = { x: 512.5, w: 185, h: 32 };
+  const wing = 44;
+  // SwiftUI springs: response (s), damping fraction.
+  const springs = { expand: [0.42, 0.74], collapse: [0.38, 0.9], drawer: [0.4, 0.84], page: [0.4, 0.86] };
+
+  class Spring {
+    constructor(value) { this.value = this.target = value; this.velocity = 0; this.k = 0; this.c = 0; }
+    to(target, [response, damping]) {
+      const omega = 2 * Math.PI / response;
+      this.target = target;
+      this.k = omega * omega;
+      this.c = 2 * damping * omega;
+      if (reduceMotion) this.jump(target);
+    }
+    jump(value) { this.value = this.target = value; this.velocity = 0; }
+    step(dt) {
+      this.velocity += (-this.k * (this.value - this.target) - this.c * this.velocity) * dt;
+      this.value += this.velocity * dt;
+      if (Math.abs(this.value - this.target) < 0.01 && Math.abs(this.velocity) < 0.05) this.jump(this.target);
+    }
+    get moving() { return this.value !== this.target || this.velocity !== 0; }
+  }
+
+  let expanded = false, drawer = 'none', page = 0;
+  let wingsOn = true, wingsTimer;
+  let pointerInside = false, pinned = false, transition;
+  let drawerTimer, drawerWanted = null;
+  let dragOffset = 0;
+  let scale = 1, inView = true;
+
+  const rect = { x: new Spring(0), w: new Spring(0), h: new Spring(0), top: new Spring(0), bottom: new Spring(0) };
+  const pageOffset = new Spring(0), pan = new Spring(0);
+  const allSprings = [...Object.values(rect), pageOffset, pan];
+
+  // Where the shape is: the notch with its playback wings, the nook, or the
+  // nook with a drawer out.
+  function shapeRect() {
+    if (!expanded) return { x: notch.x - wing, w: notch.w + wing * 2, h: notch.h, top: 6, bottom: 10 };
+    let x = nookRect.x, w = nookRect.w;
+    if (drawer === 'mirror') { x -= drawerWidth; w += drawerWidth; }
+    if (drawer === 'calendar') w += drawerWidth;
+    return { x, w, h: height, top: 8, bottom: 22 };
+  }
+
+  // NotchShape: a flat top, concave shoulders, rounded bottom corners.
+  function notchPath(x, w, h, topRadius, bottomRadius) {
+    const top = Math.max(0, Math.min(topRadius, w / 4, h / 2));
+    const bottom = Math.max(0, Math.min(bottomRadius, (w - top * 2) / 2, h - top));
+    const left = x + top, right = x + w - top;
+    return `M${x} 0Q${left} 0 ${left} ${top}L${left} ${h - bottom}Q${left} ${h} ${left + bottom} ${h}` +
+      `L${right - bottom} ${h}Q${right} ${h} ${right} ${h - bottom}L${right} ${top}Q${right} 0 ${x + w} 0Z`;
+  }
+
+  // On a narrow screen the open drawer would run off the page: slide the
+  // whole window across so the shape stays in view, or at least the drawer.
+  function panFor(r) {
+    const across = screen.clientWidth, margin = 12;
+    const left = across / 2 + (r.x - width / 2) * scale, right = across / 2 + (r.x + r.w - width / 2) * scale;
+    if (right - left > across - margin * 2) {
+      if (drawer === 'mirror') return margin - left;
+      if (drawer === 'calendar') return across - margin - right;
+      return across / 2 - (left + right) / 2;
+    }
+    if (left < margin) return margin - left;
+    if (right > across - margin) return across - margin - right;
+    return 0;
+  }
+
+  function reshape(spring) {
+    const target = shapeRect();
+    for (const key in rect) rect[key].to(target[key], spring);
+    pan.to(panFor(target), spring);
+    stage.classList.toggle('expanded', expanded);
+    stage.dataset.drawer = drawer;
+    sync();
+    run();
+  }
+
+  function expand() {
+    clearTimeout(transition);
+    if (expanded) return;
+    expanded = true;
+    setWings(false);
+    reshape(springs.expand);
+  }
+
+  function collapse() {
+    clearTimeout(transition);
+    if (!expanded) return;
+    clearTimeout(drawerTimer);
+    drawerWanted = null;
+    expanded = false;
+    drawer = 'none';
+    stopCamera();
+    reshape(springs.collapse);
+    // The record and wave come back once the wings are out.
+    wingsTimer = setTimeout(() => setWings(true), 450);
+  }
+
+  function setWings(on) {
+    clearTimeout(wingsTimer);
+    wingsOn = on;
+    stage.classList.toggle('wings-on', on);
+    run();
+  }
+
+  function setDrawer(next) {
+    if (next === drawer) return;
+    drawer = next;
+    if (drawer !== 'mirror') stopCamera();
+    reshape(springs.drawer);
+  }
+
+  function show(index) {
+    setDrawer('none');
+    page = index;
+    pageOffset.to(-index * nookRect.w, springs.page);
+    sync();
+    run();
+  }
+
+  // MARK: The pointer, as the app tracks it
+
+  function pointerMoved(point) {
+    const r = shapeRect(), slop = expanded ? 0 : 8;
+    const inside = point.x >= r.x - slop && point.x <= r.x + r.w + slop && point.y >= -2 && point.y <= r.h;
+    if (inside !== pointerInside) {
+      pointerInside = inside;
+      clearTimeout(transition);
+      if (inside) {
+        pinned = false;
+        stopTour();
+        if (!expanded) transition = setTimeout(expand, 120);
+      } else if (expanded && !pinned) {
+        transition = setTimeout(collapse, 400);
+      }
+    }
+    if (inside) updateDrawer(point);
+  }
+
+  // On Now Playing, the nook's right edge slides the Calendar out and the
+  // left edge the Mirror, after a brief pause there; heading back toward the
+  // middle puts them away.
+  function updateDrawer(point) {
+    if (!expanded || page !== 0 || dragOffset !== 0) return;
+    const left = nookRect.x, right = nookRect.x + nookRect.w;
+    const atRight = point.x >= right - 30 && point.x <= right;
+    const atLeft = point.x <= left + 30 && point.x >= left;
+    let target = drawer;
+    if (drawer === 'none') target = atRight ? 'calendar' : atLeft ? 'mirror' : 'none';
+    else if (drawer === 'calendar' && point.x < right - 150) target = atLeft ? 'mirror' : 'none';
+    else if (drawer === 'mirror' && point.x > left + 150) target = atRight ? 'calendar' : 'none';
+
+    if (target === drawer) {
+      clearTimeout(drawerTimer);
+      drawerWanted = null;
+    } else if (target === 'none') {
+      clearTimeout(drawerTimer);
+      drawerWanted = null;
+      setDrawer('none');
+    } else if (drawerWanted === null) {
+      drawerWanted = target;
+      drawerTimer = setTimeout(() => { drawerWanted = null; setDrawer(target); }, 110);
+    }
+  }
+
+  function toStage(event) {
+    const box = stage.getBoundingClientRect();
+    return { x: (event.clientX - box.left) / scale, y: (event.clientY - box.top) / scale };
+  }
+
+  document.addEventListener('pointermove', event => {
+    if (event.pointerType === 'mouse') pointerMoved(toStage(event));
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', () => pointerMoved({ x: -1e4, y: -1e4 }));
+
+  let lastPointer = 'mouse';
+  stage.addEventListener('pointerdown', event => { lastPointer = event.pointerType; }, { passive: true });
+  shape.addEventListener('click', () => {
+    if (expanded) return;
+    stopTour();
+    // A tap has no hover to keep it open.
+    pinned = lastPointer !== 'mouse';
+    expand();
+  });
+
+  // MARK: Paging: drag with the mouse or a finger, or swipe the trackpad
+
+  function dragPages(translation) {
+    setDrawer('none');
+    const pastStart = page === 0 && translation > 0, pastEnd = page === pages.length - 1 && translation < 0;
+    dragOffset = pastStart || pastEnd ? translation * 0.3 : translation;
+    pageOffset.jump(-page * nookRect.w + dragOffset);
+    run();
+  }
+
+  function endPageDrag(projected) {
+    const w = nookRect.w;
+    const distance = Math.abs(dragOffset) > w / 2 ? dragOffset : projected;
+    let index = page;
+    if (distance < -w * 0.2) index = Math.min(index + 1, pages.length - 1);
+    else if (distance > w * 0.2) index = Math.max(index - 1, 0);
+    dragOffset = 0;
+    show(index);
+  }
+
+  let drag = null;
+  nook.addEventListener('pointerdown', event => {
+    if (!expanded || event.button !== 0 || event.target.closest('button')) return;
+    drag = { start: event.clientX, last: event.clientX, time: event.timeStamp, velocity: 0, moving: false };
+    nook.setPointerCapture(event.pointerId);
+  });
+  nook.addEventListener('pointermove', event => {
+    if (!drag) return;
+    const translation = (event.clientX - drag.start) / scale;
+    if (!drag.moving && Math.abs(translation) < 6) return;
+    drag.moving = true;
+    stopTour();
+    const dt = Math.max(1, event.timeStamp - drag.time);
+    drag.velocity = (event.clientX - drag.last) / scale / dt * 1000;
+    drag.last = event.clientX;
+    drag.time = event.timeStamp;
+    dragPages(translation);
+  });
+  const endDrag = event => {
+    if (!drag) return;
+    const { moving, start, velocity } = drag;
+    drag = null;
+    if (moving) {
+      const translation = (event.clientX - start) / scale;
+      endPageDrag(translation + velocity * 0.25);
+    }
+  };
+  nook.addEventListener('pointerup', endDrag);
+  nook.addEventListener('pointercancel', endDrag);
+
+  let swipe = 0, swipeEnd;
+  nook.addEventListener('wheel', event => {
+    if (!expanded || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    event.preventDefault();
+    stopTour();
+    swipe -= event.deltaX;
+    dragPages(swipe);
+    clearTimeout(swipeEnd);
+    swipeEnd = setTimeout(() => { const offset = swipe; swipe = 0; endPageDrag(offset); }, 120);
+  }, { passive: false });
+
+  dots.forEach((dot, index) => dot.addEventListener('click', () => { stopTour(); show(index); }));
+
+  // MARK: The buttons under the screen, and a tour until someone takes over
+
+  function apply(name) {
+    pinned = true;
+    clearTimeout(transition);
+    if (name === 'closed') return collapse();
+    expand();
+    if (name === 'tray') return show(1);
+    if (page !== 0) show(0);
+    setDrawer(name === 'mirror' || name === 'calendar' ? name : 'none');
+  }
+
+  chips.forEach(chip => chip.addEventListener('click', () => { stopTour(); apply(chip.dataset.show); }));
+
+  const tour = [['closed', 1800], ['playing', 3200], ['calendar', 3000], ['mirror', 3000], ['tray', 3000]];
+  let touring = !reduceMotion, tourStop = 0, tourTimer;
+  function nextStop() {
+    if (!touring || !inView) return;
+    const [name, duration] = tour[tourStop++ % tour.length];
+    apply(name);
+    tourTimer = setTimeout(nextStop, duration);
+  }
+  function stopTour() {
+    touring = false;
+    clearTimeout(tourTimer);
+  }
+
+  const descriptions = {
+    closed: 'Closed: a tiny record spins beside the notch, with a wave in the album’s colour.',
+    playing: 'Now Playing: the song as a spinning record, with a playback line and controls.',
+    tray: 'Tray: files kept for later, with Downloads and Recent a click away.',
+    mirror: 'Mirror: your camera, with lighting and framing checks.',
+    calendar: 'Calendar: today’s events, with Join for calls.',
+  };
+  function sync() {
+    const current = !expanded ? 'closed' : drawer !== 'none' ? drawer : page === 1 ? 'tray' : 'playing';
+    chips.forEach(chip => chip.setAttribute('aria-pressed', String(chip.dataset.show === current)));
+    dots.forEach((dot, index) => dot.setAttribute('aria-current', String(index === page)));
+    status.textContent = descriptions[current];
+  }
+
+  if (matchMedia('(hover: none)').matches) {
+    document.getElementById('demo-hint').textContent = 'Tap the notch, swipe it, or pick a part';
+  }
+
+  // MARK: The Mirror can show the visitor's own camera, only while it's out
+
+  let stream = null;
+  function stopCamera() {
+    if (!stream) return;
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    video.srcObject = null;
+    stage.classList.remove('camera-on');
+    cameraButton.textContent = 'Use my camera';
+  }
+  if (!navigator.mediaDevices?.getUserMedia) cameraButton.hidden = true;
+  cameraButton.addEventListener('click', async () => {
+    stopTour();
+    if (stream) return stopCamera();
+    try {
+      const media = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 } }, audio: false });
+      if (drawer !== 'mirror') return media.getTracks().forEach(track => track.stop());
+      stream = media;
+      video.srcObject = media;
+      await video.play().catch(() => {});
+      stage.classList.add('camera-on');
+      cameraButton.textContent = 'Stop camera';
+    } catch {
+      cameraButton.textContent = 'No camera allowed';
+      setTimeout(() => { if (!stream) cameraButton.textContent = 'Use my camera'; }, 2000);
+    }
+  });
+
+  // MARK: Drawing
+
+  const context = wave.getContext('2d');
+  context.scale(3, 3);
+  const layers = [[5.5, 1.6, 2.2, 1, 1.8], [3.5, 2.4, -1.6, 0.45, 1.2]];
+  function drawWave(time) {
+    context.clearRect(0, 0, 28, 18);
+    layers.forEach(([amplitude, cycles, speed, opacity, lineWidth], layer) => {
+      context.beginPath();
+      for (let step = 0; step <= 56; step++) {
+        const x = step / 2, position = x / 28;
+        const y = 9 + amplitude * Math.sin(position * Math.PI) * Math.sin(position * cycles * 2 * Math.PI + time * speed + layer * 1.3);
+        step ? context.lineTo(x, y) : context.moveTo(x, y);
+      }
+      context.strokeStyle = `rgba(106, 93, 128, ${opacity})`;
+      context.lineWidth = lineWidth;
+      context.lineCap = context.lineJoin = 'round';
+      context.stroke();
+    });
+  }
+
+  function draw(now) {
+    shape.style.clipPath = `path('${notchPath(rect.x.value, rect.w.value, rect.h.value, rect.top.value, rect.bottom.value)}')`;
+    pagesRow.style.transform = `translateX(${pageOffset.value}px)`;
+    // Pages fade as they slide away from the middle.
+    pages.forEach((element, index) => {
+      element.style.opacity = Math.max(0, 1 - Math.abs(index * nookRect.w + pageOffset.value) / nookRect.w * 1.4);
+    });
+    stage.style.setProperty('--pan', `${pan.value}px`);
+    if (wingsOn) drawWave(reduceMotion ? 1.7 : now / 1000);
+  }
+
+  let frame = 0, last = 0;
+  function run() {
+    if (frame) return;
+    last = performance.now();
+    frame = requestAnimationFrame(tick);
+  }
+  function tick(now) {
+    frame = 0;
+    let dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
+    last = now;
+    while (dt > 0) {
+      const step = Math.min(dt, 1 / 240);
+      allSprings.forEach(spring => spring.step(step));
+      dt -= step;
+    }
+    draw(now);
+    if (allSprings.some(spring => spring.moving) || (wingsOn && inView && !reduceMotion)) {
+      frame = requestAnimationFrame(tick);
+    }
+  }
+
+  function measure() {
+    const across = screen.clientWidth;
+    scale = Math.min(1.15, Math.max(across / 1512, Math.min(1, (across - 32) / nookRect.w)));
+    screen.style.setProperty('--s', scale);
+    pan.jump(panFor(shapeRect()));
+    run();
+  }
+  addEventListener('resize', measure);
+
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    screen.classList.toggle('in-view', inView);
+    if (inView) { run(); if (touring) { clearTimeout(tourTimer); tourTimer = setTimeout(nextStop, 600); } }
+    else clearTimeout(tourTimer);
+  }).observe(screen);
+
+  // Start closed, music playing.
+  const start = shapeRect();
+  for (const key in rect) rect[key].jump(start[key]);
+  measure();
+  sync();
+  if (reduceMotion) apply('playing');
+
+  // The feature rows below can open their part up here.
+  document.querySelectorAll('[data-try]').forEach(button => button.addEventListener('click', () => {
+    stopTour();
+    scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    setTimeout(() => apply(button.dataset.try), reduceMotion ? 0 : 450);
+  }));
+})();
 
 const albums = {
   ember: { raw: '#EF6B31', tint: '#AE3619' },
