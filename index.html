@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ShawNotch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="ShawNotch turns your MacBook's notch into a turntable, a file tray, a camera mirror and your calendar, and Music Mode dresses your desktop in the album's colour.">
+<style>
+@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 500 800; font-display: swap; src: url(fonts/bricolage-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 500 800; font-display: swap; src: url(fonts/bricolage-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/hanken-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/hanken-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+/* Layout: the page opens on the top edge of a Mac screen, where the notch drops open into the nook; below it one reading column, broken once by a wide Music Mode stage. */
+:root {
+  --paper: #F4F3F8;
+  --card: #FFFFFF;
+  --ink: #17151D;
+  --muted: #5D596B;
+  --line: #DEDBE7;
+  --pink: #C42A6E;
+  --pink-ink: #FFFFFF;
+  --screen: #0B0A0F;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Hanken Grotesk", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #0F0E13; --card: #18171E; --ink: #EEECF3; --muted: #A19DB0; --line: #2A2833; --pink: #FF6FAE; --pink-ink: #1A0710; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #0F0E13; --card: #18171E; --ink: #EEECF3; --muted: #A19DB0; --line: #2A2833; --pink: #FF6FAE; --pink-ink: #1A0710; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+/* The screen */
+.screen { position: relative; background: var(--screen); overflow: hidden; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.screen .wallpaper { position: absolute; inset: 0; background: center 38% / cover no-repeat url(images/poster-midnight.jpg); opacity: 0.9; }
+.menubar { position: relative; display: flex; justify-content: space-between; align-items: center; height: 34px; max-width: 1180px; margin: 0 auto; font: 500 13px/1 var(--body); color: #F2F0F7; }
+.menubar .left { display: flex; gap: 18px; }
+.menubar .left b { font-weight: 600; }
+.menubar .right { font-variant-numeric: tabular-nums; }
+.stagehand { position: relative; display: grid; justify-items: center; padding-block: 0 56px; }
+.notch { position: relative; display: block; margin-top: -34px; padding: 0; border: 0; background: none; cursor: pointer; width: min(530px, 100%); aspect-ratio: 530 / 152; }
+.notch img { position: absolute; left: 50%; top: 0; transform-origin: 50% 0; transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.25, 1.12); }
+.notch .nook { width: 100%; transform: translateX(-50%) scale(1); }
+.notch .wings { width: 51.5%; transform: translateX(-50%) scale(1); opacity: 0; }
+.notch[aria-expanded="false"] .nook { opacity: 0; transform: translateX(-50%) scaleX(0.52) scaleY(0.21); }
+.notch[aria-expanded="false"] .wings { opacity: 1; }
+.hint { position: relative; margin-top: 14px; font: 500 12px/1 var(--mono); letter-spacing: 0.04em; color: rgba(242, 240, 247, 0.72); }
+
+/* Reading column */
+.column { max-width: 1180px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.intro { display: grid; gap: 22px; max-width: 760px; padding-block: 64px 72px; }
+.intro h1 { font-size: clamp(2.4rem, 6vw, 4.3rem); line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 62ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.button { display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 999px; border: 1.5px solid var(--ink); font: 600 16px/1 var(--body); text-decoration: none; }
+.button.primary { background: var(--pink); border-color: var(--pink); color: var(--pink-ink); }
+.button[aria-disabled="true"] { cursor: default; opacity: 0.7; }
+.meta { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+
+/* Music Mode */
+.mm { --tint: #AE3619; --raw: #EF6B31; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; padding-block: 72px; border-top: 1px solid var(--line); }
+.mm h2, .features h2, .price h2, .faq h2 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; letter-spacing: -0.015em; line-height: 1.05; }
+.mm .copy { display: grid; gap: 18px; }
+.mm .copy p { color: var(--muted); }
+.records { display: grid; gap: 8px; margin-top: 6px; }
+.record { display: flex; align-items: center; gap: 12px; padding: 8px 12px 8px 8px; border-radius: 14px; border: 1.5px solid transparent; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.record img { width: 48px; height: 48px; border-radius: 50%; transition: transform 0.6s ease; }
+.record[aria-pressed="true"] { border-color: var(--line); background: var(--card); }
+.record[aria-pressed="true"] img { transform: rotate(-60deg); }
+.record b { display: block; font-weight: 600; }
+.record span { font-size: 14px; color: var(--muted); }
+.desktop { position: relative; aspect-ratio: 1512 / 982; border-radius: 14px; overflow: hidden; background: #000; border: 1px solid var(--line); }
+.desktop .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.8s ease; }
+.desktop .bar { position: absolute; inset: 0 0 auto; height: 3.2%; background: rgba(0, 0, 0, 0.18); }
+.desktop .cutout { position: absolute; top: 0; left: 50%; width: 12.2%; height: 3.2%; transform: translateX(-50%); background: #000; border-radius: 0 0 6px 6px; }
+.tinted { background: color-mix(in srgb, var(--tint) 72%, #000); color: color-mix(in srgb, var(--raw) 45%, #fff); transition: background-color 0.8s ease, color 0.8s ease; }
+.widget { position: absolute; border-radius: 9%; padding: 2.2% 2.6%; font: 600 clamp(8px, 1.3vw, 15px)/1.15 var(--body); }
+.widget small { display: block; font-weight: 500; opacity: 0.8; }
+.w-date { left: 2.5%; top: 9%; width: 13%; aspect-ratio: 1; border-radius: 16%; }
+.w-date big { display: block; font: 700 clamp(18px, 4.4vw, 52px)/0.95 var(--display); }
+.w-clock { left: 2.5%; top: 37%; width: 28%; aspect-ratio: 2.2; border-radius: 12%; }
+.folders { position: absolute; right: 3%; top: 10%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4vw; width: 12%; }
+.folder { aspect-ratio: 1.25; border-radius: 10%; }
+.dock { position: absolute; left: 50%; bottom: 2.2%; transform: translateX(-50%); display: flex; gap: 0.8vw; padding: 0.7vw; border-radius: 1.4vw; background: rgba(255, 255, 255, 0.16); }
+.app { width: clamp(16px, 3.1vw, 40px); aspect-ratio: 1; border-radius: 24%; display: grid; place-items: center; }
+.app i { width: 46%; aspect-ratio: 1; border: 2px solid currentColor; border-radius: 50%; }
+.app:nth-child(2) i { border-radius: 22%; }
+.app:nth-child(3) i { border-radius: 0; transform: rotate(45deg); width: 38%; }
+.app:nth-child(5) i { border-radius: 50% 50% 8% 50%; }
+
+/* Features */
+.features { display: grid; gap: 36px; padding-block: 72px; border-top: 1px solid var(--line); }
+.rows { display: grid; gap: 0; }
+.row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: 32px; align-items: center; padding-block: 26px; border-top: 1px solid var(--line); }
+.row:first-child { border-top: 0; }
+.row h3 { font-size: 1.45rem; font-weight: 700; line-height: 1.15; }
+.row .text { display: grid; gap: 8px; }
+.row .text p { color: var(--muted); max-width: 52ch; }
+.row figure { margin: 0; justify-self: center; }
+.row figure img { width: auto; max-height: 64px; }
+.row .shot-wide img { max-height: none; width: min(100%, 360px); }
+.row .tag { font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink); }
+.edge { justify-self: center; font: 500 14px/1.4 var(--mono); color: var(--muted); border: 1.5px dashed var(--line); border-radius: 12px; padding: 14px 18px; }
+
+/* Numbers */
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding-block: 56px; border-top: 1px solid var(--line); }
+.numbers div { display: grid; gap: 6px; }
+.numbers b { font: 500 clamp(1.6rem, 3.2vw, 2.4rem)/1 var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.numbers span { font-size: 15px; color: var(--muted); }
+.numbers .footnote { grid-column: 1 / -1; font: 400 13px/1.5 var(--mono); color: var(--muted); }
+
+/* Price */
+.price { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; padding-block: 72px; border-top: 1px solid var(--line); }
+.price .copy { display: grid; gap: 16px; }
+.price .copy p { color: var(--muted); }
+.ticket { display: grid; gap: 18px; padding: 28px; border-radius: 22px; background: var(--card); border: 1px solid var(--line); }
+.ticket .amount { font: 800 3.4rem/1 var(--display); letter-spacing: -0.03em; }
+.ticket .amount small { font: 500 1rem/1 var(--body); color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.ticket ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.ticket li { display: flex; gap: 10px; }
+.ticket li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 0.6em; border-radius: 50%; background: var(--pink); }
+.ticket .note { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+
+/* FAQ */
+.faq { display: grid; gap: 24px; padding-block: 72px; border-top: 1px solid var(--line); max-width: 820px; }
+.faq details { border-top: 1px solid var(--line); padding-block: 16px; }
+.faq summary { cursor: pointer; font: 600 1.1rem/1.4 var(--body); }
+.faq details p { margin-top: 10px; color: var(--muted); max-width: 64ch; }
+
+footer { border-top: 1px solid var(--line); }
+footer .column { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-block: 28px 40px; font-size: 14px; color: var(--muted); }
+footer nav { display: flex; flex-wrap: wrap; gap: 18px; align-self: start; }
+footer .business { display: grid; gap: 8px; max-width: 70ch; }
+footer .fine { font-size: 12.5px; }
+
+@media (max-width: 860px) {
+  .mm, .price { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .row figure, .edge { justify-self: start; }
+  .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .menubar .left span:nth-child(n+4) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<header class="screen">
+  <div class="wallpaper" aria-hidden="true"></div>
+  <div class="menubar" aria-hidden="true">
+    <div class="left"><b>Finder</b><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span></div>
+    <div class="right" id="clock">Fri 16 Oct 21:40</div>
+  </div>
+  <div class="stagehand">
+    <button class="notch" id="notch" aria-expanded="true" aria-label="Close the notch">
+      <img class="wings" src="images/wings.png" alt="">
+      <img class="nook" src="images/nook.png" alt="ShawNotch's open notch: Midnight Drive by Neon Coast spinning as a record, with a playback line and controls">
+    </button>
+    <p class="hint" id="hint">Click the notch to close it</p>
+  </div>
+</header>
+
+<main>
+  <div class="column">
+    <section class="intro">
+      <h1>A turntable in your MacBook's notch</h1>
+      <p class="lede">ShawNotch turns the notch into a small stage. The song you're playing spins there as a record, files wait in a tray, a mirror checks your camera before a call, and Music Mode dresses your whole desktop in the album's colour.</p>
+      <div class="actions">
+        <a class="button primary" href="#price">See the price</a>
+        <a class="button" href="#music-mode">See Music Mode</a>
+      </div>
+      <p class="meta">macOS 14 Sonoma or later · Apple silicon and Intel · Notarized by Apple</p>
+    </section>
+
+    <section class="mm" id="music-mode">
+      <div class="copy">
+        <h2>Music Mode</h2>
+        <p>Switch it on from the notch and your Mac dresses for the record. Icons, widgets and folders take a colour drawn from the album's cover, and the cover hangs over your desktop with the song's name.</p>
+        <p>Switch it off or close the player and your own colours come back. Your wallpaper itself is never changed: the poster sits on top of it. Music Mode needs macOS 26.</p>
+        <div class="records" role="group" aria-label="Try a record">
+          <button class="record" aria-pressed="true" data-id="ember"><img src="images/cover-ember.png" alt=""><span><b>Ember Season</b><span>Marisol Vega</span></span></button>
+          <button class="record" aria-pressed="false" data-id="midnight"><img src="images/cover-midnight.png" alt=""><span><b>Midnight Drive</b><span>Neon Coast</span></span></button>
+          <button class="record" aria-pressed="false" data-id="tide"><img src="images/cover-tide.png" alt=""><span><b>Low Tide</b><span>The Paper Lanterns</span></span></button>
+        </div>
+      </div>
+      <div class="desktop" id="desktop" role="img" aria-label="A desktop in Music Mode: the album's poster as the background, with widgets, folders and Dock icons in the album's colour">
+        <img class="poster" id="posterA" src="images/poster-ember.jpg" alt="">
+        <img class="poster" id="posterB" src="images/poster-ember.jpg" alt="" style="opacity: 0">
+        <div class="bar"></div>
+        <div class="cutout"></div>
+        <div class="widget w-date tinted"><small>Friday</small><big>16</big></div>
+        <div class="widget w-clock tinted"><small>Screen time today</small>4h 12m</div>
+        <div class="folders"><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div></div>
+        <div class="dock"><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div></div>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>Everything else in the notch</h2>
+      <div class="rows">
+        <div class="row">
+          <div class="text"><span class="tag">Closed notch</span><h3>A record that keeps spinning</h3><p>With the notch closed, the cover turns as a tiny record beside it and a wave drifts in the album's colour. Pause, and they fold away.</p></div>
+          <figure><img src="images/wings.png" alt="The closed notch with a tiny spinning record on the left and a wave on the right" width="273" height="32"></figure>
+        </div>
+        <div class="row">
+          <div class="text"><span class="tag">Volume</span><h3>Volume you can see</h3><p>Equalizer bars beside the notch show your volume and dance with the music. Drag or scroll across them to change it.</p></div>
+          <figure><img src="images/volume.png" alt="The volume bars at 64 percent" width="198" height="32"></figure>
+        </div>
+        <div class="row">
+          <div class="text"><span class="tag">AirPods</span><h3>Battery at a glance</h3><p>Connect your AirPods and the notch shows each earbud's battery for a moment. It warns you again at 20% and at 10%.</p></div>
+          <figure><img src="images/peek.png" alt="The notch showing AirPods Pro at 82 and 79 percent" width="333" height="32"></figure>
+        </div>
+        <div class="row">
+          <div class="text"><span class="tag">Left edge</span><h3>A mirror before every call</h3><p>Push the pointer to the notch's left edge for your camera. It checks your lighting and framing, and in a dark room it can light your face from the edges of the screen. The camera is only on while the mirror is open.</p></div>
+          <p class="edge">← push left</p>
+        </div>
+        <div class="row">
+          <div class="text"><span class="tag">Right edge</span><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p></div>
+          <p class="edge">push right →</p>
+        </div>
+        <div class="row">
+          <div class="text"><span class="tag">Tray</span><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away.</p></div>
+          <p class="edge">drop files here ↓</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="numbers" aria-label="ShawNotch in numbers">
+      <div><b>0.02%</b><span>CPU while music plays</span></div>
+      <div><b>50–75 MB</b><span>of memory</span></div>
+      <div><b>4 MB</b><span>download</span></div>
+      <div><b>7.5 rpm</b><span>the record's speed</span></div>
+      <p class="footnote">Measured on a 14-inch MacBook Pro with Apple silicon while playing music. Your numbers will vary.</p>
+    </section>
+
+    <section class="price" id="price">
+      <div class="copy">
+        <h2>Pay once, keep it</h2>
+        <p>Try every feature free for 7 days. If ShawNotch earns its place in your notch, one payment unlocks it for good.</p>
+        <p>No account and no subscription. Your music, camera and calendar never leave your Mac; ShawNotch only goes online to check your licence and look for updates.</p>
+      </div>
+      <div class="ticket">
+        <p class="amount">$9.99<small>once, plus tax where it applies</small></p>
+        <ul>
+          <li>Everything above, on up to 5 of your Macs</li>
+          <li>Free updates to ShawNotch 1</li>
+          <li>Refunds within 14 days, no questions asked</li>
+        </ul>
+        <div class="actions">
+          <span class="button primary" aria-disabled="true">Coming soon</span>
+          <a class="button" href="mailto:shawnotchapp@gmail.com?subject=Tell%20me%20when%20ShawNotch%20is%20out">Tell me when it's out</a>
+        </div>
+        <p class="note">macOS 14 or later. Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>Questions</h2>
+      <div>
+        <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way.</p></details>
+        <details><summary>Which music apps work?</summary><p>Spotify, Apple Music and other apps that show up in macOS's Now Playing. Spotify's shuffle and repeat work from the notch too. Something playing in a browser shows in the open notch, but Music Mode and the small record leave browsers and videos alone.</p></details>
+        <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, which it puts back when you switch Music Mode off or quit. It never changes your wallpaper.</p></details>
+        <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
+        <details><summary>What happens with my camera and calendar?</summary><p>They're only shown in the notch. Nothing leaves your Mac, and the camera is only on while the mirror is open. macOS asks you before ShawNotch can use either.</p></details>
+        <details><summary>Which version of macOS do I need?</summary><p>macOS 14 Sonoma or later, on Apple silicon or Intel. Music Mode's colours need macOS 26.</p></details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="column">
+    <div class="business">
+      <p>ShawNotch is made by Mohammad Al-Shawahneh, Jordan. Orders are handled by Lemon Squeezy, our reseller and merchant of record.</p>
+      <p id="support">Support: <a href="mailto:shawnotchapp@gmail.com">shawnotchapp@gmail.com</a></p>
+      <p class="fine">Mac, MacBook, AirPods, AirDrop and Apple Music are trademarks of Apple Inc. Spotify is a trademark of Spotify AB. ShawNotch isn't affiliated with or endorsed by either. Album covers on this page are made up.</p>
+    </div>
+    <nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refunds.html">Refunds</a></nav>
+  </div>
+</footer>
+
+<script>
+const notch = document.getElementById('notch');
+const hint = document.getElementById('hint');
+function setOpen(open) {
+  notch.setAttribute('aria-expanded', String(open));
+  notch.setAttribute('aria-label', open ? 'Close the notch' : 'Open the notch');
+  hint.textContent = open ? 'Click the notch to close it' : 'Click the notch to open it';
+}
+notch.addEventListener('click', () => setOpen(notch.getAttribute('aria-expanded') !== 'true'));
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setOpen(false);
+  setTimeout(() => setOpen(true), 900);
+}
+
+const albums = {
+  ember: { raw: '#EF6B31', tint: '#AE3619' },
+  midnight: { raw: '#6B5E81', tint: '#2C1A4D' },
+  tide: { raw: '#5E86AE', tint: '#0E3A60' },
+};
+const desktop = document.getElementById('desktop');
+const layers = [document.getElementById('posterA'), document.getElementById('posterB')];
+let front = 0;
+document.querySelectorAll('.record').forEach(button => {
+  button.addEventListener('click', () => {
+    const id = button.dataset.id;
+    document.querySelectorAll('.record').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    desktop.style.setProperty('--tint', albums[id].tint);
+    desktop.style.setProperty('--raw', albums[id].raw);
+    const back = layers[1 - front];
+    back.src = 'images/poster-' + id + '.jpg';
+    back.style.opacity = '1';
+    layers[front].style.opacity = '0';
+    front = 1 - front;
+  });
+});
+</script>
+</body>
+</html>
