@@ -3,20 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.0</title>
-            <pubDate>Sat, 24 Oct 2026 23:37:32 +0100</pubDate>
+            <title>1.7.1</title>
+            <pubDate>Sat, 24 Oct 2026 23:41:23 +0100</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10700</sparkle:version>
-            <sparkle:shortVersionString>1.7.0</sparkle:shortVersionString>
+            <sparkle:version>10701</sparkle:version>
+            <sparkle:shortVersionString>1.7.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.0</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.1</h2>
 <ul>
-<li><b>Automatic updates.</b> ShawNotch now checks for new versions by itself and installs them in a click. You can turn the daily check off in Settings.</li>
-<li><b>Music Mode on macOS 14 and 15.</b> It puts the album poster on your desktop. Colouring icons, widgets and folders still needs macOS 26.</li>
-<li><b>Full-screen apps.</b> Their title bar no longer stays down after you've used the notch.</li>
+<li>A small maintenance release that checks automatic updates work from start to finish. Nothing else has changed.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.0.zip" length="4551526" type="application/octet-stream" sparkle:edSignature="xrOrVz7bNZXcjPbQJkOXnDo+6Z1fV+YDgu5YkEP/xQKUrnjL/1yL7ZVy4QcA7Wvb19H93Xp40Htht5aauzGDCQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.1.zip" length="4551533" type="application/octet-stream" sparkle:edSignature="0SWDwG64JcIiByAAb/89NrdUq533eSxyaWtpd1Hr9y2IyT+5WSQ8B6fpTyhXf489UrLJ+8PIgY/XxKSROGhMAQ=="/>
         </item>
     </channel>
 </rss>
