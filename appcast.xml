@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.1</title>
-            <pubDate>Sat, 24 Oct 2026 23:41:23 +0100</pubDate>
+            <title>1.7.2</title>
+            <pubDate>Sun, 25 Oct 2026 00:17:40 +0100</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10701</sparkle:version>
-            <sparkle:shortVersionString>1.7.1</sparkle:shortVersionString>
+            <sparkle:version>10702</sparkle:version>
+            <sparkle:shortVersionString>1.7.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.1</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.2</h2>
 <ul>
-<li>A small maintenance release that checks automatic updates work from start to finish. Nothing else has changed.</li>
+<li>Behind-the-scenes improvements to licensing. Nothing changes for you.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.1.zip" length="4551533" type="application/octet-stream" sparkle:edSignature="0SWDwG64JcIiByAAb/89NrdUq533eSxyaWtpd1Hr9y2IyT+5WSQ8B6fpTyhXf489UrLJ+8PIgY/XxKSROGhMAQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.2.zip" length="4555413" type="application/octet-stream" sparkle:edSignature="kqREoiaUiMs9f7kqUAtXlY41BrHudUBW6q8rFuyoxdpJW3iYuPU1h6ES7Iwpg/KYcAfIDy8UbUYwwwxw22HxDA=="/>
         </item>
     </channel>
 </rss>
