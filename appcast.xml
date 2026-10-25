@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.2</title>
-            <pubDate>Sun, 25 Oct 2026 00:17:40 +0100</pubDate>
+            <title>1.7.3</title>
+            <pubDate>Sun, 25 Oct 2026 15:09:12 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10702</sparkle:version>
-            <sparkle:shortVersionString>1.7.2</sparkle:shortVersionString>
+            <sparkle:version>10703</sparkle:version>
+            <sparkle:shortVersionString>1.7.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.2</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.3</h2>
 <ul>
-<li>Behind-the-scenes improvements to licensing. Nothing changes for you.</li>
+<li>A new app icon: the record in the notch now has its tonearm, like the turntable in the app.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.2.zip" length="4555413" type="application/octet-stream" sparkle:edSignature="kqREoiaUiMs9f7kqUAtXlY41BrHudUBW6q8rFuyoxdpJW3iYuPU1h6ES7Iwpg/KYcAfIDy8UbUYwwwxw22HxDA=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.3.zip" length="4561699" type="application/octet-stream" sparkle:edSignature="CeNtpfTvcgimESIW7n+hWVACZAFTxjGy0lImfqhlbHfK8HXL1Kg3oPz/x+NJ+69SJ3vY81+zbj1B8GDxFQ/UAQ=="/>
         </item>
     </channel>
 </rss>
