@@ -76,7 +76,7 @@ p { margin: 0; }
 .pages { position: absolute; inset: 0; display: flex; }
 .page { position: relative; flex: 0 0 530px; height: 152px; }
 .page > img { width: 530px; height: 152px; max-width: none; user-select: none; -webkit-user-drag: none; }
-.page .record { position: absolute; left: 22px; top: 16px; width: 110px; height: 110px; }
+.page .disc { position: absolute; left: 22px; top: 16px; width: 110px; height: 110px; }
 .page .arm { position: absolute; left: 0; top: 0; overflow: visible; }
 .spins { animation: spin 8s linear infinite; }
 .screen:not(.in-view) .spins { animation-play-state: paused; }
@@ -225,7 +225,7 @@ footer .fine { font-size: 12.5px; }
           <div class="pages" id="pages">
             <div class="page">
               <img src="images/notch-playing.png" alt="Now Playing: Midnight Drive by Neon Coast spinning as a record, with a playback line and controls" draggable="false">
-              <img class="record spins" src="images/notch-record.png" alt="" draggable="false">
+              <img class="disc spins" src="images/notch-record.png" alt="" draggable="false">
               <svg class="arm" width="168" height="132" viewBox="0 0 168 132" aria-hidden="true">
                 <line x1="152" y1="20" x2="118" y2="88" stroke="#BDBDBD" stroke-width="2.5" stroke-linecap="round"/>
                 <rect x="110.5" y="82.5" width="15" height="11" rx="2" fill="#D9D9D9" transform="rotate(116.57 118 88)"/>
