@@ -45,7 +45,7 @@ p { margin: 0; }
 
 /* The screen */
 .screen { --s: 1; position: relative; display: grid; align-content: end; min-height: max(calc(152px * var(--s) + 150px), min(64vh, 640px)); background: var(--screen); overflow: hidden; padding: calc(152px * var(--s) + 26px) 16px 36px; }
-.screen .wallpaper { position: absolute; inset: 0; background: center 38% / cover no-repeat url(images/poster-midnight.jpg); opacity: 0.9; }
+.screen .wallpaper { position: absolute; inset: 0; background: center 38% / cover no-repeat url(images/wallpaper-midnight.jpg); opacity: 0.9; }
 .screen::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; background: linear-gradient(rgba(11, 10, 15, 0), rgba(11, 10, 15, 0.86)); pointer-events: none; }
 .menubar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; height: calc(32px * var(--s)); padding-inline: 14px; font: 500 clamp(10px, calc(13px * var(--s)), 14px)/1 var(--body); color: #F2F0F7; }
 .menubar .left { display: flex; gap: 1.4em; }
@@ -146,8 +146,9 @@ p { margin: 0; }
 .row figure img { width: auto; max-height: 64px; }
 .row .shot-wide img { max-height: none; width: min(100%, 360px); }
 .row .tag { font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink); }
-.row .shot img { width: min(100%, 340px); max-height: none; border-radius: 0 0 22px 22px; }
-.row .shot.wide img { width: min(100%, 420px); }
+/* The notch pictures share one scale (152px tall), shrinking evenly when the column is narrower. */
+.row .shot img { width: min(100%, 340px); height: auto; max-height: none; border-radius: 0 0 22px 22px; }
+.row .shot.wide img { width: min(100%, 530px); }
 .try { justify-self: start; margin-top: 4px; padding: 0; border: 0; background: none; color: var(--pink); font: 600 14px/1.4 var(--body); cursor: pointer; }
 .try:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -236,7 +237,7 @@ footer .fine { font-size: 12.5px; }
           </div>
         </div>
         <div class="drawer calendar">
-          <img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a design review in 25 minutes with a Join button, and lunch at 1">
+          <img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a stand-up in 25 minutes with a Join button, and lunch with Sam at 1">
         </div>
       </div>
     </div>
@@ -314,7 +315,7 @@ footer .fine { font-size: 12.5px; }
         </div>
         <div class="row">
           <div class="text"><span class="tag">Right edge</span><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch ↑</button></div>
-          <figure class="shot"><img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a design review in 25 minutes with a Join button, and lunch at 1" width="340" height="152" loading="lazy"></figure>
+          <figure class="shot"><img src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a stand-up in 25 minutes with a Join button, and lunch with Sam at 1" width="340" height="152" loading="lazy"></figure>
         </div>
         <div class="row">
           <div class="text"><span class="tag">Tray</span><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away.</p><button class="try" type="button" data-try="tray">Open it in the notch ↑</button></div>
@@ -635,15 +636,39 @@ footer .fine { font-size: 12.5px; }
   nook.addEventListener('pointerup', endDrag);
   nook.addEventListener('pointercancel', endDrag);
 
-  let swipe = 0, swipeEnd;
+  // A trackpad swipe reaches a web page as wheel events without the
+  // gesture's phases, and they keep coming for a second or more of inertia
+  // after the fingers lift. The app ignores inertia; here a swipe follows
+  // the fingers until it has gone a fifth of a page, turns the page, and
+  // lets the rest of that swipe pass.
+  let swipe = null;
   nook.addEventListener('wheel', event => {
-    if (!expanded || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    if (!expanded) return;
+    const dx = -event.deltaX, horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY);
+    // Swiping back while the last swipe's inertia is still arriving.
+    if (swipe?.done && horizontal && Math.sign(dx) === -Math.sign(swipe.total)) {
+      clearTimeout(swipe.end);
+      swipe = null;
+    }
+    if (!swipe) {
+      if (!horizontal) return;  // up and down still scroll the page
+      stopTour();
+      swipe = { total: 0, done: false };
+    }
     event.preventDefault();
-    stopTour();
-    swipe -= event.deltaX;
-    dragPages(swipe);
-    clearTimeout(swipeEnd);
-    swipeEnd = setTimeout(() => { const offset = swipe; swipe = 0; endPageDrag(offset); }, 120);
+    const current = swipe;
+    clearTimeout(current.end);
+    current.end = setTimeout(() => {
+      if (!current.done) endPageDrag(current.total);
+      if (swipe === current) swipe = null;
+    }, 160);
+    if (current.done) return;
+    current.total += dx;
+    dragPages(current.total);
+    if (Math.abs(current.total) > nookRect.w * 0.2) {
+      current.done = true;
+      endPageDrag(current.total);
+    }
   }, { passive: false });
 
   dots.forEach((dot, index) => dot.addEventListener('click', () => { stopTour(); show(index); }));
