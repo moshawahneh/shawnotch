@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>ShawNotch</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -146,8 +149,10 @@ p { margin: 0; }
 .row figure img { width: auto; max-height: 64px; }
 .row .shot-wide img { max-height: none; width: min(100%, 360px); }
 .row .tag { font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink); }
-/* The notch pictures share one scale (152px tall), shrinking evenly when the column is narrower. */
-.row .shot img { width: min(100%, 340px); height: auto; max-height: none; border-radius: 0 0 22px 22px; }
+/* The notch pictures share one scale (152px tall), shrinking evenly when the column is narrower,
+   and sit in the middle of their column like the smaller pictures above them. */
+.row .shot { justify-self: stretch; }
+.row .shot img { width: min(100%, 340px); height: auto; max-height: none; margin-inline: auto; border-radius: 0 0 22px 22px; }
 .row .shot.wide img { width: min(100%, 530px); }
 .try { justify-self: start; margin-top: 4px; padding: 0; border: 0; background: none; color: var(--pink); font: 600 14px/1.4 var(--body); cursor: pointer; }
 .try:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -187,6 +192,7 @@ footer .fine { font-size: 12.5px; }
   .mm, .price { grid-template-columns: minmax(0, 1fr); }
   .row { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .row figure { justify-self: start; }
+  .row .shot img { margin-inline: 0; }
   .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .menubar .left span:nth-child(n+4) { display: none; }
 }
