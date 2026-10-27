@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.3</title>
-            <pubDate>Sun, 25 Oct 2026 15:09:12 +0000</pubDate>
+            <title>1.7.4</title>
+            <pubDate>Tue, 27 Oct 2026 00:02:11 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10703</sparkle:version>
-            <sparkle:shortVersionString>1.7.3</sparkle:shortVersionString>
+            <sparkle:version>10704</sparkle:version>
+            <sparkle:shortVersionString>1.7.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.3</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.4</h2>
 <ul>
-<li>A new app icon: the record in the notch now has its tonearm, like the turntable in the app.</li>
+<li>Next and previous now change the song when Spotify is playing one of your own files (Local Files). Before, Spotify only jumped a few seconds within the song. The first time, macOS asks whether ShawNotch may control Spotify.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.3.zip" length="4561699" type="application/octet-stream" sparkle:edSignature="CeNtpfTvcgimESIW7n+hWVACZAFTxjGy0lImfqhlbHfK8HXL1Kg3oPz/x+NJ+69SJ3vY81+zbj1B8GDxFQ/UAQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.4.zip" length="4565457" type="application/octet-stream" sparkle:edSignature="eV6r7hs7H3HsAy6ZrIqaPyWGNqwdg16qS8RjJROMhIH59mXS4GqMhfNmOgMuIdksvscIFj18MCHkJC+HK/KGCQ=="/>
         </item>
     </channel>
 </rss>
