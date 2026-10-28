@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.4</title>
-            <pubDate>Tue, 27 Oct 2026 00:02:11 +0000</pubDate>
+            <title>1.7.5</title>
+            <pubDate>Wed, 28 Oct 2026 23:52:22 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10704</sparkle:version>
-            <sparkle:shortVersionString>1.7.4</sparkle:shortVersionString>
+            <sparkle:version>10705</sparkle:version>
+            <sparkle:shortVersionString>1.7.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.4</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.5</h2>
 <ul>
-<li>Next and previous now change the song when Spotify is playing one of your own files (Local Files). Before, Spotify only jumped a few seconds within the song. The first time, macOS asks whether ShawNotch may control Spotify.</li>
+<li>Music Mode now colours your icons and widgets whatever your icon style. macOS only shows the colour in the Tinted style, so Music Mode switches to Tinted while it's on, and puts your own style back when you switch it off or quit.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.4.zip" length="4565457" type="application/octet-stream" sparkle:edSignature="eV6r7hs7H3HsAy6ZrIqaPyWGNqwdg16qS8RjJROMhIH59mXS4GqMhfNmOgMuIdksvscIFj18MCHkJC+HK/KGCQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.5.zip" length="4575341" type="application/octet-stream" sparkle:edSignature="swYm3qnJgZvmXyyng6KBtwkbE8Fov3X/kQ021Rbw1S9GedD7YHugEzU4AbhYT/vPGzJ++VB5+uhYJBpvqIWrCg=="/>
         </item>
     </channel>
 </rss>
