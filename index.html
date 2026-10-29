@@ -140,7 +140,8 @@ section[id] { scroll-margin-top: 76px; }
 .mm-button:hover + .mm-label, .mm-button:focus-visible + .mm-label { opacity: 1; transform: none; }
 .seek { display: flex; align-items: center; gap: 8px; height: 14px; margin-top: 10px; font: 400 11px/1 ui-monospace, "SF Mono", Menlo, monospace; color: rgba(255, 255, 255, 0.55); font-variant-numeric: tabular-nums; }
 .seek span:first-child { min-width: 30px; }
-.seek span:last-child { min-width: 36px; text-align: right; }
+.seek .length { min-width: 36px; text-align: right; }
+.seek .length:hover { color: #fff; }
 .line { position: relative; flex: 1; height: 14px; cursor: pointer; touch-action: none; }
 .line .track, .line .fill { position: absolute; left: 0; top: 5px; height: 4px; border-radius: 2px; }
 .line .track { right: 0; background: rgba(255, 255, 255, 0.15); }
@@ -451,7 +452,7 @@ footer .fine { font-size: 12.5px; }
                 <div class="seek">
                   <span id="np-elapsed">1:21</span>
                   <div class="line" id="np-line" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0"><div class="track"></div><div class="fill" id="np-fill"></div><div class="knob" id="np-knob"></div></div>
-                  <span id="np-left">-2:12</span>
+                  <button class="length" id="np-left" type="button" title="Show the song's length">-2:12</button>
                 </div>
                 <div class="controls">
                   <button class="mode" id="np-shuffle" type="button" aria-pressed="false" aria-label="Shuffle"><svg viewBox="0 0 24 24"><path d="M3 7h3c2.3 0 3.5 1 4.8 3l2.4 4c1.3 2 2.5 3 4.8 3h3M3 17h3c1.5 0 2.5-.4 3.4-1.3M14.6 8.3c.9-.9 1.9-1.3 3.4-1.3h3M18.5 4.5 21 7l-2.5 2.5M18.5 14.5 21 17l-2.5 2.5"/></svg></button>
@@ -604,7 +605,7 @@ footer .fine { font-size: 12.5px; }
           <a class="button primary" href="downloads/ShawNotch.dmg">Download free trial</a>
           <a class="button" href="https://shawnotchapp.lemonsqueezy.com/checkout/buy/ea329d78-d999-4b2b-a85d-bba834e95ed3" target="_blank" rel="noopener">Buy for $7.99</a>
         </div>
-        <p class="note">ShawNotch 1.7.6 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+        <p class="note">ShawNotch 1.7.7 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
       </div>
     </section>
 
@@ -714,13 +715,17 @@ footer .fine { font-size: 12.5px; }
     renderTime();
   }
   const format = seconds => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+  // The right-hand time: what's left (like Apple Music) or the song's length
+  // (like Spotify). Clicking it switches, and this browser remembers.
+  let showsLength = false;
+  try { showsLength = localStorage.getItem('shawnotch.showsLength') === '1'; } catch {}
 
   function renderTime(fraction) {
     const length = song().length;
     const at = fraction === undefined ? elapsed() : fraction * length;
     const share = at / length;
     $('np-elapsed').textContent = format(at);
-    $('np-left').textContent = '-' + format(length - at);
+    $('np-left').textContent = showsLength ? format(length) : '-' + format(length - at);
     $('np-fill').style.width = `${share * 100}%`;
     $('np-knob').style.left = `${share * 100}%`;
     $('np-line').setAttribute('aria-valuemax', String(length));
@@ -795,6 +800,12 @@ footer .fine { font-size: 12.5px; }
   }, 250);
 
   $('np-play').addEventListener('click', togglePlay);
+  $('np-left').addEventListener('click', () => {
+    showsLength = !showsLength;
+    try { localStorage.setItem('shawnotch.showsLength', showsLength ? '1' : '0'); } catch {}
+    $('np-left').title = showsLength ? 'Show the time left' : "Show the song's length";
+    renderTime();
+  });
   $('np-next').addEventListener('click', () => next());
   $('np-prev').addEventListener('click', previous);
   $('np-shuffle').addEventListener('click', event => {
