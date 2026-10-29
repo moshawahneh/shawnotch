@@ -1573,8 +1573,8 @@ footer .fine { font-size: 12.5px; }
 
   function measure() {
     const across = screen.clientWidth;
-    // Larger than life on wide screens, so the notch reads as the page's star.
-    scale = Math.min(1.35, Math.max(across / 1250, Math.min(1, (across - 32) / nookRect.w)));
+    // True to life: the notch's share of a 1,512-point-wide MacBook screen.
+    scale = Math.min(1.15, Math.max(across / 1512, Math.min(1, (across - 32) / nookRect.w)));
     screen.style.setProperty('--s', scale);
     pan.jump(panFor(shapeRect()));
     run();
