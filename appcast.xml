@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.6</title>
-            <pubDate>Thu, 29 Oct 2026 00:38:24 +0000</pubDate>
+            <title>1.7.7</title>
+            <pubDate>Thu, 29 Oct 2026 23:36:42 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10706</sparkle:version>
-            <sparkle:shortVersionString>1.7.6</sparkle:shortVersionString>
+            <sparkle:version>10707</sparkle:version>
+            <sparkle:shortVersionString>1.7.7</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.6</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.7</h2>
 <ul>
-<li>The free trial is now 7 days instead of 3. If you're trying ShawNotch now, your trial gets the extra days too.</li>
+<li>Click the time at the end of the playback line to switch between the time left and the song's whole length. ShawNotch remembers which you like.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.6.zip" length="4575336" type="application/octet-stream" sparkle:edSignature="IHEnO1b9++pctiv3dT4mJCxl/YHuL7BOYNj/Q4iWVjO69ChUexGP/593wRVCmFya1WVBGUfqq4fpF5Fe0tb5Bg=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.7.zip" length="4583074" type="application/octet-stream" sparkle:edSignature="SmMX3nuyjSehwjPgBN81N8dXSDbllMSV1GqtAcWe1x9bSgir35Sq6GJ5iCFHJALXX6Mu84U56xs9P67dx+zFBg=="/>
         </item>
     </channel>
 </rss>
