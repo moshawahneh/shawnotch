@@ -3,18 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.7</title>
-            <pubDate>Thu, 29 Oct 2026 23:36:42 +0000</pubDate>
+            <title>1.7.8</title>
+            <pubDate>Thu, 29 Oct 2026 23:52:18 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10707</sparkle:version>
-            <sparkle:shortVersionString>1.7.7</sparkle:shortVersionString>
+            <sparkle:version>10708</sparkle:version>
+            <sparkle:shortVersionString>1.7.8</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.7</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.8</h2>
 <ul>
-<li>Click the time at the end of the playback line to switch between the time left and the song's whole length. ShawNotch remembers which you like.</li>
+<li>Pausing no longer makes the time jump back and forth. Spotify reports where a song was when it started playing before it reports where you paused it, and ShawNotch now waits for the real position.</li>
+<li>The time at the end of the playback line now shows the song's whole length to begin with. Click it to see the time left instead.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.7.zip" length="4583074" type="application/octet-stream" sparkle:edSignature="SmMX3nuyjSehwjPgBN81N8dXSDbllMSV1GqtAcWe1x9bSgir35Sq6GJ5iCFHJALXX6Mu84U56xs9P67dx+zFBg=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.8.zip" length="4584498" type="application/octet-stream" sparkle:edSignature="383dAmc1gO8gmGWci9oBLWbASG+HSoq1uzxfT/LKAVAM0IpecQIw8S75bRPaiBaTb/6NQLRv8Gr/AN4A/cqRCQ=="/>
         </item>
     </channel>
 </rss>
