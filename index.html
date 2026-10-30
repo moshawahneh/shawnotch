@@ -1403,8 +1403,11 @@ footer nav a:hover { color: var(--ink); }
   // MARK: The Calendar: Saturday 10 October 2026, 21:26, the evening ShawNotch began
 
   const nowMinutes = 21 * 60 + 26, today = 10;
-  const weekdays = ['TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED'];
-  const days = [6, 7, 8, 9, 10, 11, 12, 13, 14];
+  // October 2026: the 4th is a Sunday.
+  const weekdayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const weekdayOf = day => (day + 3) % 7;
+  // Nine days, centred on the one picked, as far as October goes.
+  const stripAround = day => Array.from({ length: 9 }, (_, i) => Math.min(31, Math.max(9, day)) - 4 + i);
   const events = {
     7: [{ title: 'Gym', start: 7 * 60, end: 8 * 60, color: '#30D158' }],
     9: [{ title: 'Haircut', start: 18 * 60, end: 18 * 60 + 45, color: '#BF5AF2' }],
@@ -1431,13 +1434,13 @@ footer nav a:hover { color: var(--ink); }
 
   function renderCalendar() {
     $('cal-left').textContent = `${upcoming(today).length} left`;
-    $('cal-days').replaceChildren(...days.map((day, i) => {
+    $('cal-days').replaceChildren(...stripAround(selected).map(day => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'day' + (day === today ? ' today' : '') + ((events[day] || []).length ? ' has' : '');
       button.setAttribute('aria-pressed', String(day === selected));
-      button.setAttribute('aria-label', `${weekdays[i]} ${day} October`);
-      button.innerHTML = `<small>${weekdays[i]}</small><span>${String(day).padStart(2, '0')}</span><i></i>`;
+      button.setAttribute('aria-label', `${weekdayNames[weekdayOf(day)]} ${day} October`);
+      button.innerHTML = `<small>${weekdayNames[weekdayOf(day)]}</small><span>${String(day).padStart(2, '0')}</span><i></i>`;
       button.addEventListener('click', () => { selected = day; scrolled = 0; adding = false; renderCalendar(); });
       return button;
     }));
@@ -1474,23 +1477,47 @@ footer nav a:hover { color: var(--ink); }
     scrolled = scrolled + 2 < list.length ? scrolled + 2 : 0;
     renderCalendar();
   });
-  $('cal-add').addEventListener('click', () => {
-    adding = !adding;
+  // Typing an event keeps the notch open; done or put away, it closes
+  // again once the pointer has left, like any other time.
+  function stopAdding() {
+    adding = false;
     renderCalendar();
-    if (adding) { pinned = true; $('cal-input').value = ''; $('cal-input').focus(); }
+    pinned = false;
+    clearTimeout(transition);
+    if (!pointerInside) transition = setTimeout(collapse, 600);
+  }
+  $('cal-add').addEventListener('click', () => {
+    if (adding) return stopAdding();
+    adding = true;
+    renderCalendar();
+    pinned = true;
+    $('cal-input').value = '';
+    $('cal-input').focus();
   });
   $('cal-input').addEventListener('keydown', event => {
-    if (event.key === 'Escape') { adding = false; renderCalendar(); }
+    if (event.key === 'Escape') stopAdding();
   });
+  $('cal-input').addEventListener('blur', () => { if (adding && !$('cal-input').value.trim()) stopAdding(); });
   // "Lunch with Sara tomorrow at 1pm": the day, the time, and what's left is the title.
   $('cal-quick').addEventListener('submit', event => {
     event.preventDefault();
-    let text = $('cal-input').value.trim();
+    let text = $('cal-input').value.trim()
+      .replace(/\s*@\s*/g, ' at ')
+      .replace(/\b(tmrw|tmrrw|tmw|tmr|tmoz|tomoz|tomorow|tommorow|tommorrow|2moro|2morrow)\b/gi, 'tomorrow');
     if (!text) return;
-    let day = selected;
-    const dayWords = { today: 10, tonight: 10, tomorrow: 11, sunday: 11, sun: 11, monday: 12, mon: 12, tuesday: 13, tue: 13, wednesday: 14, wed: 14 };
-    const dayMatch = text.match(/\b(today|tonight|tomorrow|sunday|sun|monday|mon|tuesday|tue|wednesday|wed)\b/i);
-    if (dayMatch) { day = dayWords[dayMatch[1].toLowerCase()]; text = text.replace(dayMatch[0], ' '); }
+    // The day, counted from today: tomorrow, (the day) after tomorrow, a
+    // weekday (the nearest, today included) or next weekday (a week later).
+    const find = pattern => text.match(new RegExp(`(?<![\\w])(?:on\\s+|for\\s+)?(?:${pattern})(?![\\w])`, 'i'));
+    const weekdayWords = ['sunday|sun', 'monday|mon', 'tuesday|tues|tue', 'wednesday|wed', 'thursday|thurs|thur|thu', 'friday|fri', 'saturday|sat'];
+    let day = selected, tonight = false, dayMatch = find('(?:the\\s+)?(?:day\\s+)?after\\s+tomorrow');
+    if (dayMatch) day = today + 2;
+    for (let i = 0; !dayMatch && i < 7; i++) {
+      dayMatch = find(`(?:(?:next|this)\\s+)?(?:${weekdayWords[i]})`);
+      if (dayMatch) day = today + (i - weekdayOf(today) + 7) % 7 + (/next/i.test(dayMatch[0]) ? 7 : 0);
+    }
+    if (!dayMatch && (dayMatch = find('tomorrow'))) day = today + 1;
+    if (!dayMatch && (dayMatch = find('today|tonight'))) { day = today; tonight = /tonight/i.test(dayMatch[0]); }
+    if (dayMatch) text = text.replace(dayMatch[0], ' ');
     let start = null;
     const timeMatch = text.match(/\b(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i);
     if (timeMatch && (timeMatch[3] || timeMatch[2] || /\bat\s/i.test(timeMatch[0]))) {
@@ -1502,7 +1529,7 @@ footer nav a:hover { color: var(--ink); }
       if (!meridiem && hour < 8) hour += 12;
       start = hour * 60 + Math.min(59, minute);
       text = text.replace(timeMatch[0], ' ');
-    } else if (dayMatch?.[1].toLowerCase() === 'tonight') {
+    } else if (tonight) {
       start = 19 * 60;
     }
     let title = text.replace(/\s+at\s*$/i, '').replace(/\s+/g, ' ').trim();
@@ -1515,7 +1542,7 @@ footer nav a:hover { color: var(--ink); }
     adding = false;
     const list = upcoming(day);
     scrolled = Math.max(0, Math.floor(list.indexOf(fresh) / 2) * 2);
-    renderCalendar();
+    stopAdding();
   });
   $('cal-input').addEventListener('focus', () => { pinned = true; });
 
