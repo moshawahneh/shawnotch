@@ -17,43 +17,54 @@
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/hanken-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
-/* Layout: one narrow reading column, the same paper and type as the home page. */
+/* Layout: one reading column under a slim bar, in the home page's dark, type and pink. */
 :root {
-  --paper: #F4F3F8; --card: #FFFFFF; --ink: #17151D; --muted: #5D596B; --line: #DEDBE7; --pink: #C42A6E;
+  --bg: #09080D; --card: #131218; --ink: #F4F1F8; --muted: #A8A3B7; --faint: #7A7589; --line: rgba(255, 255, 255, 0.08); --pink: #FF6FAE;
   --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body: "Hanken Grotesk", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0F0E13; --card: #18171E; --ink: #EEECF3; --muted: #A19DB0; --line: #2A2833; --pink: #FF6FAE; color-scheme: dark; } }
-:root[data-theme="dark"] { --paper: #0F0E13; --card: #18171E; --ink: #EEECF3; --muted: #A19DB0; --line: #2A2833; --pink: #FF6FAE; color-scheme: dark; }
 * { box-sizing: border-box; }
-body { background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--body); }
+body { background: radial-gradient(ellipse 55% 380px at 8% 0, rgba(255, 90, 160, 0.2), transparent 70%), radial-gradient(ellipse 45% 360px at 96% 0, rgba(169, 116, 255, 0.18), transparent 70%), var(--bg) no-repeat; color: var(--ink); font: 400 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-underline-offset: 3px; }
 :focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; border-radius: 4px; }
 .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; border-bottom: 1px solid var(--line); }
-header a.home { font: 800 1.3rem/1 var(--display); text-decoration: none; letter-spacing: -0.01em; }
-header nav { display: flex; gap: 16px; font-size: 15px; }
+header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(9, 8, 13, 0.7); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); }
+header .wrap { max-width: 1100px; display: flex; align-items: center; gap: 22px; height: 58px; }
+header a.home { display: flex; align-items: center; gap: 10px; margin-right: auto; font: 700 1.05rem/1 var(--display); letter-spacing: -0.01em; text-decoration: none; }
+header a.home img { width: 26px; height: 26px; }
+header nav { display: flex; gap: 18px; font-size: 15px; color: var(--muted); }
+header nav a { text-decoration: none; }
+header nav a:hover { color: var(--ink); }
 header nav a[aria-current="page"] { color: var(--pink); }
-article { padding-block: 48px 72px; display: grid; gap: 14px; }
-h1 { font: 800 clamp(2.2rem, 6vw, 3.2rem)/1.05 var(--display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
-h2 { font: 700 1.35rem/1.2 var(--display); margin: 26px 0 0; text-wrap: balance; }
+header .download { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; background: var(--pink); color: #1A0710; font: 600 14px/1 var(--body); text-decoration: none; white-space: nowrap; }
+article { padding-block: 64px 88px; display: grid; gap: 14px; }
+h1 { margin: 0 0 4px; font: 800 clamp(2.5rem, 7vw, 3.8rem)/1 var(--display); letter-spacing: -0.04em; text-wrap: balance; }
+h2 { margin: 30px 0 0; font: 700 1.38rem/1.25 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
 p, ul { margin: 0; max-width: 66ch; }
+article p, article li { color: rgba(244, 241, 248, 0.82); }
 ul { padding-left: 1.2em; display: grid; gap: 8px; }
-.effective { font: 400 13px/1.5 var(--mono); color: var(--muted); }
-.lede { font-size: 1.12rem; color: var(--muted); }
-.draft { font: 400 13px/1.5 var(--mono); color: var(--muted); border: 1.5px dashed var(--line); border-radius: 12px; padding: 12px 14px; }
-footer .wrap { padding-block: 24px 40px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+li::marker { color: var(--pink); }
+b, strong { color: var(--ink); }
+.effective { font: 400 13px/1.5 var(--mono); color: var(--faint) !important; }
+.lede { font-size: 1.15rem; color: var(--muted) !important; }
+.draft { padding: 12px 14px; border: 1.5px dashed var(--line); border-radius: 12px; font: 400 13px/1.5 var(--mono); color: var(--muted) !important; }
+footer .wrap { padding-block: 26px 44px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint); }
+@media (max-width: 520px) {
+  header .download { display: none; }
+}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <a class="home" href="index.html">ShawNotch</a>
+  <a class="home" href="index.html"><img src="images/app-icon.png" alt="" width="26" height="26">ShawNotch</a>
   <nav aria-label="Legal">
     <a href="privacy.html">Privacy</a>
     <a href="terms.html" aria-current="page">Terms</a>
     <a href="refunds.html">Refunds</a>
   </nav>
+  <a class="download" href="downloads/ShawNotch.dmg">Download</a>
 </div></header>
 <main><article class="wrap">
   <h1>Terms of use</h1>
