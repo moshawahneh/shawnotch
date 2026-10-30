@@ -293,7 +293,8 @@ p { margin: 0; }
 .wallpaper::after { content: ""; position: absolute; inset: 0; background: var(--grain); opacity: 0.08; mix-blend-mode: overlay; }
 /* Music Mode on this page: the album's colour, and its cover hung behind everything, soft enough to read over. */
 .wall-mm { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; background: linear-gradient(180deg, color-mix(in srgb, var(--tint) 80%, #000) 0%, color-mix(in srgb, var(--tint) 40%, var(--bg)) 58%, var(--bg) 100%); }
-.wall-mm img { position: absolute; left: -10%; top: -10%; width: 120%; height: 120%; max-width: none; object-fit: cover; filter: blur(46px) saturate(1.35); opacity: 0.55; }
+.wall-mm img { position: absolute; left: -10%; top: -10%; width: 120%; height: 120%; max-width: none; object-fit: cover; filter: blur(46px) saturate(1.35); opacity: 0.55; transition: opacity 0.9s ease; }
+.wall-mm img + img { opacity: 0; }
 .wall-mm::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, var(--bg)); }
 :root.mm-on .wall-mm { opacity: 1; }
 .notch-hint { position: absolute; top: calc(var(--bar) + 18px); left: 50%; z-index: 1; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; width: max-content; max-width: calc(100% - 32px); padding: 8px 16px 8px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(10, 6, 16, 0.32); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); font: 500 12px/1.35 var(--mono); letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.8); }
@@ -728,7 +729,7 @@ footer nav a:hover { color: var(--ink); }
 </div>
 
 <header class="hero" id="top">
-  <div class="wallpaper" aria-hidden="true"><div class="wall-mm"><img id="wall-poster" src="images/poster-midnight.jpg" alt="" loading="lazy"></div></div>
+  <div class="wallpaper" aria-hidden="true"><div class="wall-mm"><img id="wall-posterA" src="images/poster-midnight.jpg" alt="" loading="lazy"><img id="wall-posterB" src="images/poster-midnight.jpg" alt="" loading="lazy"></div></div>
   <p class="notch-hint rise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg><span id="notch-hint-text"><b>Psst, the notch up there is real.</b> <span>Hover it, push to its edges, or drop a file on it</span></span></p>
   <div class="wrap hero-copy">
     <p class="kicker rise"><i></i>For MacBooks with a notch, and Macs without one</p>
@@ -1964,6 +1965,23 @@ footer nav a:hover { color: var(--ink); }
   const hover = matchMedia('(hover: hover)').matches;
   const $ = id => document.getElementById(id);
   const capture = (element, event) => { try { element.setPointerCapture(event.pointerId); } catch {} };
+  // Two pictures one over the other: a new one fades in over the old once
+  // it has loaded, so a change of record never flashes or jumps.
+  function crossfade(layers, shown) {
+    let front = 0, wanted = layers[0].getAttribute('src');
+    return src => {
+      if (src === wanted) return;
+      wanted = src;
+      const back = layers[1 - front];
+      back.src = src;
+      back.decode().catch(() => {}).then(() => {
+        if (wanted !== src) return;
+        back.style.opacity = shown;
+        layers[front].style.opacity = '0';
+        front = 1 - front;
+      });
+    };
+  }
   // Runs now with how things are, then each time the notch says they've changed.
   const follow = (name, handler, now) => {
     addEventListener(`shawnotch:${name}`, event => handler(event.detail));
@@ -2075,7 +2093,8 @@ footer nav a:hover { color: var(--ink); }
     showcase.classList.toggle('close', close);
   }).observe(macScreen);
   // In Music Mode the top of the page hangs the record that's on.
-  follow('song', song => { $('wall-poster').src = `images/poster-${song.id}.jpg`; }, notch.song);
+  const hangWall = crossfade([$('wall-posterA'), $('wall-posterB')], '0.55');
+  follow('song', song => hangWall(`images/poster-${song.id}.jpg`), notch.song);
   follow('musicmode', ({ on }) => {
     $('mm-switch').setAttribute('aria-checked', String(on));
     $('mm-note').hidden = !on;
@@ -2126,28 +2145,19 @@ footer nav a:hover { color: var(--ink); }
 
   // The desktop wears the record the visitor puts on. A song ending and the
   // next one starting by itself leaves it as it is.
-  const posters = [$('posterA'), $('posterB')];
   const records = [...document.querySelectorAll('.record')];
-  let front = 0, wearing = null;
-  function wear(song, instantly) {
+  const hangDesk = crossfade([$('posterA'), $('posterB')], '1');
+  let wearing = null;
+  function wear(song) {
     if (song.id === wearing) return;
     wearing = song.id;
     records.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.song === song.id)));
     section.style.setProperty('--dtint', song.tint);
     section.style.setProperty('--draw', song.raw);
-    const src = `images/poster-${song.id}.jpg`;
-    if (instantly) {
-      posters[front].src = src;
-      return;
-    }
-    const back = posters[1 - front];
-    back.src = src;
-    back.style.opacity = '1';
-    posters[front].style.opacity = '0';
-    front = 1 - front;
+    hangDesk(`images/poster-${song.id}.jpg`);
   }
   records.forEach(button => button.addEventListener('click', () => notch.play(button.dataset.song)));
-  follow('song', song => { if (!song.byItself) wear(song, wearing === null); }, notch.song);
+  follow('song', song => { if (!song.byItself) wear(song); }, notch.song);
   $('mm-switch').addEventListener('click', () => notch.setMusicMode(!notch.musicMode));
 
   // MARK: The track list: one track open at a time, tried in the real notch
