@@ -749,7 +749,7 @@ footer nav a:hover { color: var(--ink); }
     <div class="mac">
       <div class="mac-screen" id="mac-screen" role="img" aria-label="The notch open on a MacBook: the Mirror on the left, Now Playing in the middle with Midnight Drive spinning as a record, and the Calendar on the right">
         <div class="mac-canvas">
-          <div class="mac-bar"><span><b>Finder</b><em>File</em><em>Edit</em></span><span>Fri 16 Oct&nbsp;&nbsp;09:35</span></div>
+          <div class="mac-bar"><span><b>Finder</b><em>File</em><em>Edit</em></span><span>Sat 10 Oct&nbsp;&nbsp;21:26</span></div>
           <div class="mac-notch"><img src="images/notch-mirror.png" alt="" width="340" height="152"><img src="images/notch-playing.png" alt="" width="530" height="152"><img src="images/notch-calendar.png" alt="" width="340" height="152"></div>
         </div>
       </div>
@@ -778,7 +778,7 @@ footer nav a:hover { color: var(--ink); }
         <div class="laptop">
           <div class="desktop" id="compare-desktop">
             <div class="desk off" aria-hidden="true">
-              <div class="widget w-date"><small>Friday</small><big>16</big></div>
+              <div class="widget w-date"><small>Saturday</small><big>10</big></div>
               <div class="widget w-clock"><small>Screen time today</small>4h 12m</div>
               <div class="folders"><div class="folder"></div><div class="folder"></div><div class="folder"></div><div class="folder"></div></div>
               <div class="dock"><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div></div>
@@ -786,7 +786,7 @@ footer nav a:hover { color: var(--ink); }
             <div class="desk on" aria-hidden="true">
               <img class="poster" id="posterA" src="images/poster-midnight.jpg" alt="" loading="lazy">
               <img class="poster" id="posterB" src="images/poster-midnight.jpg" alt="" loading="lazy" style="opacity: 0">
-              <div class="widget w-date tinted"><small>Friday</small><big>16</big></div>
+              <div class="widget w-date tinted"><small>Saturday</small><big>10</big></div>
               <div class="widget w-clock tinted"><small>Screen time today</small>4h 12m</div>
               <div class="folders"><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div></div>
               <div class="dock"><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div><div class="app tinted"><i></i></div></div>
@@ -855,7 +855,7 @@ footer nav a:hover { color: var(--ink); }
         </div>
         <button class="track-row" type="button" id="track-calendar" aria-expanded="false" aria-controls="detail-calendar"><span class="no"><span>B3</span></span><span class="name">Calendar</span><span class="sum">Your day, and a quick way to add to it</span><span class="fact">Right edge</span></button>
         <div class="detail" id="detail-calendar" role="region" aria-labelledby="track-calendar">
-          <div class="shot"><img class="side-shot" src="images/notch-calendar.png" alt="The Calendar: Friday the 16th, a stand-up in 25 minutes with a Join button, and lunch with Sam at 1" width="340" height="152" loading="lazy"></div>
+          <div class="shot"><img class="side-shot" src="images/notch-calendar.png" alt="The Calendar: Saturday the 10th, dinner with Sam now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
       </div>
@@ -1400,21 +1400,22 @@ footer nav a:hover { color: var(--ink); }
     renderTray(files.length);
   });
 
-  // MARK: The Calendar: Friday 16 October, 09:35
+  // MARK: The Calendar: Saturday 10 October 2026, 21:26, the evening ShawNotch began
 
-  const nowMinutes = 9 * 60 + 35, today = 16;
-  const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON', 'TUE'];
-  const days = [12, 13, 14, 15, 16, 17, 18, 19, 20];
+  const nowMinutes = 21 * 60 + 26, today = 10;
+  const weekdays = ['TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED'];
+  const days = [6, 7, 8, 9, 10, 11, 12, 13, 14];
   const events = {
-    13: [{ title: 'Haircut', start: 18 * 60, end: 18 * 60 + 45, color: '#BF5AF2' }],
-    15: [{ title: 'Gym', start: 7 * 60, end: 8 * 60, color: '#30D158' }],
-    16: [
-      { title: 'Stand-up', start: 10 * 60, end: 10 * 60 + 15, color: '#0A84FF', join: true },
-      { title: 'Lunch with Sam', start: 13 * 60, end: 14 * 60, color: '#FF9F0A' },
-      { title: 'Record shop', start: 17 * 60 + 30, end: 18 * 60, color: '#FF375F' },
+    7: [{ title: 'Gym', start: 7 * 60, end: 8 * 60, color: '#30D158' }],
+    9: [{ title: 'Haircut', start: 18 * 60, end: 18 * 60 + 45, color: '#BF5AF2' }],
+    10: [
+      { title: 'Dinner with Sam', start: 19 * 60 + 30, end: 22 * 60, color: '#FF9F0A' },
+      { title: 'Call with Mia', start: 22 * 60, end: 22 * 60 + 30, color: '#0A84FF', join: true },
+      { title: 'Late film', start: 23 * 60 + 15, end: 23 * 60 + 59, color: '#FF375F' },
     ],
-    17: [{ title: 'Vinyl fair', start: 11 * 60, end: 15 * 60, color: '#64D2FF' }],
-    18: [{ title: 'Brunch with Mia', start: 11 * 60 + 30, end: 13 * 60, color: '#FFD60A' }],
+    11: [{ title: 'Vinyl fair', start: 11 * 60, end: 15 * 60, color: '#64D2FF' }],
+    12: [{ title: 'Stand-up', start: 10 * 60, end: 10 * 60 + 15, color: '#0A84FF', join: true }],
+    13: [{ title: 'Record shop', start: 17 * 60 + 30, end: 18 * 60, color: '#FF375F' }],
   };
   let selected = today, scrolled = 0, adding = false, freshEvent = null;
   const calendar = $('calendar');
@@ -1422,7 +1423,7 @@ footer nav a:hover { color: var(--ink); }
   function when(event, day) {
     const span = event.allDay ? 'all day' : `${hhmm(event.start)}–${hhmm(event.end)}`;
     if (day !== today || event.allDay) return span;
-    if (event.start <= nowMinutes) return `now · ${span}`;
+    if (event.start <= nowMinutes) return `Now · until ${hhmm(event.end)}`;
     const wait = event.start - nowMinutes, h = Math.floor(wait / 60), m = wait % 60;
     return `in ${h ? `${h} h ${m} min` : `${m} min`} · ${span}`;
   }
@@ -1436,7 +1437,7 @@ footer nav a:hover { color: var(--ink); }
       button.className = 'day' + (day === today ? ' today' : '') + ((events[day] || []).length ? ' has' : '');
       button.setAttribute('aria-pressed', String(day === selected));
       button.setAttribute('aria-label', `${weekdays[i]} ${day} October`);
-      button.innerHTML = `<small>${weekdays[i]}</small><span>${day}</span><i></i>`;
+      button.innerHTML = `<small>${weekdays[i]}</small><span>${String(day).padStart(2, '0')}</span><i></i>`;
       button.addEventListener('click', () => { selected = day; scrolled = 0; adding = false; renderCalendar(); });
       return button;
     }));
@@ -1487,8 +1488,8 @@ footer nav a:hover { color: var(--ink); }
     let text = $('cal-input').value.trim();
     if (!text) return;
     let day = selected;
-    const dayWords = { today: 16, tonight: 16, tomorrow: 17, saturday: 17, sat: 17, sunday: 18, sun: 18, monday: 19, mon: 19, tuesday: 20, tue: 20 };
-    const dayMatch = text.match(/\b(today|tonight|tomorrow|saturday|sat|sunday|sun|monday|mon|tuesday|tue)\b/i);
+    const dayWords = { today: 10, tonight: 10, tomorrow: 11, sunday: 11, sun: 11, monday: 12, mon: 12, tuesday: 13, tue: 13, wednesday: 14, wed: 14 };
+    const dayMatch = text.match(/\b(today|tonight|tomorrow|sunday|sun|monday|mon|tuesday|tue|wednesday|wed)\b/i);
     if (dayMatch) { day = dayWords[dayMatch[1].toLowerCase()]; text = text.replace(dayMatch[0], ' '); }
     let start = null;
     const timeMatch = text.match(/\b(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i);
