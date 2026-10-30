@@ -83,6 +83,8 @@ p { margin: 0; }
 .button.primary { border-color: transparent; background: var(--brand); color: var(--brand-ink); box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--brand) 80%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
 .button.primary:hover { background: var(--brand); box-shadow: 0 18px 44px -12px color-mix(in srgb, var(--brand) 90%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Buying isn't open yet: the Buy buttons say so and do nothing. */
+.button[aria-disabled="true"], .button[aria-disabled="true"]:hover { cursor: default; transform: none; opacity: 0.6; background: rgba(255, 255, 255, 0.05); border-color: var(--line-hi); }
 
 /* MARK: The menu bar, with ShawNotch's own menus on the left and the notch in the middle */
 .menubar { position: fixed; inset: 0 0 auto; z-index: 50; height: var(--bar); display: flex; align-items: center; justify-content: space-between; padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); font: 500 13px/1 var(--system); color: rgba(255, 255, 255, 0.94); background: rgba(22, 14, 30, 0.38); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06); }
@@ -101,6 +103,7 @@ p { margin: 0; }
 .dropdown a, .dropdown button { position: relative; display: flex; align-items: center; gap: 18px; width: 100%; min-height: 24px; padding: 4px 12px 4px 26px; border: 0; border-radius: 5px; background: none; color: rgba(255, 255, 255, 0.94); font: 400 13px/1.2 var(--system); text-align: left; text-decoration: none; white-space: nowrap; cursor: pointer; }
 .dropdown a:hover, .dropdown button:hover, .dropdown a:focus-visible, .dropdown button:focus-visible { outline: none; background: var(--brand); color: var(--brand-ink); }
 .dropdown [aria-checked="true"]::before { content: ""; position: absolute; left: 9px; top: 50%; width: 8px; height: 4px; margin-top: -3.5px; border: solid currentColor; border-width: 0 0 1.6px 1.6px; transform: rotate(-45deg); }
+.dropdown [aria-disabled="true"], .dropdown [aria-disabled="true"]:hover, .dropdown [aria-disabled="true"]:focus-visible { color: rgba(255, 255, 255, 0.4); background: none; cursor: default; }
 .dropdown .key { margin-left: auto; padding-left: 12px; color: rgba(255, 255, 255, 0.45); }
 .dropdown a:hover .key, .dropdown button:hover .key, .dropdown :focus-visible .key { color: inherit; opacity: 0.7; }
 .dropdown hr { height: 1px; margin: 5px 10px; border: 0; background: rgba(255, 255, 255, 0.12); }
@@ -600,7 +603,7 @@ footer nav a:hover { color: var(--ink); }
         <a role="menuitem" href="#top">About ShawNotch</a>
         <hr>
         <a role="menuitem" href="downloads/ShawNotch.dmg">Download the free trial</a>
-        <a role="menuitem" href="https://shawnotchapp.lemonsqueezy.com/checkout/buy/ea329d78-d999-4b2b-a85d-bba834e95ed3" target="_blank" rel="noopener">Buy ShawNotch<span class="key">$7.99</span></a>
+        <button type="button" role="menuitem" aria-disabled="true">Buy ShawNotch<span class="key">Coming soon</span></button>
         <hr>
         <a role="menuitem" href="mailto:support@shawnotch.com">Email support</a>
         <a role="menuitem" href="privacy.html">Privacy policy</a>
@@ -737,7 +740,7 @@ footer nav a:hover { color: var(--ink); }
     <p class="lede rise">The song you're playing spins in the notch as a record. Files wait in a tray, a mirror checks your camera, and Music Mode dresses your desktop in the album's colour.</p>
     <div class="actions rise">
       <a class="button primary" href="downloads/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Try it free for 7 days</a>
-      <a class="button" href="https://shawnotchapp.lemonsqueezy.com/checkout/buy/ea329d78-d999-4b2b-a85d-bba834e95ed3" target="_blank" rel="noopener">Buy for $7.99</a>
+      <span class="button" aria-disabled="true">Buy · Coming soon</span>
     </div>
     <p class="meta rise"><span>macOS 14 Sonoma or later</span><span>Apple silicon and Intel</span><span>Notarized by Apple</span></p>
     <p class="mm-note" id="mm-note" role="status" hidden>Music Mode is on, so this page has taken the album's colours. On your Mac, it's your whole desktop. <a href="#music-mode">See it</a></p>
@@ -901,7 +904,7 @@ footer nav a:hover { color: var(--ink); }
           </ul>
           <div class="actions">
             <a class="button primary" href="downloads/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free trial</a>
-            <a class="button" href="https://shawnotchapp.lemonsqueezy.com/checkout/buy/ea329d78-d999-4b2b-a85d-bba834e95ed3" target="_blank" rel="noopener">Buy for $7.99</a>
+            <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
           <p class="note">ShawNotch 1.7.8 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
@@ -933,7 +936,7 @@ footer nav a:hover { color: var(--ink); }
       <p class="lead">Try every feature free for 7 days. If it earns its place, it's yours for $7.99, once.</p>
       <div class="actions">
         <a class="button primary" href="downloads/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Try it free for 7 days</a>
-        <a class="button" href="https://shawnotchapp.lemonsqueezy.com/checkout/buy/ea329d78-d999-4b2b-a85d-bba834e95ed3" target="_blank" rel="noopener">Buy for $7.99</a>
+        <span class="button" aria-disabled="true">Buy · Coming soon</span>
       </div>
     </div>
   </section>
