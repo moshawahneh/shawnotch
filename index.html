@@ -785,7 +785,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="head center" data-reveal>
         <span class="tag">Music Mode</span>
         <h2 class="h2">Your whole desktop, <span class="glow">dressed for the record</span></h2>
-        <p class="lead">Switch it on from the notch and icons, widgets and folders take a colour drawn from the album's cover, with the cover hung over your desktop. Switch it off and your own colours come back. Your wallpaper itself is never changed.</p>
+        <p class="lead">Switch it on from the notch and icons, widgets and folders take a colour drawn from the album's cover, with the cover hung over your desktop. Switch it off and your own colours come back. Your wallpaper itself isn't changed, unless you ask.</p>
       </div>
       <div class="compare" id="compare" data-reveal>
         <p class="visually-hidden">Two views of the same desktop. Without Music Mode: a blue wallpaper, grey widgets, blue folders and colourful Dock icons. With Music Mode: the album's cover hung over the desktop, and the widgets, folders and Dock icons in the album's colour.</p>
@@ -823,7 +823,7 @@ footer nav a:hover { color: var(--ink); }
       </div>
       <aside class="heads-up" role="note" aria-label="macOS version note" data-reveal>
         <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.05" fill="currentColor"/></svg>
-        <p><b>The colours need macOS 26 or later.</b> macOS 14 Sonoma and 15 Sequoia don't have the setting that colours icons, widgets and folders (Apple added it in macOS 26), so on those Music Mode shows the album poster on your desktop, without the colours. Everything else in ShawNotch works the same.</p>
+        <p><b>The colours need macOS 26 or later.</b> macOS 14 Sonoma and 15 Sequoia don't have the setting that colours icons, widgets and folders (Apple added it in macOS 26), so on those Music Mode shows the album poster on your desktop, without the colours. There, Settings can also make the album your wallpaper while Music Mode is on, so the menu bar matches it. Everything else in ShawNotch works the same.</p>
       </aside>
     </div>
   </section>
@@ -921,7 +921,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="downloads/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free trial</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.11 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.12 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -937,7 +937,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="faq-list" data-reveal>
         <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way.</p></details>
         <details><summary>Which music apps work?</summary><p>Spotify, Apple Music and other apps that show up in macOS's Now Playing. Spotify's shuffle and repeat work from the notch too. Something playing in a browser shows in the open notch, but Music Mode and the small record leave browsers and videos alone.</p></details>
-        <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, and the icon style, which it switches to Tinted so the colour shows. It puts both back when you switch Music Mode off or quit. It never changes your wallpaper.</p></details>
+        <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, and the icon style, which it switches to Tinted so the colour shows. It puts both back when you switch Music Mode off or quit. It doesn't change your wallpaper, except on macOS 14 and 15 if you turn on <b>Use the album as your wallpaper</b> in Settings, which makes the menu bar match the album too. Your own comes back when Music Mode turns off.</p></details>
         <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
         <details><summary>What happens with my camera and calendar?</summary><p>They're only shown in the notch. Nothing leaves your Mac, and the camera is only on while the mirror is open. macOS asks you before ShawNotch can use either.</p></details>
         <details><summary>Which version of macOS do I need?</summary><p>macOS 14 Sonoma or later, on Apple silicon or Intel. Music Mode's icon colours need macOS 26; before that, it shows the album poster on your desktop.</p></details>
@@ -2103,7 +2103,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.11";
+      item.textContent = "You're up to date: 1.7.12";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }
