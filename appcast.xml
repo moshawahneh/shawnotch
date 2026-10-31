@@ -3,20 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.9</title>
-            <pubDate>Fri, 30 Oct 2026 21:15:09 +0000</pubDate>
+            <title>1.7.10</title>
+            <pubDate>Sat, 31 Oct 2026 00:06:49 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10709</sparkle:version>
-            <sparkle:shortVersionString>1.7.9</sparkle:shortVersionString>
+            <sparkle:version>10710</sparkle:version>
+            <sparkle:shortVersionString>1.7.10</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.9</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.10</h2>
 <ul>
-<li>Quick add in the Calendar understands more of how you type: "Lunch @ 1pm", "tmrw", and "after tomorrow".</li>
-<li>A weekday means the nearest one, so "Gym Tuesday" is this coming Tuesday (or today, if it's Tuesday), and "next Tuesday" is the one after that.</li>
-<li>"Lunch at 1pm today" no longer keeps "at 1pm" in the event's name.</li>
+<li>A new menu bar icon: the open notch, with its record and title line, in place of the generic screen symbol.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.9.zip" length="4598302" type="application/octet-stream" sparkle:edSignature="W76QAOe1o50tqJaC5TItjAepJ+z6dt+oWoufAP7YflpMf3l1aqt+ciSLraSlpcUt9drWDXlaumzbHggjMGimCA=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.10.zip" length="4600701" type="application/octet-stream" sparkle:edSignature="SxpqAECITNaBQD7uFVcK08PTh6R1n3tAbPPhmzXMcal8AF7/SXrzuano+0AFI3oRC3nnMLUSIQk0PWaEnOgoAw=="/>
         </item>
     </channel>
 </rss>
