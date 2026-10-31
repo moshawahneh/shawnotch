@@ -3,18 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.10</title>
-            <pubDate>Sat, 31 Oct 2026 00:06:49 +0000</pubDate>
+            <title>1.7.11</title>
+            <pubDate>Sat, 31 Oct 2026 00:12:24 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10710</sparkle:version>
-            <sparkle:shortVersionString>1.7.10</sparkle:shortVersionString>
+            <sparkle:version>10711</sparkle:version>
+            <sparkle:shortVersionString>1.7.11</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.10</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.11</h2>
 <ul>
-<li>A new menu bar icon: the open notch, with its record and title line, in place of the generic screen symbol.</li>
+<li>The menu bar icon is now a MacBook screen with its notch.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.10.zip" length="4600701" type="application/octet-stream" sparkle:edSignature="SxpqAECITNaBQD7uFVcK08PTh6R1n3tAbPPhmzXMcal8AF7/SXrzuano+0AFI3oRC3nnMLUSIQk0PWaEnOgoAw=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.11.zip" length="4600773" type="application/octet-stream" sparkle:edSignature="5kHBBeromGdztdMC+fxNG3jMfkTDETz4N3sxo11ZTQ8rjQvcjY+XiylN5B9NnZT59BT41e+ugD3uu5j/sD/vDw=="/>
         </item>
     </channel>
 </rss>
