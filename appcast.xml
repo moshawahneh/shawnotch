@@ -3,22 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.14</title>
-            <pubDate>Sun, 01 Nov 2026 15:11:11 +0000</pubDate>
+            <title>1.7.15</title>
+            <pubDate>Sun, 01 Nov 2026 22:07:41 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10714</sparkle:version>
-            <sparkle:shortVersionString>1.7.14</sparkle:shortVersionString>
+            <sparkle:version>10715</sparkle:version>
+            <sparkle:shortVersionString>1.7.15</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.14</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.15</h2>
 <ul>
-<li>Changing Music Mode's poster background in Settings now changes the poster straight away.</li>
-<li>Between songs, the Music Mode button, the volume bars and the playback line keep the last album's colour until the next cover arrives, instead of flashing grey.</li>
-<li>The player's icon in the notch now follows Music Mode's colour as it changes, instead of keeping an old one.</li>
-<li>The volume bars are white when Music Mode is off, and in the album's colour when it's on.</li>
-<li>The menu bar menu no longer shows keyboard shortcuts that went to other apps.</li>
+<li>In Music Mode, the player's icon in the notch now changes to the new album's colour with the song, instead of lagging behind or keeping an old colour.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.14.zip" length="4690537" type="application/octet-stream" sparkle:edSignature="tQ8suhSvie9ySTT801QVsd6P0+EXq9dZyn/zlG8oKHPWwaJStlXV+8Ge0bxbvq44BLG3vqy4AC2pk/eOWIr7Cg=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.15.zip" length="4697334" type="application/octet-stream" sparkle:edSignature="p70Kpn5pmKB3TCLj5T2yLmJV3NaO7MrBp2alZKsJzdQLXdbOJmP4jwTG72Ybp6Jr/bOMh8Dkh4qiqCpWHWVNCQ=="/>
         </item>
     </channel>
 </rss>
