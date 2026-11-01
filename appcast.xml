@@ -3,18 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.15</title>
-            <pubDate>Sun, 01 Nov 2026 22:07:41 +0000</pubDate>
+            <title>1.7.16</title>
+            <pubDate>Sun, 01 Nov 2026 23:34:35 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10715</sparkle:version>
-            <sparkle:shortVersionString>1.7.15</sparkle:shortVersionString>
+            <sparkle:version>10716</sparkle:version>
+            <sparkle:shortVersionString>1.7.16</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.15</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.16</h2>
 <ul>
-<li>In Music Mode, the player's icon in the notch now changes to the new album's colour with the song, instead of lagging behind or keeping an old colour.</li>
+<li>In Music Mode, a new song changes everything at the same moment: the icons and widgets, the poster on your desktop, the notch's colours and the record in the notch. The poster now switches straight to the next cover between songs.</li>
+<li>The notch, the Mirror and the Calendar wait a moment longer before opening, so passing by doesn't open them. Settings → Open speed sets how long.</li>
+<li>Fixed the notch sometimes closing as the Mirror or the Calendar slid out under the pointer, and a drawer that had just opened not taking clicks until the pointer moved.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.15.zip" length="4697334" type="application/octet-stream" sparkle:edSignature="p70Kpn5pmKB3TCLj5T2yLmJV3NaO7MrBp2alZKsJzdQLXdbOJmP4jwTG72Ybp6Jr/bOMh8Dkh4qiqCpWHWVNCQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.16.zip" length="4730783" type="application/octet-stream" sparkle:edSignature="HgobE6lhTXAth9eC4oTg0Rguslngi1vrKNiHk1v+SNcV0RtoMkTjEcpcLbM6wy+CW7B4/UFqTaoF6Jvu7wiMBw=="/>
         </item>
     </channel>
 </rss>
