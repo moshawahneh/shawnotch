@@ -420,6 +420,13 @@ p { margin: 0; }
 .record span span { font-size: 13.5px; color: var(--muted); }
 .record[aria-pressed="true"] { border-color: color-mix(in srgb, var(--draw) 70%, #fff 10%); background: color-mix(in srgb, var(--draw) 16%, transparent); }
 .record[aria-pressed="true"] img { transform: rotate(-60deg); }
+/* What's behind the cover, as Settings → Music Mode → Poster background picks it. */
+.backdrops { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 14px; font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.seg { display: inline-flex; padding: 4px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); }
+.seg button { padding: 9px 16px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 14px/1 var(--body); letter-spacing: 0; text-transform: none; cursor: pointer; transition: background-color 0.25s ease, color 0.25s ease; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.12); color: var(--ink); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); }
+.seg button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .switch { display: inline-flex; align-items: center; gap: 12px; padding: 7px 18px 7px 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); font: 600 15px/1 var(--body); cursor: pointer; transition: border-color 0.3s ease; }
 .switch:hover { border-color: var(--line-hi); }
 .switch .rail { position: relative; flex: none; width: 46px; height: 28px; border-radius: 14px; background: rgba(255, 255, 255, 0.14); transition: background-color 0.3s ease; }
@@ -747,7 +754,7 @@ footer nav a:hover { color: var(--ink); }
 </div>
 
 <header class="hero" id="top">
-  <div class="wallpaper" aria-hidden="true"><div class="wall-mm"><img id="wall-posterA" src="images/poster-midnight.jpg?v=b5ceeeee2b" alt="" loading="lazy"><img id="wall-posterB" src="images/poster-midnight.jpg?v=b5ceeeee2b" alt="" loading="lazy"></div></div>
+  <div class="wallpaper" aria-hidden="true"><div class="wall-mm"><img id="wall-posterA" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy"><img id="wall-posterB" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy"></div></div>
   <p class="notch-hint rise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg><span id="notch-hint-text"><b>Psst, the notch up there is real.</b> <span>Hover it, push to its edges, or drop a file on it</span></span></p>
   <div class="wrap hero-copy">
     <p class="kicker rise"><i></i>For MacBooks with a notch, and Macs without one</p>
@@ -785,10 +792,10 @@ footer nav a:hover { color: var(--ink); }
       <div class="head center" data-reveal>
         <span class="tag">Music Mode</span>
         <h2 class="h2">Your whole desktop, <span class="glow">dressed for the record</span></h2>
-        <p class="lead">Switch it on from the notch and icons, widgets and folders take a colour drawn from the album's cover, with the cover hung over your desktop. Switch it off and your own colours come back. Your wallpaper itself isn't changed, unless you ask.</p>
+        <p class="lead">Switch it on from the notch and icons, widgets and folders take a colour drawn from the album's cover, and the cover hangs over your desktop on a blur of itself, like a phone's lock screen. Switch it off and your own colours come back. Your wallpaper itself isn't changed, unless you ask.</p>
       </div>
       <div class="compare" id="compare" data-reveal>
-        <p class="visually-hidden">Two views of the same desktop. Without Music Mode: a blue wallpaper, grey widgets, blue folders and colourful Dock icons. With Music Mode: the album's cover hung over the desktop, and the widgets, folders and Dock icons in the album's colour.</p>
+        <p class="visually-hidden">Two views of the same desktop. Without Music Mode: a blue wallpaper, grey widgets, blue folders and colourful Dock icons. With Music Mode: the album's cover hung over a blurred copy of itself, and the widgets, folders and Dock icons in the album's colour.</p>
         <div class="legend" aria-hidden="true"><span class="off"><i></i>Music Mode off</span><span class="on">Music Mode on<i></i></span></div>
         <div class="laptop">
           <div class="desktop" id="compare-desktop">
@@ -799,8 +806,8 @@ footer nav a:hover { color: var(--ink); }
               <div class="dock"><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div></div>
             </div>
             <div class="desk on" aria-hidden="true">
-              <img class="poster" id="posterA" src="images/poster-midnight.jpg?v=b5ceeeee2b" alt="" loading="lazy">
-              <img class="poster" id="posterB" src="images/poster-midnight.jpg?v=b5ceeeee2b" alt="" loading="lazy" style="opacity: 0">
+              <img class="poster" id="posterA" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy">
+              <img class="poster" id="posterB" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy" style="opacity: 0">
               <div class="widget w-date tinted"><small>Saturday</small><big>10</big></div>
               <div class="widget w-clock tinted"><small>Screen time today</small>4h 12m</div>
               <div class="folders"><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div></div>
@@ -820,6 +827,7 @@ footer nav a:hover { color: var(--ink); }
           <button class="record" type="button" data-song="tide" aria-pressed="false"><img src="images/cover-tide.png?v=3c0edb3d24" alt="" width="42" height="42"><span><b>Low Tide</b><span>The Paper Lanterns</span></span></button>
         </div>
         <button class="switch" id="mm-switch" type="button" role="switch" aria-checked="false"><span class="rail"></span>Music Mode on this page</button>
+        <div class="backdrops" role="group" aria-label="Behind the cover">Behind the cover<span class="seg"><button type="button" data-backdrop="" aria-pressed="true">Blurred cover</button><button type="button" data-backdrop="-glow" aria-pressed="false">Album colour</button></span></div>
       </div>
       <aside class="heads-up" role="note" aria-label="macOS version note" data-reveal>
         <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.05" fill="currentColor"/></svg>
@@ -1289,7 +1297,7 @@ footer nav a:hover { color: var(--ink); }
     tray: [
       { name: 'Afterglow cover.png', thumb: 'images/cover-midnight.png?v=255bf0b55b' },
       { name: 'Boarding pass.pdf', kind: 'doc', ext: 'PDF' },
-      { name: 'Desktop idea.jpg', thumb: 'images/poster-ember.jpg?v=c2f25829c1' },
+      { name: 'Desktop idea.jpg', thumb: 'images/poster-ember.jpg?v=029fb376df' },
       { name: 'Setlist.txt', kind: 'doc', ext: 'TXT' },
       { name: 'Demo mix.m4a', kind: 'audio' },
     ],
@@ -2150,9 +2158,12 @@ footer nav a:hover { color: var(--ink); }
     showcase.style.setProperty('--k', k.toFixed(4));
     showcase.classList.toggle('close', close);
   }).observe(macScreen);
-  // In Music Mode the top of the page hangs the record that's on.
+  // In Music Mode the top of the page hangs the record that's on, on what
+  // the visitor picks to go behind it: the cover blurred, or its colour.
+  let backdrop = '';
+  const posterOf = id => `images/poster-${id}${backdrop}.jpg`;
   const hangWall = crossfade([$('wall-posterA'), $('wall-posterB')], '0.55');
-  follow('song', song => hangWall(`images/poster-${song.id}.jpg`), notch.song);
+  follow('song', song => hangWall(posterOf(song.id)), notch.song);
   follow('musicmode', ({ on }) => {
     $('mm-switch').setAttribute('aria-checked', String(on));
     $('mm-note').hidden = !on;
@@ -2212,8 +2223,15 @@ footer nav a:hover { color: var(--ink); }
     records.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.song === song.id)));
     section.style.setProperty('--dtint', song.tint);
     section.style.setProperty('--draw', song.raw);
-    hangDesk(`images/poster-${song.id}.jpg`);
+    hangDesk(posterOf(song.id));
   }
+  const backdrops = [...document.querySelectorAll('[data-backdrop]')];
+  backdrops.forEach(button => button.addEventListener('click', () => {
+    backdrop = button.dataset.backdrop;
+    backdrops.forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+    if (wearing) hangDesk(posterOf(wearing));
+    hangWall(posterOf(notch.song.id));
+  }));
   records.forEach(button => button.addEventListener('click', () => notch.play(button.dataset.song)));
   follow('song', song => { if (!song.byItself) wear(song); }, notch.song);
   $('mm-switch').addEventListener('click', () => notch.setMusicMode(!notch.musicMode));
