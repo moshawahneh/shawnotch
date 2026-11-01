@@ -3,20 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.16</title>
-            <pubDate>Sun, 01 Nov 2026 23:34:35 +0000</pubDate>
+            <title>1.7.17</title>
+            <pubDate>Sun, 01 Nov 2026 23:54:25 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10716</sparkle:version>
-            <sparkle:shortVersionString>1.7.16</sparkle:shortVersionString>
+            <sparkle:version>10717</sparkle:version>
+            <sparkle:shortVersionString>1.7.17</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.16</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.17</h2>
 <ul>
-<li>In Music Mode, a new song changes everything at the same moment: the icons and widgets, the poster on your desktop, the notch's colours and the record in the notch. The poster now switches straight to the next cover between songs.</li>
-<li>The notch, the Mirror and the Calendar wait a moment longer before opening, so passing by doesn't open them. Settings → Open speed sets how long.</li>
-<li>Fixed the notch sometimes closing as the Mirror or the Calendar slid out under the pointer, and a drawer that had just opened not taking clicks until the pointer moved.</li>
+<li>In Music Mode, the poster on your desktop fades quickly from one cover to the next, and the icons, widgets, the notch's colours and its record change halfway through, so the change looks smooth and nothing lags behind.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.16.zip" length="4730783" type="application/octet-stream" sparkle:edSignature="HgobE6lhTXAth9eC4oTg0Rguslngi1vrKNiHk1v+SNcV0RtoMkTjEcpcLbM6wy+CW7B4/UFqTaoF6Jvu7wiMBw=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.17.zip" length="4737501" type="application/octet-stream" sparkle:edSignature="8hPdL5pwgmpNWif3ekRYvILSYZuSIAkzK1s0xf18kKon3ZE3sOdWvH9A5qNWSa/PcdMZMIdmSXwNHu8PeEi0DQ=="/>
         </item>
     </channel>
 </rss>
