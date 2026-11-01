@@ -3,18 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.12</title>
-            <pubDate>Sat, 31 Oct 2026 21:37:45 +0000</pubDate>
+            <title>1.7.13</title>
+            <pubDate>Sun, 01 Nov 2026 14:54:03 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10712</sparkle:version>
-            <sparkle:shortVersionString>1.7.12</sparkle:shortVersionString>
+            <sparkle:version>10713</sparkle:version>
+            <sparkle:shortVersionString>1.7.13</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.12</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.13</h2>
 <ul>
-<li>On macOS 14 Sonoma and 15 Sequoia, a new setting, <b>Use the album as your wallpaper</b>, makes the menu bar match the album in Music Mode. It's off until you turn it on in Settings, and your own wallpaper comes back when Music Mode turns off.</li>
+<li>Music Mode's poster now sits on the album cover itself, enlarged and blurred to fill your screen, like a phone's lock screen.</li>
+<li>Prefer the glow in the album's colour from before? Choose <b>Album colour</b> under Settings → Music Mode → Poster background.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.12.zip" length="4654963" type="application/octet-stream" sparkle:edSignature="TYq+yq+lEoMOjSTr+2urJoFd+eNdFrgXXUPY2ORYXIFhAgMtG6P3EulaNzxyVCmHOWG0QTfPnBkY4WQqJisLCQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.13.zip" length="4670490" type="application/octet-stream" sparkle:edSignature="q55CJQMn2FqQVipjGosIq8iXdDW5skEdo7/J8tgSdJjdiKGen9gzQwRyqKDHm6GoJ5PGngIH0b2fCC3zwKLgCw=="/>
         </item>
     </channel>
 </rss>
