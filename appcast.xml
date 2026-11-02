@@ -3,18 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.17</title>
-            <pubDate>Sun, 01 Nov 2026 23:54:25 +0000</pubDate>
+            <title>1.7.18</title>
+            <pubDate>Mon, 02 Nov 2026 14:22:46 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10717</sparkle:version>
-            <sparkle:shortVersionString>1.7.17</sparkle:shortVersionString>
+            <sparkle:version>10718</sparkle:version>
+            <sparkle:shortVersionString>1.7.18</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.17</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.18</h2>
 <ul>
-<li>In Music Mode, the poster on your desktop fades quickly from one cover to the next, and the icons, widgets, the notch's colours and its record change halfway through, so the change looks smooth and nothing lags behind.</li>
+<li>A soft light along each side of the open notch shows where to rest the pointer for the Mirror (left) and the Calendar (right). It glows brighter while the drawer waits to open.</li>
+<li>The open notch is a little wider, with a touch more room at each side.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.17.zip" length="4737501" type="application/octet-stream" sparkle:edSignature="8hPdL5pwgmpNWif3ekRYvILSYZuSIAkzK1s0xf18kKon3ZE3sOdWvH9A5qNWSa/PcdMZMIdmSXwNHu8PeEi0DQ=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.18.zip" length="4753064" type="application/octet-stream" sparkle:edSignature="N82QefaWn0yPbP1ljRfAQXdnFeM7pyEwmhsrS26sWaIVvyIpQcku0e2Xsp3u+YBzTRfmYeF85360OAVik0tfBQ=="/>
         </item>
     </channel>
 </rss>
