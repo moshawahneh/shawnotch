@@ -116,29 +116,36 @@ p { margin: 0; }
 .stage.quit { opacity: 0; pointer-events: none; }
 .stage.quit .shape { pointer-events: none; }
 
-/* The notch, rebuilt from the app at its real size and sitting in the menu bar: a 185 × 32 notch on a 1,512-point-wide screen, opening into a 530 × 152 nook with a 340-point drawer either side. The whole window is scaled to fit, and the black shape is redrawn each frame with the app's own springs. */
-.stage { position: absolute; top: 0; left: 50%; width: 1210px; height: 152px; transform-origin: 0 0; transform: translateX(calc(var(--pan, 0px) - 605px * var(--s))) scale(var(--s)); z-index: 2; font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; pointer-events: none; }
-.shape { position: absolute; inset: 0; background: #000; clip-path: path('M512.5 0 L697.5 0 L697.5 32 L512.5 32 Z'); -webkit-tap-highlight-color: transparent; pointer-events: auto; }
+/* The notch, rebuilt from the app at its real size and sitting in the menu bar: a 185 × 32 notch on a 1,512-point-wide screen, opening into a 544 × 152 nook with a 340-point drawer either side. The whole window is scaled to fit, and the black shape is redrawn each frame with the app's own springs. */
+.stage { position: absolute; top: 0; left: 50%; width: 1224px; height: 152px; transform-origin: 0 0; transform: translateX(calc(var(--pan, 0px) - 612px * var(--s))) scale(var(--s)); z-index: 2; font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; pointer-events: none; }
+.shape { position: absolute; inset: 0; background: #000; clip-path: path('M519.5 0 L704.5 0 L704.5 32 L519.5 32 Z'); -webkit-tap-highlight-color: transparent; pointer-events: auto; }
 .wings { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .stage.wings-on .wings { opacity: 1; transition: opacity 0.15s ease-out; }
-.wings .mini { position: absolute; left: 483px; top: 5.5px; width: 21px; height: 21px; }
-.wings canvas { position: absolute; left: 702.5px; top: 7px; width: 28px; height: 18px; }
-.open { position: absolute; inset: 0; opacity: 0; transform: scale(0.94); transform-origin: 605px 0; visibility: hidden; transition: opacity 0.12s ease-in, transform 0s linear 0.12s, visibility 0s linear 0.12s; }
+.wings .mini { position: absolute; left: 490px; top: 5.5px; width: 21px; height: 21px; }
+.wings canvas { position: absolute; left: 709.5px; top: 7px; width: 28px; height: 18px; }
+.open { position: absolute; inset: 0; opacity: 0; transform: scale(0.94); transform-origin: 612px 0; visibility: hidden; transition: opacity 0.12s ease-in, transform 0s linear 0.12s, visibility 0s linear 0.12s; }
 .stage.expanded .open { opacity: 1; transform: none; visibility: visible; transition: opacity 0.22s ease-out 0.08s, transform 0.22s ease-out 0.08s; }
 .drawer { position: absolute; top: 0; width: 340px; height: 152px; opacity: 0; transition: opacity 0.3s ease; }
 .drawer > img { width: 340px; height: 152px; max-width: none; }
 .drawer.mirror { left: 0; }
-.drawer.calendar { left: 870px; }
+.drawer.calendar { left: 884px; }
 .stage[data-drawer="mirror"] .drawer.mirror, .stage[data-drawer="calendar"] .drawer.calendar { opacity: 1; }
 .camera { position: absolute; left: 18px; top: 14px; width: 166px; height: 124px; border-radius: 14px; object-fit: cover; transform: scaleX(-1); background: #111; display: none; }
 .stage.camera-on .camera { display: block; }
 .use-camera { position: absolute; left: 101px; top: 110px; transform: translateX(-50%); padding: 5px 12px; border: 0; border-radius: 999px; background: #fff; color: #000; font: 600 11px/1.2 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; white-space: nowrap; cursor: pointer; }
-.nook { position: absolute; left: 340px; top: 0; width: 530px; height: 152px; overflow: hidden; touch-action: pan-y; }
+.nook { position: absolute; left: 340px; top: 0; width: 544px; height: 152px; overflow: hidden; touch-action: pan-y; }
 .pages { position: absolute; inset: 0; display: flex; }
-.page { position: relative; flex: 0 0 530px; height: 152px; }
-.page > img { width: 530px; height: 152px; max-width: none; user-select: none; -webkit-user-drag: none; }
-.page .disc { position: absolute; left: 22px; top: 16px; width: 110px; height: 110px; }
-.page .arm { position: absolute; left: 0; top: 0; overflow: visible; }
+.page { position: relative; flex: 0 0 544px; height: 152px; }
+.page > img { width: 544px; height: 152px; max-width: none; user-select: none; -webkit-user-drag: none; }
+.page .disc { position: absolute; left: 29px; top: 16px; width: 110px; height: 110px; }
+.page .arm { position: absolute; left: 7px; top: 0; overflow: visible; }
+/* A soft light along each wall, where resting the pointer slides out the Mirror or the Calendar; it glows brighter while the drawer waits to open. */
+.edge-glow { position: absolute; top: 31px; width: 3px; height: 90px; border-radius: 2px; background: linear-gradient(transparent, rgba(255, 255, 255, 0.25), transparent); opacity: 0; transition: opacity 0.18s ease-out; pointer-events: none; }
+.edge-glow::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(transparent, rgba(255, 255, 255, 0.75), transparent); box-shadow: 0 0 6px rgba(255, 255, 255, 0.45); opacity: 0; transition: opacity 0.18s ease-out; }
+.edge-glow.left { left: 11px; }
+.edge-glow.right { right: 11px; }
+.stage[data-drawer="none"] .edge-glow { opacity: 1; }
+.stage[data-wanted="mirror"] .edge-glow.left::after, .stage[data-wanted="calendar"] .edge-glow.right::after { opacity: 1; transition: opacity 0.26s ease-in; }
 .spins { animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .dots { position: absolute; left: 77px; top: 139px; transform: translate(-50%, -50%); display: flex; gap: 6px; }
@@ -157,19 +164,19 @@ p { margin: 0; }
 /* A record: the cover, its grooves, the label ring and the spindle hole (RecordDisc). */
 .disc { border-radius: 50%; background: #121212 var(--cover, none) center / cover no-repeat; overflow: hidden; transition: opacity 0.25s ease, transform 0.25s ease; }
 .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle closest-side, #000 0 10.9%, rgba(255, 255, 255, 0.22) 10.9% 16.4%, transparent 16.4% 53.3%, rgba(0, 0, 0, 0.16) 53.3% 54.7%, transparent 54.7% 65.3%, rgba(0, 0, 0, 0.16) 65.3% 66.7%, transparent 66.7% 77.3%, rgba(0, 0, 0, 0.16) 77.3% 78.7%, transparent 78.7% 80%, rgba(255, 255, 255, 0.1) 80% 81.8%, rgba(0, 0, 0, 0.8) 81.8% 100%); }
-.disc.big { position: absolute; left: 22px; top: 16px; width: 110px; height: 110px; }
+.disc.big { position: absolute; left: 29px; top: 16px; width: 110px; height: 110px; }
 .disc.changing { opacity: 0; transform: scale(0.9); }
 .stage.paused .spins { animation-play-state: paused; }
 #arm { transform-box: view-box; transform-origin: 152px 20px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .stage.paused #arm { transform: rotate(-24deg); }
 
 /* AirPods' battery peek, in the closed notch */
-.peek { position: absolute; left: 438.5px; top: 0; width: 333px; height: 32px; max-width: none; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+.peek { position: absolute; left: 445.5px; top: 0; width: 333px; height: 32px; max-width: none; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
 .stage.peeking .peek { opacity: 1; transition-delay: 0.12s; }
 
 
 /* Now Playing */
-.np .details { position: absolute; left: 180px; top: 40px; width: 320px; }
+.np .details { position: absolute; left: 187px; top: 40px; width: 320px; }
 .np .title-row { position: relative; height: 21px; padding-right: 30px; }
 .np .title { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 17px/21px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
 .np .subtitle { margin-top: 1px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 400 12px/15px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.6); }
@@ -210,7 +217,7 @@ p { margin: 0; }
 .controls .play .play-icon, .stage.paused .controls .play .pause-icon { display: none; }
 
 /* The band right of the notch: the player's icon (or the level while it changes) and the volume wedge */
-.band { position: absolute; right: 30px; top: 0; height: 32px; display: flex; align-items: center; gap: 8px; }
+.band { position: absolute; right: 37px; top: 0; height: 32px; display: flex; align-items: center; gap: 8px; }
 .readout { display: flex; align-items: center; gap: 4px; font: 500 11px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.85); }
 .readout .badge { width: 13px; height: 13px; border-radius: 3.5px; background: linear-gradient(#FA586A, #FB2D48); display: grid; place-items: center; }
 .readout .badge svg { width: 8px; height: 8px; fill: #fff; }
@@ -334,9 +341,9 @@ p { margin: 0; }
 .mac-bar span { display: flex; gap: 18px; }
 .mac-bar b { font-weight: 700; }
 .mac-bar em { font-style: normal; }
-.mac-notch { position: absolute; left: 151px; top: 0; display: flex; width: 1210px; height: 152px; background: #000; clip-path: path('M0 0Q8 0 8 8L8 130Q8 152 30 152L1180 152Q1202 152 1202 130L1202 8Q1202 0 1210 0Z'); }
+.mac-notch { position: absolute; left: 144px; top: 0; display: flex; width: 1224px; height: 152px; background: #000; clip-path: path('M0 0Q8 0 8 8L8 130Q8 152 30 152L1194 152Q1216 152 1216 130L1216 8Q1216 0 1224 0Z'); }
 .mac-notch img { flex: none; height: 152px; width: auto; max-width: none; }
-.parts { position: absolute; left: 50%; top: calc(14px + 152px * var(--k) + 36px); z-index: 2; display: grid; grid-template-columns: 340fr 530fr 340fr; width: calc(1210px * var(--k)); transform: translateX(-50%); }
+.parts { position: absolute; left: 50%; top: calc(14px + 152px * var(--k) + 36px); z-index: 2; display: grid; grid-template-columns: 340fr 544fr 340fr; width: calc(1224px * var(--k)); transform: translateX(-50%); }
 .part { position: relative; justify-self: center; display: grid; justify-items: center; gap: 4px; padding: 10px 16px 11px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(12, 8, 20, 0.5); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #fff; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease; }
 /* A line up to the part it names. */
 .part::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 30px; background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.5)); }
@@ -464,7 +471,7 @@ p { margin: 0; }
 .shot::after { content: ""; position: absolute; inset: 0; background: var(--grain); opacity: 0.06; mix-blend-mode: overlay; pointer-events: none; }
 .shot img { position: absolute; top: 0; left: 50%; z-index: 1; max-width: none; transform: translateX(-50%); }
 .shot img.strip { width: min(calc(var(--w) * 1.55px), 94%); height: auto; }
-.shot img.wide { width: min(94%, 530px); height: auto; border-radius: 0 0 26px 26px; }
+.shot img.wide { width: min(94%, 544px); height: auto; border-radius: 0 0 26px 26px; }
 .shot img.side-shot { width: min(80%, 380px); height: auto; border-radius: 0 0 22px 22px; }
 .detail .text { display: grid; justify-items: start; gap: 10px; padding: 26px 28px 28px; }
 .detail h3 { font-size: clamp(1.45rem, 2.2vw, 1.8rem); font-weight: 750; line-height: 1.1; letter-spacing: -0.025em; }
@@ -678,6 +685,8 @@ footer nav a:hover { color: var(--ink); }
         <div class="nook" id="nook">
           <div class="pages" id="pages">
             <div class="page np" aria-label="Now Playing">
+              <i class="edge-glow left" aria-hidden="true"></i>
+              <i class="edge-glow right" aria-hidden="true"></i>
               <div class="disc big spins" id="disc" aria-hidden="true"></div>
               <svg class="arm" width="168" height="132" viewBox="0 0 168 132" aria-hidden="true">
                 <g id="arm">
@@ -772,7 +781,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="mac-screen" id="mac-screen" role="img" aria-label="The notch open on a MacBook: the Mirror on the left, Now Playing in the middle with Midnight Drive spinning as a record, and the Calendar on the right">
         <div class="mac-canvas">
           <div class="mac-bar"><span><b>Finder</b><em>File</em><em>Edit</em></span><span>Sat 10 Oct&nbsp;&nbsp;21:26</span></div>
-          <div class="mac-notch"><img src="images/notch-mirror.png?v=7037b281fc" alt="" width="340" height="152"><img src="images/notch-playing.png?v=bc8ce427c3" alt="" width="530" height="152"><img src="images/notch-calendar.png?v=8dafa40f92" alt="" width="340" height="152"></div>
+          <div class="mac-notch"><img src="images/notch-mirror.png?v=7037b281fc" alt="" width="340" height="152"><img src="images/notch-playing.png?v=3f60fdddea" alt="" width="544" height="152"><img src="images/notch-calendar.png?v=8dafa40f92" alt="" width="340" height="152"></div>
         </div>
       </div>
     </div>
@@ -847,7 +856,7 @@ footer nav a:hover { color: var(--ink); }
         <p class="side"><b>A</b>Side A · Music and sound</p>
         <button class="track-row" type="button" id="track-playing" aria-expanded="true" aria-controls="detail-playing"><span class="no"><span>A1</span></span><span class="name">Now Playing</span><span class="sum">The record, the arm and every control</span><span class="fact">Spotify · Music</span></button>
         <div class="detail is-open" id="detail-playing" role="region" aria-labelledby="track-playing">
-          <div class="shot"><img class="wide" src="images/notch-playing.png?v=bc8ce427c3" alt="The open notch playing Midnight Drive by Neon Coast: the cover as a spinning record under its arm, with the playback line and controls" width="530" height="152" loading="lazy"></div>
+          <div class="shot"><img class="wide" src="images/notch-playing.png?v=3f60fdddea" alt="The open notch playing Midnight Drive by Neon Coast: the cover as a spinning record under its arm, with the playback line and controls" width="544" height="152" loading="lazy"></div>
           <div class="text"><h3>Your song, spinning in the notch</h3><p>Hover the notch and it opens into a turntable: the cover turns as a record under its arm, with the playback line, the controls, and Spotify's shuffle and repeat. Click the time to switch between the song's length and the time left.</p><button class="try" type="button" data-try="playing">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-closed" aria-expanded="false" aria-controls="detail-closed"><span class="no"><span>A2</span></span><span class="name">Closed notch</span><span class="sum">A tiny record and a wave beside it</span><span class="fact">7.5 rpm</span></button>
@@ -868,7 +877,7 @@ footer nav a:hover { color: var(--ink); }
         <p class="side"><b>B</b>Side B · Files, camera and calendar</p>
         <button class="track-row" type="button" id="track-tray" aria-expanded="false" aria-controls="detail-tray"><span class="no"><span>B1</span></span><span class="name">Tray</span><span class="sum">Somewhere to put files down</span><span class="fact">AirDrop</span></button>
         <div class="detail" id="detail-tray" role="region" aria-labelledby="track-tray">
-          <div class="shot"><img class="wide" src="images/notch-tray.png?v=75fb6461be" alt="The Tray: five files kept for later, with buttons for Downloads and Recent" width="530" height="152" loading="lazy"></div>
+          <div class="shot"><img class="wide" src="images/notch-tray.png?v=5afece0bb2" alt="The Tray: five files kept for later, with buttons for Downloads and Recent" width="544" height="152" loading="lazy"></div>
           <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-mirror" aria-expanded="false" aria-controls="detail-mirror"><span class="no"><span>B2</span></span><span class="name">Mirror</span><span class="sum">A camera check before every call</span><span class="fact">Left edge</span></button>
@@ -929,7 +938,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="downloads/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free trial</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.17 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.18 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -1002,9 +1011,9 @@ footer nav a:hover { color: var(--ink); }
   const tell = (name, detail) => dispatchEvent(new CustomEvent(`shawnotch:${name}`, { detail }));
 
   // Window coordinates, in points: the nook between a drawer on each side.
-  const width = 1210, height = 152, drawerWidth = 340;
-  const nookRect = { x: 340, w: 530 };
-  const notch = { x: 512.5, w: 185, h: 32 };
+  const width = 1224, height = 152, drawerWidth = 340;
+  const nookRect = { x: 340, w: 544 };
+  const notch = { x: 519.5, w: 185, h: 32 };
   const wing = 44, peekWidth = 333;
   // SwiftUI springs: response (s), damping fraction.
   const springs = { expand: [0.42, 0.74], collapse: [0.38, 0.9], drawer: [0.4, 0.84], page: [0.4, 0.86] };
@@ -1031,6 +1040,13 @@ footer nav a:hover { color: var(--ink); }
   let wingsOn = false, wingsTimer;
   let pointerInside = false, pinned = false, transition;
   let drawerTimer, drawerWanted = null;
+  // How long the pointer rests before the notch or a drawer opens: the app's default (Settings → Open speed).
+  const openDelay = 260;
+  // The drawer on its way, which its wall's glow shows.
+  function want(side) {
+    drawerWanted = side;
+    stage.dataset.wanted = side || '';
+  }
   let dragOffset = 0;
   let scale = 1;
   let peeking = false, peekTimer;
@@ -1643,7 +1659,7 @@ footer nav a:hover { color: var(--ink); }
     clearTimeout(transition);
     if (!expanded) return;
     clearTimeout(drawerTimer);
-    drawerWanted = null;
+    want(null);
     expanded = false;
     drawer = 'none';
     stopCamera();
@@ -1700,7 +1716,7 @@ footer nav a:hover { color: var(--ink); }
       pointerInside = inside;
       clearTimeout(transition);
       if (inside) {
-        if (!expanded) { pinned = false; transition = setTimeout(expand, 120); }
+        if (!expanded) { pinned = false; transition = setTimeout(expand, openDelay); }
       } else if (expanded && !pinned && !seeking && !wedgeDrag) {
         transition = setTimeout(collapse, 400);
       }
@@ -1723,14 +1739,14 @@ footer nav a:hover { color: var(--ink); }
 
     if (target === drawer) {
       clearTimeout(drawerTimer);
-      drawerWanted = null;
+      want(null);
     } else if (target === 'none') {
       clearTimeout(drawerTimer);
-      drawerWanted = null;
+      want(null);
       setDrawer('none');
     } else if (drawerWanted === null) {
-      drawerWanted = target;
-      drawerTimer = setTimeout(() => { drawerWanted = null; setDrawer(target); }, 110);
+      want(target);
+      drawerTimer = setTimeout(() => { want(null); setDrawer(target); }, openDelay);
     }
   }
 
@@ -2111,7 +2127,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.17";
+      item.textContent = "You're up to date: 1.7.18";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }
@@ -2154,7 +2170,7 @@ footer nav a:hover { color: var(--ink); }
   const showcase = $('showcase'), macScreen = $('mac-screen');
   new ResizeObserver(() => {
     const across = macScreen.clientWidth, close = across < 545;
-    const k = close ? Math.min(0.62, across / 560) : Math.max(across / 1512, Math.min(0.62, across / 1210));
+    const k = close ? Math.min(0.62, across / 560) : Math.max(across / 1512, Math.min(0.62, across / 1224));
     showcase.style.setProperty('--k', k.toFixed(4));
     showcase.classList.toggle('close', close);
   }).observe(macScreen);
