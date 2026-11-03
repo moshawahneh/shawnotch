@@ -921,11 +921,11 @@ footer nav a:hover { color: var(--ink); }
       </div>
       <div class="figures" data-reveal aria-label="ShawNotch in numbers">
         <div><b>0.02%</b><span>CPU while music plays</span></div>
-        <div><b>50–75<small> MB</small></b><span>of memory</span></div>
-        <div><b>4<small> MB</small></b><span>download</span></div>
+        <div><b>20–50<small> MB</small></b><span>of memory</span></div>
+        <div><b>5.6<small> MB</small></b><span>download</span></div>
         <div><b>7.5<small> rpm</small></b><span>the record's speed</span></div>
       </div>
-      <p class="footnote">Measured on a 14-inch MacBook Pro with Apple silicon while playing music. Your numbers will vary.</p>
+      <p class="footnote">Measured with ShawNotch 1.7.20 on a 14-inch MacBook Pro with Apple silicon while playing music, with Music Mode on. The Mirror's camera uses more while it's open. Your numbers will vary.</p>
       <div class="promises" data-reveal>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5A1.5 1.5 0 0 1 6 5h12a1.5 1.5 0 0 1 1.5 1.5V16h-15V6.5zM2.5 16h19l-.8 1.9a1.5 1.5 0 0 1-1.4.9H4.7a1.5 1.5 0 0 1-1.4-.9L2.5 16z"/></svg></span><h3>It stays on your Mac</h3><p>Your music, camera and calendar never leave it, and there's no account to make.</p></div>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>The camera's off until you look</h3><p>It's only on while the mirror is open, and macOS asks you before ShawNotch can use it.</p></div>
@@ -956,7 +956,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.19 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.20 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -2152,7 +2152,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.19";
+      item.textContent = "You're up to date: 1.7.20";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }

@@ -3,19 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.19</title>
-            <pubDate>Tue, 03 Nov 2026 14:10:04 +0000</pubDate>
+            <title>1.7.20</title>
+            <pubDate>Tue, 03 Nov 2026 22:05:51 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10719</sparkle:version>
-            <sparkle:shortVersionString>1.7.19</sparkle:shortVersionString>
+            <sparkle:version>10720</sparkle:version>
+            <sparkle:shortVersionString>1.7.20</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.19</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.20</h2>
 <ul>
-<li>ShawNotch is free until it goes on sale, with every feature and no licence needed. Settings → Licence says so.</li>
-<li>When it does go on sale, you'll still get 7 days free before it asks for a licence.</li>
+<li>ShawNotch uses far less memory: about 20 MB when it starts, and about 50 MB while Music Mode shows an album, down from 150 MB.</li>
+<li>Music Mode's poster lets go of its memory when the music stops, and so does the Mirror's light when you switch it off.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.19/ShawNotch-1.7.19.zip" length="4769614" type="application/octet-stream" sparkle:edSignature="UP2DzT5a++e/FsWp8R07LuqujI5O6s+HWcfqw1l6+KBmhx2XPgy9RGYg5ZAebBecR7iob/vCvOlvxL07mjE0Bg=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.20/ShawNotch-1.7.20.zip" length="4783491" type="application/octet-stream" sparkle:edSignature="X/1Bc9E0CeQyVuOqQXAUpQbxP7wReyUoLgX4VSeaFQTaqbRs2Zv5hkZWStiDkAQVMYSRzhAxUoOCt6wwhBNOBA=="/>
         </item>
     </channel>
 </rss>
