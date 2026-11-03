@@ -3,19 +3,18 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.20</title>
-            <pubDate>Tue, 03 Nov 2026 22:05:51 +0000</pubDate>
+            <title>1.7.21</title>
+            <pubDate>Tue, 03 Nov 2026 22:37:45 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10720</sparkle:version>
-            <sparkle:shortVersionString>1.7.20</sparkle:shortVersionString>
+            <sparkle:version>10721</sparkle:version>
+            <sparkle:shortVersionString>1.7.21</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.20</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.21</h2>
 <ul>
-<li>ShawNotch uses far less memory: about 20 MB when it starts, and about 50 MB while Music Mode shows an album, down from 150 MB.</li>
-<li>Music Mode's poster lets go of its memory when the music stops, and so does the Mirror's light when you switch it off.</li>
+<li>Pressing play and pause quickly no longer makes the playback line flip back, keep moving while paused, or jump: it stays where your last press left it.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.20/ShawNotch-1.7.20.zip" length="4783491" type="application/octet-stream" sparkle:edSignature="X/1Bc9E0CeQyVuOqQXAUpQbxP7wReyUoLgX4VSeaFQTaqbRs2Zv5hkZWStiDkAQVMYSRzhAxUoOCt6wwhBNOBA=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.21/ShawNotch-1.7.21.zip" length="4786228" type="application/octet-stream" sparkle:edSignature="ehcw3pLpFAJa3DQCRNLbRlvMwZqC9D3ZWyPM2UpHfpmLa7mSesL3BkpSYXjHaT9X3vHq+0exUvS95grkZyqdBg=="/>
         </item>
     </channel>
 </rss>
