@@ -155,20 +155,20 @@ p { margin: 0; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* The live nook: Now Playing, the Tray and the Calendar, rebuilt from the app's views in points (the stage is scaled as a whole). */
-.stage { color: #fff; }
+.stage, .replica { color: #fff; }
 /* A plain reset, outranked by every button's own rule (the camera button and the page dots keep theirs). */
-:where(.stage) button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.stage button:focus-visible { outline: 2px solid #FF6FAE; outline-offset: 1px; border-radius: 999px; }
-.stage svg { display: block; }
+:where(.stage, .replica) button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+:is(.stage, .replica) button:focus-visible { outline: 2px solid #FF6FAE; outline-offset: 1px; border-radius: 999px; }
+:is(.stage, .replica) svg { display: block; }
 
 /* A record: the cover, its grooves, the label ring and the spindle hole (RecordDisc). */
 .disc { border-radius: 50%; background: #121212 var(--cover, none) center / cover no-repeat; overflow: hidden; transition: opacity 0.25s ease, transform 0.25s ease; }
 .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle closest-side, #000 0 10.9%, rgba(255, 255, 255, 0.22) 10.9% 16.4%, transparent 16.4% 53.3%, rgba(0, 0, 0, 0.16) 53.3% 54.7%, transparent 54.7% 65.3%, rgba(0, 0, 0, 0.16) 65.3% 66.7%, transparent 66.7% 77.3%, rgba(0, 0, 0, 0.16) 77.3% 78.7%, transparent 78.7% 80%, rgba(255, 255, 255, 0.1) 80% 81.8%, rgba(0, 0, 0, 0.8) 81.8% 100%); }
 .disc.big { position: absolute; left: 29px; top: 16px; width: 110px; height: 110px; }
 .disc.changing { opacity: 0; transform: scale(0.9); }
-.stage.paused .spins { animation-play-state: paused; }
-#arm { transform-box: view-box; transform-origin: 152px 20px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.stage.paused #arm { transform: rotate(-24deg); }
+:is(.stage, .replica).paused .spins { animation-play-state: paused; }
+#arm, .replica .arm-swing { transform-box: view-box; transform-origin: 152px 20px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.stage.paused #arm, .replica.paused .arm-swing { transform: rotate(-24deg); }
 
 /* AirPods' battery peek, in the closed notch */
 .peek { position: absolute; left: 445.5px; top: 0; width: 333px; height: 32px; max-width: none; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
@@ -213,8 +213,8 @@ p { margin: 0; }
 .controls .play { width: 34px; height: 34px; background: #fff; color: #000; }
 .controls .play:hover { background: #fff; transform: scale(1.06); }
 .controls .play svg { width: 16px; height: 16px; }
-.controls .play .pause-icon, .stage.paused .controls .play .play-icon { display: block; }
-.controls .play .play-icon, .stage.paused .controls .play .pause-icon { display: none; }
+.controls .play .pause-icon, :is(.stage, .replica).paused .controls .play .play-icon { display: block; }
+.controls .play .play-icon, :is(.stage, .replica).paused .controls .play .pause-icon { display: none; }
 
 /* The band right of the notch: the player's icon (or the level while it changes) and the volume wedge */
 .band { position: absolute; right: 37px; top: 0; height: 32px; display: flex; align-items: center; gap: 8px; }
@@ -473,6 +473,24 @@ p { margin: 0; }
 .shot img.strip { width: min(calc(var(--w) * 1.55px), 94%); height: auto; }
 .shot img.wide { width: min(94%, 544px); height: auto; border-radius: 0 0 26px 26px; }
 .shot img.side-shot { width: min(80%, 380px); height: auto; border-radius: 0 0 22px 22px; }
+/* Live pictures: Now Playing, the closed notch and the volume bars, copied from the notch at the top of the page and kept in step with it. Drawn in points and scaled to fit, like the notch; the picture underneath is for browsers without scripts. */
+.shot.is-live > img { visibility: hidden; }
+.live { position: absolute; top: 0; left: 50%; z-index: 1; transform: translateX(-50%); }
+.live.wide { width: min(94%, 544px); aspect-ratio: 544 / 152; }
+.live.strip { width: min(calc(var(--w) * 1.55px), 94%); aspect-ratio: var(--w) / 32; }
+.replica { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform: scale(var(--k, 1)); font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.replica.np-live { width: 544px; height: 152px; overflow: hidden; background: #000; border-radius: 0 0 26px 26px; }
+.replica .edge-glow { display: none; }
+.replica.band-live { width: 166px; height: 32px; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 10px; }
+.replica.band-live .band { position: static; }
+.replica.closed-live { width: 273px; height: 32px; cursor: pointer; }
+.closed-live .notch-shape { position: absolute; inset: 0; background: #000; transition: clip-path 0.38s cubic-bezier(0.3, 1.2, 0.5, 1); }
+.closed-live .wings-live { position: absolute; inset: 0; opacity: 0; }
+.closed-live.wings-on .wings-live { opacity: 1; transition: opacity 0.15s ease-out; }
+.closed-live .mini { position: absolute; left: 14.5px; top: 5.5px; width: 21px; height: 21px; }
+.closed-live canvas { position: absolute; left: 234px; top: 7px; width: 28px; height: 18px; }
+.live-note { position: absolute; left: 50%; top: calc(100% + 16px); transform: translateX(-50%); font: 500 12px/1 var(--mono); letter-spacing: 0.04em; color: var(--faint); white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+.live.is-paused .live-note { opacity: 1; }
 .detail .text { display: grid; justify-items: start; gap: 10px; padding: 26px 28px 28px; }
 .detail h3 { font-size: clamp(1.45rem, 2.2vw, 1.8rem); font-weight: 750; line-height: 1.1; letter-spacing: -0.025em; }
 .detail p { color: var(--muted); }
@@ -781,7 +799,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="mac-screen" id="mac-screen" role="img" aria-label="The notch open on a MacBook: the Mirror on the left, Now Playing in the middle with Midnight Drive spinning as a record, and the Calendar on the right">
         <div class="mac-canvas">
           <div class="mac-bar"><span><b>Finder</b><em>File</em><em>Edit</em></span><span>Sat 10 Oct&nbsp;&nbsp;21:26</span></div>
-          <div class="mac-notch"><img src="images/notch-mirror.png?v=7037b281fc" alt="" width="340" height="152"><img src="images/notch-playing.png?v=3f60fdddea" alt="" width="544" height="152"><img src="images/notch-calendar.png?v=8dafa40f92" alt="" width="340" height="152"></div>
+          <div class="mac-notch"><img src="images/notch-mirror.png?v=7037b281fc" alt="" width="340" height="152"><img src="images/notch-playing.png?v=3f60fdddea" alt="" width="544" height="152"><img src="images/notch-calendar.png?v=62f41e8685" alt="" width="340" height="152"></div>
         </div>
       </div>
     </div>
@@ -856,17 +874,17 @@ footer nav a:hover { color: var(--ink); }
         <p class="side"><b>A</b>Side A · Music and sound</p>
         <button class="track-row" type="button" id="track-playing" aria-expanded="true" aria-controls="detail-playing"><span class="no"><span>A1</span></span><span class="name">Now Playing</span><span class="sum">The record, the arm and every control</span><span class="fact">Spotify · Music</span></button>
         <div class="detail is-open" id="detail-playing" role="region" aria-labelledby="track-playing">
-          <div class="shot"><img class="wide" src="images/notch-playing.png?v=3f60fdddea" alt="The open notch playing Midnight Drive by Neon Coast: the cover as a spinning record under its arm, with the playback line and controls" width="544" height="152" loading="lazy"></div>
+          <div class="shot" data-live="playing"><img class="wide" src="images/notch-playing.png?v=3f60fdddea" alt="The open notch playing Midnight Drive by Neon Coast: the cover as a spinning record under its arm, with the playback line and controls" width="544" height="152" loading="lazy"></div>
           <div class="text"><h3>Your song, spinning in the notch</h3><p>Hover the notch and it opens into a turntable: the cover turns as a record under its arm, with the playback line, the controls, and Spotify's shuffle and repeat. Click the time to switch between the song's length and the time left.</p><button class="try" type="button" data-try="playing">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-closed" aria-expanded="false" aria-controls="detail-closed"><span class="no"><span>A2</span></span><span class="name">Closed notch</span><span class="sum">A tiny record and a wave beside it</span><span class="fact">7.5 rpm</span></button>
         <div class="detail" id="detail-closed" role="region" aria-labelledby="track-closed">
-          <div class="shot"><img class="strip" style="--w: 273" src="images/wings.png?v=6c151d521d" alt="The closed notch with a tiny spinning record on the left and a wave on the right" width="273" height="32" loading="lazy"></div>
+          <div class="shot" data-live="closed"><img class="strip" style="--w: 273" src="images/wings.png?v=6c151d521d" alt="The closed notch with a tiny spinning record on the left and a wave on the right" width="273" height="32" loading="lazy"></div>
           <div class="text"><h3>A record that keeps spinning</h3><p>With the notch closed, the cover turns as a tiny record beside it and a wave drifts in the album's colour. Pause, and they fold away.</p><button class="try" type="button" data-try="wings">Play it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-volume" aria-expanded="false" aria-controls="detail-volume"><span class="no"><span>A3</span></span><span class="name">Volume</span><span class="sum">Bars you can see, and drag</span><span class="fact">18 bars</span></button>
         <div class="detail" id="detail-volume" role="region" aria-labelledby="track-volume">
-          <div class="shot"><img class="strip" style="--w: 165.5" src="images/volume.png?v=1145b30214" alt="The volume bars at 64 percent" width="166" height="32" loading="lazy"></div>
+          <div class="shot" data-live="volume"><img class="strip" style="--w: 165.5" src="images/volume.png?v=1145b30214" alt="The volume bars at 64 percent" width="166" height="32" loading="lazy"></div>
           <div class="text"><h3>Volume you can see</h3><p>Equalizer bars beside the notch show your volume and dance with the music. Drag or scroll across them to change it.</p><button class="try" type="button" data-try="volume">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-airpods" aria-expanded="false" aria-controls="detail-airpods"><span class="no"><span>A4</span></span><span class="name">AirPods</span><span class="sum">Battery at a glance</span><span class="fact">20% · 10%</span></button>
@@ -887,7 +905,7 @@ footer nav a:hover { color: var(--ink); }
         </div>
         <button class="track-row" type="button" id="track-calendar" aria-expanded="false" aria-controls="detail-calendar"><span class="no"><span>B3</span></span><span class="name">Calendar</span><span class="sum">Your day, and a quick way to add to it</span><span class="fact">Right edge</span></button>
         <div class="detail" id="detail-calendar" role="region" aria-labelledby="track-calendar">
-          <div class="shot"><img class="side-shot" src="images/notch-calendar.png?v=8dafa40f92" alt="The Calendar: Saturday the 10th, dinner with Sam now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
+          <div class="shot"><img class="side-shot" src="images/notch-calendar.png?v=62f41e8685" alt="The Calendar: Saturday the 10th, dinner with Jonathan now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
       </div>
@@ -911,7 +929,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="promises" data-reveal>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5A1.5 1.5 0 0 1 6 5h12a1.5 1.5 0 0 1 1.5 1.5V16h-15V6.5zM2.5 16h19l-.8 1.9a1.5 1.5 0 0 1-1.4.9H4.7a1.5 1.5 0 0 1-1.4-.9L2.5 16z"/></svg></span><h3>It stays on your Mac</h3><p>Your music, camera and calendar never leave it, and there's no account to make.</p></div>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>The camera's off until you look</h3><p>It's only on while the mirror is open, and macOS asks you before ShawNotch can use it.</p></div>
-        <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9s-1.3 6.5-3.7 9c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3z"/></svg></span><h3>Online for two things</h3><p>Checking your licence and looking for updates. Nothing else.</p></div>
+        <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9s-1.3 6.5-3.7 9c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3z"/></svg></span><h3>Online for three things</h3><p>Checking your licence, looking for updates, and seeing whether ShawNotch is on sale yet. Nothing else.</p></div>
       </div>
     </div>
   </section>
@@ -1276,6 +1294,11 @@ footer nav a:hover { color: var(--ink); }
     if (step) { event.preventDefault(); setVolume(player.volume + step / 16); }
   });
 
+  // How far a lit bar reaches at a moment while the music plays: two waves at its own speeds.
+  function swing(i, time) {
+    const w = 0.5 + 0.25 * Math.sin(time * (7 + (i * 3) % 5) + i * 1.7) + 0.25 * Math.sin(time * (11 + (i * 7) % 4) + i * 0.6);
+    return 0.55 + 0.45 * w;
+  }
   let danceFrame = 0;
   function runDance() {
     if (danceFrame) return;
@@ -1287,11 +1310,7 @@ footer nav a:hover { color: var(--ink); }
     const time = now / 1000;
     bars.forEach((bar, i) => {
       const full = 3 + 15 * i / 17;
-      let factor = 1;
-      if (on && bar.classList.contains('lit')) {
-        const w = 0.5 + 0.25 * Math.sin(time * (7 + (i * 3) % 5) + i * 1.7) + 0.25 * Math.sin(time * (11 + (i * 7) % 4) + i * 0.6);
-        factor = 0.55 + 0.45 * w;
-      }
+      const factor = on && bar.classList.contains('lit') ? swing(i, time) : 1;
       bar.style.height = `${Math.max(3, full * factor)}px`;
     });
     if (on) danceFrame = requestAnimationFrame(dance);
@@ -1452,7 +1471,7 @@ footer nav a:hover { color: var(--ink); }
     7: [{ title: 'Gym', start: 7 * 60, end: 8 * 60, color: '#30D158' }],
     9: [{ title: 'Haircut', start: 18 * 60, end: 18 * 60 + 45, color: '#BF5AF2' }],
     10: [
-      { title: 'Dinner with Sam', start: 19 * 60 + 30, end: 22 * 60, color: '#FF9F0A' },
+      { title: 'Dinner with Jonathan', start: 19 * 60 + 30, end: 22 * 60, color: '#FF9F0A' },
       { title: 'Call with Mia', start: 22 * 60, end: 22 * 60 + 30, color: '#0A84FF', join: true },
       { title: 'Late film', start: 23 * 60 + 15, end: 23 * 60 + 59, color: '#FF375F' },
     ],
@@ -1926,22 +1945,22 @@ footer nav a:hover { color: var(--ink); }
   const context = wave.getContext('2d');
   context.scale(3, 3);
   const layers = [[5.5, 1.6, 2.2, 1, 1.8], [3.5, 2.4, -1.6, 0.45, 1.2]];
-  function drawWave(time) {
-    context.clearRect(0, 0, 28, 18);
+  function drawWave(time, target = context) {
+    target.clearRect(0, 0, 28, 18);
     layers.forEach(([amplitude, cycles, speed, opacity, lineWidth], layer) => {
-      context.beginPath();
+      target.beginPath();
       for (let step = 0; step <= 56; step++) {
         const x = step / 2, position = x / 28;
         const y = 9 + amplitude * Math.sin(position * Math.PI) * Math.sin(position * cycles * 2 * Math.PI + time * speed + layer * 1.3);
-        step ? context.lineTo(x, y) : context.moveTo(x, y);
+        step ? target.lineTo(x, y) : target.moveTo(x, y);
       }
-      context.strokeStyle = waveColor;
-      context.globalAlpha = opacity;
-      context.lineWidth = lineWidth;
-      context.lineCap = context.lineJoin = 'round';
-      context.stroke();
+      target.strokeStyle = waveColor;
+      target.globalAlpha = opacity;
+      target.lineWidth = lineWidth;
+      target.lineCap = target.lineJoin = 'round';
+      target.stroke();
     });
-    context.globalAlpha = 1;
+    target.globalAlpha = 1;
   }
 
   function draw(now) {
@@ -2024,6 +2043,11 @@ footer nav a:hover { color: var(--ink); }
     setRepeat,
     nextRepeat,
     show: apply,
+    seek: setElapsed,
+    // For the track list's live pictures.
+    path: notchPath,
+    drawWave,
+    swing,
   };
 })();
 
@@ -2288,6 +2312,205 @@ footer nav a:hover { color: var(--ink); }
       tracks[(index + step + tracks.length) % tracks.length].focus();
     });
   });
+  // MARK: Live pictures in the track list: Now Playing, the closed notch and the volume bars
+
+  // Copies of the notch's own parts, in step with the notch at the top of the
+  // page: the song, its colour, the time, the volume and Music Mode. Their
+  // buttons, playback line and bars work it too. Like the notch, they only
+  // move while its music plays.
+  const stage = $('stage');
+  const make = (tag, className) => Object.assign(document.createElement(tag), { className });
+
+  // A copy of part of the notch that follows it: whatever changes in the
+  // original's text, classes and styles changes in the copy. Returns the
+  // copy, and a way back from any of its elements to the original's.
+  function mirror(original) {
+    const copy = original.cloneNode(true);
+    const from = [original, ...original.querySelectorAll('*')];
+    const to = [copy, ...copy.querySelectorAll('*')];
+    const twins = new Map(from.map((element, i) => [element, to[i]]));
+    const originals = new Map(to.map((element, i) => [element, from[i]]));
+    copy.removeAttribute('style');
+    to.forEach(element => {
+      if (!element.id) return;
+      element.dataset.part = element.id;
+      element.removeAttribute('id');
+    });
+    new MutationObserver(records => records.forEach(record => {
+      const target = record.type === 'characterData' ? record.target.parentElement : record.target;
+      const twin = twins.get(target);
+      if (!twin) return;
+      if (record.type !== 'attributes') {
+        if (!target.children.length) twin.textContent = target.textContent;
+        return;
+      }
+      const name = record.attributeName;
+      // The page's own fade as it slides, and the bars' dance, which the
+      // copies do for themselves (the notch's bars only dance while it's open).
+      if (name === 'id' || (name === 'style' && (target === original || target.parentElement?.classList.contains('wedge')))) return;
+      const value = target.getAttribute(name);
+      value === null ? twin.removeAttribute(name) : twin.setAttribute(name, value);
+    })).observe(original, { subtree: true, attributes: true, characterData: true, childList: true });
+    // A press on one of the copy's buttons presses the notch's, without
+    // reaching the notch around it (a click there would open it).
+    copy.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (button && copy.contains(button)) originals.get(button)?.dispatchEvent(new MouseEvent('click'));
+    });
+    return copy;
+  }
+
+  // The playback line: click or drag anywhere on it.
+  function seekable(line) {
+    let dragging = false;
+    const seek = event => {
+      const box = line.getBoundingClientRect();
+      notch.seek(Math.max(0, Math.min(1, (event.clientX - box.left) / box.width)) * notch.song.length);
+    };
+    line.addEventListener('pointerdown', event => { dragging = true; capture(line, event); seek(event); });
+    line.addEventListener('pointermove', event => { if (dragging) seek(event); });
+    line.addEventListener('pointerup', () => { dragging = false; });
+    line.addEventListener('pointercancel', () => { dragging = false; });
+    line.addEventListener('keydown', event => {
+      const step = { ArrowRight: 5, ArrowLeft: -5 }[event.key];
+      if (step) { event.preventDefault(); notch.seek(notch.elapsed() + step); }
+    });
+  }
+
+  // The volume bars: drag across them, or scroll sideways (scrolling down
+  // the page over them still scrolls the page).
+  function adjustable(wedge) {
+    let dragging = false;
+    const level = event => {
+      const box = wedge.getBoundingClientRect();
+      return (event.clientX - box.left) / box.width;
+    };
+    wedge.addEventListener('pointerdown', event => { dragging = true; capture(wedge, event); notch.setVolume(level(event)); });
+    wedge.addEventListener('pointermove', event => { if (dragging) notch.setVolume(level(event)); });
+    wedge.addEventListener('pointerup', () => { dragging = false; });
+    wedge.addEventListener('pointercancel', () => { dragging = false; });
+    wedge.addEventListener('wheel', event => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      notch.setVolume(notch.volume + event.deltaX / 300);
+    }, { passive: false });
+    wedge.addEventListener('keydown', event => {
+      const step = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[event.key];
+      if (step) { event.preventDefault(); notch.setVolume(notch.volume + step / 16); }
+    });
+  }
+
+  // Each live picture: its frame on the page, the copy drawn in points
+  // inside it, and whether it's on screen (only those on screen move).
+  const lives = [];
+  function place(shot, replica, size, width) {
+    const frame = make('div', `live ${size}`);
+    frame.style.setProperty('--w', width);
+    frame.appendChild(replica);
+    shot.appendChild(frame);
+    shot.classList.add('is-live');
+    const live = { frame, replica, wedges: [...replica.querySelectorAll('.wedge')], onScreen: false };
+    new ResizeObserver(() => replica.style.setProperty('--k', frame.clientWidth / width)).observe(frame);
+    new IntersectionObserver(([entry]) => {
+      live.onScreen = entry.isIntersecting;
+      run();
+    }).observe(frame);
+    live.wedges.forEach(adjustable);
+    lives.push(live);
+    return live;
+  }
+
+  function nowPlaying(shot) {
+    const page = mirror(stage.querySelector('.page.np'));
+    page.querySelector('[data-part="arm"]').classList.add('arm-swing');
+    seekable(page.querySelector('[data-part="np-line"]'));
+    const replica = make('div', 'replica np-live');
+    replica.appendChild(page);
+    place(shot, replica, 'wide', 544);
+  }
+
+  function volume(shot) {
+    const replica = make('div', 'replica band-live');
+    replica.appendChild(mirror(stage.querySelector('.np .band')));
+    place(shot, replica, 'strip', 166);
+  }
+
+  // The closed notch: the tiny record and the wave either side while the
+  // music plays, folding back into the plain notch when it stops. A click
+  // plays or pauses.
+  let closed;
+  function closedNotch(shot) {
+    const replica = make('div', 'replica closed-live');
+    const shape = make('div', 'notch-shape');
+    const wings = make('div', 'wings-live');
+    const mini = make('div', 'mini disc spins');
+    const canvas = Object.assign(make('canvas', ''), { width: 84, height: 54 });
+    wings.append(mini, canvas);
+    replica.append(shape, wings);
+    replica.setAttribute('role', 'button');
+    replica.setAttribute('tabindex', '0');
+    replica.addEventListener('click', () => notch.toggle());
+    replica.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      notch.toggle();
+    });
+    const live = place(shot, replica, 'strip', 273);
+    const note = make('span', 'live-note');
+    note.textContent = 'Paused · click the notch to play';
+    live.frame.appendChild(note);
+    const context = canvas.getContext('2d');
+    context.scale(3, 3);
+    closed = Object.assign(live, { shape, mini, context, wingsTimer: 0 });
+  }
+
+  // Song, colour and play state, for what isn't a copy of the notch.
+  function renderLive() {
+    const playing = notch.playing;
+    lives.forEach(live => {
+      live.replica.classList.toggle('paused', !playing);
+      live.frame.classList.toggle('is-paused', !playing);
+    });
+    if (!closed) return;
+    closed.mini.style.setProperty('--cover', `url(images/cover-${notch.song.id}.png)`);
+    closed.shape.style.clipPath = `path('${playing ? notch.path(0, 273, 32, 6, 10) : notch.path(44, 185, 32, 6, 10)}')`;
+    closed.replica.setAttribute('aria-label', playing ? 'Pause the music' : 'Play the music');
+    clearTimeout(closed.wingsTimer);
+    if (!playing) closed.replica.classList.remove('wings-on');
+    else closed.wingsTimer = setTimeout(() => closed.replica.classList.add('wings-on'), reduce ? 0 : 300);
+  }
+
+  // The bars dance and the wave drifts, on screen and while the music plays.
+  let frame = 0;
+  function run() {
+    if (!frame) frame = requestAnimationFrame(animate);
+  }
+  function animate(now) {
+    frame = 0;
+    const time = now / 1000;
+    let again = false;
+    lives.forEach(live => {
+      const moving = live.onScreen && notch.playing;
+      again ||= moving && !reduce;
+      live.wedges.forEach(wedge => {
+        const on = moving && !reduce && notch.volume > 0 && !wedge.classList.contains('adjusting');
+        [...wedge.children].forEach((bar, i) => {
+          const factor = on && bar.classList.contains('lit') ? notch.swing(i, time) : 1;
+          bar.style.height = `${Math.max(3, (3 + 15 * i / 17) * factor)}px`;
+        });
+      });
+    });
+    if (closed?.onScreen && notch.playing) notch.drawWave(reduce ? 1.7 : time, closed.context);
+    if (again) frame = requestAnimationFrame(animate);
+  }
+
+  const builders = { playing: nowPlaying, closed: closedNotch, volume };
+  document.querySelectorAll('.shot[data-live]').forEach(shot => builders[shot.dataset.live](shot));
+  renderLive();
+  run();
+  follow('play', () => { renderLive(); run(); });
+  follow('song', () => { renderLive(); run(); });
+
   // Try buttons open their part in the notch, which is always at the top of the screen.
   document.querySelectorAll('[data-try]').forEach(button => button.addEventListener('click', () => {
     const part = button.dataset.try;
