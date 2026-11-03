@@ -15,7 +15,7 @@
 <li>When it does go on sale, you'll still get 7 days free before it asks for a licence.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.19/ShawNotch-1.7.19.zip" length="4769614" type="application/octet-stream" sparkle:edSignature="UP2DzT5a++e/FsWp8R07LuqujI5O6s+HWcfqw1l6+KBmhx2XPgy9RGYg5ZAebBecR7iob/vCvOlvxL07mjE0Bg=="/>
+            <enclosure url="https://shawnotch.com/downloads/ShawNotch-1.7.19.zip" length="4769614" type="application/octet-stream" sparkle:edSignature="UP2DzT5a++e/FsWp8R07LuqujI5O6s+HWcfqw1l6+KBmhx2XPgy9RGYg5ZAebBecR7iob/vCvOlvxL07mjE0Bg=="/>
         </item>
     </channel>
 </rss>
