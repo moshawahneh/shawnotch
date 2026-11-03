@@ -2409,13 +2409,15 @@ footer nav a:hover { color: var(--ink); }
     frame.appendChild(replica);
     shot.appendChild(frame);
     shot.classList.add('is-live');
-    const live = { frame, replica, wedges: [...replica.querySelectorAll('.wedge')], onScreen: false };
+    const wedges = [...replica.querySelectorAll('.wedge')];
+    const live = { frame, replica, wedges: wedges.map(wedge => ({ wedge, bars: [...wedge.children], dancing: false })), onScreen: false };
     new ResizeObserver(() => replica.style.setProperty('--k', frame.clientWidth / width)).observe(frame);
     new IntersectionObserver(([entry]) => {
       live.onScreen = entry.isIntersecting;
+      if (live.onScreen) syncSpins();
       run();
     }).observe(frame);
-    live.wedges.forEach(adjustable);
+    wedges.forEach(adjustable);
     lives.push(live);
     return live;
   }
@@ -2464,6 +2466,19 @@ footer nav a:hover { color: var(--ink); }
     closed = Object.assign(live, { shape, mini, context, wingsTimer: 0 });
   }
 
+  // The copies' records turn with the notch's own. A copy that's hidden and
+  // shown again starts its turn from the top, so it's put back in step.
+  const spinOf = element => element.getAnimations().find(animation => animation.animationName === 'spin');
+  function syncSpins() {
+    requestAnimationFrame(() => [[$('disc'), '.np-live .disc'], [$('mini-disc'), '.closed-live .mini']].forEach(([original, selector]) => {
+      const from = spinOf(original);
+      document.querySelectorAll(selector).forEach(copy => {
+        const to = spinOf(copy);
+        if (from && to) to.currentTime = from.currentTime;
+      });
+    }));
+  }
+
   // Song, colour and play state, for what isn't a copy of the notch.
   function renderLive() {
     const playing = notch.playing;
@@ -2492,9 +2507,12 @@ footer nav a:hover { color: var(--ink); }
     lives.forEach(live => {
       const moving = live.onScreen && notch.playing;
       again ||= moving && !reduce;
-      live.wedges.forEach(wedge => {
-        const on = moving && !reduce && notch.volume > 0 && !wedge.classList.contains('adjusting');
-        [...wedge.children].forEach((bar, i) => {
+      live.wedges.forEach(entry => {
+        const on = moving && !reduce && notch.volume > 0 && !entry.wedge.classList.contains('adjusting');
+        // Still bars stay as they are: only a dance, or its end, moves them.
+        if (!on && !entry.dancing) return;
+        entry.dancing = on;
+        entry.bars.forEach((bar, i) => {
           const factor = on && bar.classList.contains('lit') ? notch.swing(i, time) : 1;
           bar.style.height = `${Math.max(3, (3 + 15 * i / 17) * factor)}px`;
         });
@@ -2508,7 +2526,7 @@ footer nav a:hover { color: var(--ink); }
   document.querySelectorAll('.shot[data-live]').forEach(shot => builders[shot.dataset.live](shot));
   renderLive();
   run();
-  follow('play', () => { renderLive(); run(); });
+  follow('play', () => { renderLive(); syncSpins(); run(); });
   follow('song', () => { renderLive(); run(); });
 
   // Try buttons open their part in the notch, which is always at the top of the screen.
