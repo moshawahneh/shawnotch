@@ -3,18 +3,22 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.21</title>
-            <pubDate>Tue, 03 Nov 2026 22:37:45 +0000</pubDate>
+            <title>1.7.22</title>
+            <pubDate>Sat, 07 Nov 2026 23:44:29 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10721</sparkle:version>
-            <sparkle:shortVersionString>1.7.21</sparkle:shortVersionString>
+            <sparkle:version>10722</sparkle:version>
+            <sparkle:shortVersionString>1.7.22</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.21</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.22</h2>
 <ul>
-<li>Pressing play and pause quickly no longer makes the playback line flip back, keep moving while paused, or jump: it stays where your last press left it.</li>
+<li>The equalizer beside the closed notch moves with your music, and rests when it's quiet. macOS asks once to let ShawNotch hear your music app; nothing is recorded. Settings → Now Playing → React to the sound.</li>
+<li>Choose its look in Settings → Now Playing → Equalizer: Waves, Bars, an LED meter or a scrolling waveform.</li>
+<li>Colours: the playback line, the equalizer, the volume bars and the Music Mode button can all take the cover's colours, or keep to the album's one colour.</li>
+<li>A long artist line no longer runs under the Music Mode button.</li>
+<li>Music Mode's poster no longer keeps the last song's cover in memory after it changes.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.21/ShawNotch-1.7.21.zip" length="4786228" type="application/octet-stream" sparkle:edSignature="ehcw3pLpFAJa3DQCRNLbRlvMwZqC9D3ZWyPM2UpHfpmLa7mSesL3BkpSYXjHaT9X3vHq+0exUvS95grkZyqdBg=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.22/ShawNotch-1.7.22.zip" length="4910971" type="application/octet-stream" sparkle:edSignature="KuO3cssV+BZ3ddPytmIfbUIKCusWRLfl/d7PKQM5I5oI/jMHDW0zKF95+/VHX9fDjSdUtSljNb9mboLPEh3XDQ=="/>
         </item>
     </channel>
 </rss>
