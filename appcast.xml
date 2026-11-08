@@ -3,22 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.22</title>
-            <pubDate>Sat, 07 Nov 2026 23:44:29 +0000</pubDate>
+            <title>1.7.23</title>
+            <pubDate>Sun, 08 Nov 2026 17:59:04 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10722</sparkle:version>
-            <sparkle:shortVersionString>1.7.22</sparkle:shortVersionString>
+            <sparkle:version>10723</sparkle:version>
+            <sparkle:shortVersionString>1.7.23</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.22</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.23</h2>
 <ul>
-<li>The equalizer beside the closed notch moves with your music, and rests when it's quiet. macOS asks once to let ShawNotch hear your music app; nothing is recorded. Settings → Now Playing → React to the sound.</li>
-<li>Choose its look in Settings → Now Playing → Equalizer: Waves, Bars, an LED meter or a scrolling waveform.</li>
-<li>Colours: the playback line, the equalizer, the volume bars and the Music Mode button can all take the cover's colours, or keep to the album's one colour.</li>
-<li>A long artist line no longer runs under the Music Mode button.</li>
-<li>Music Mode's poster no longer keeps the last song's cover in memory after it changes.</li>
+<li>The equalizer keeps hearing your music when you switch to AirPods or headphones, when a browser starts playing in another tab, and when your music app takes a moment to start its sound.</li>
+<li>When ShawNotch can't hear your music (no permission, or macOS before 14.2), the equalizer no longer keeps checking 30 times a second.</li>
+<li>Moving the playback line right after pressing play or pause no longer jumps back.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.22/ShawNotch-1.7.22.zip" length="4910971" type="application/octet-stream" sparkle:edSignature="KuO3cssV+BZ3ddPytmIfbUIKCusWRLfl/d7PKQM5I5oI/jMHDW0zKF95+/VHX9fDjSdUtSljNb9mboLPEh3XDQ=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.23/ShawNotch-1.7.23.zip" length="4925479" type="application/octet-stream" sparkle:edSignature="WC0MBnNvyLeXrdTCVUh8dQSS16vKKq2HHgGVmt58fbnIJtYhrB+OkxHTW/qc5kU0twiwsXsxGNk55uo4B+XzDQ=="/>
         </item>
     </channel>
 </rss>
