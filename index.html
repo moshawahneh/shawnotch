@@ -325,6 +325,10 @@ p { margin: 0; }
 .hero .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; margin-top: 22px; font: 400 13px/1.6 var(--mono); color: rgba(244, 241, 248, 0.6); }
 .hero .meta span { display: inline-flex; align-items: center; gap: 7px; }
 .hero .meta span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--brand); opacity: 0.8; }
+/* The promises right under the buttons, a little brighter; the system line follows close under them. */
+.hero .meta.badges { color: rgba(244, 241, 248, 0.82); }
+.hero .meta.badges + .meta { margin-top: 6px; }
+.hero .screens { max-width: 34rem; margin: 10px auto 0; font-size: 13px; line-height: 1.55; color: rgba(244, 241, 248, 0.5); text-align: center; }
 .mm-note { margin-top: 20px; max-width: 46ch; padding: 12px 16px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--accent) 14%, transparent); font-size: 14.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.9); }
 .mm-note a { color: inherit; font-weight: 600; }
 
@@ -786,12 +790,14 @@ footer nav a:hover { color: var(--ink); }
   <div class="wrap hero-copy">
     <p class="kicker rise"><i></i>For MacBooks with a notch, and Macs without one</p>
     <h1 class="rise">A <span class="glow">turntable</span> in your MacBook's notch</h1>
-    <p class="lede rise">The song you're playing spins in the notch as a record. Files wait in a tray, a mirror checks your camera, and Music Mode dresses your desktop in the album's colour.</p>
+    <p class="lede rise">A turntable for your music, a drop-tray for your files, and a mirror for your calls.</p>
     <div class="actions rise">
       <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
       <span class="button" aria-disabled="true">Buy · Coming soon</span>
     </div>
+    <p class="meta badges rise"><span>Native Mac app</span><span>1% CPU footprint</span><span>100% local privacy (no analytics)</span></p>
     <p class="meta rise"><span>macOS 14 Sonoma or later</span><span>Apple silicon and Intel</span><span>Notarized by Apple</span></p>
+    <p class="screens rise">Works on Macs without a notch too: older Macs, and external monitors while your MacBook's lid is closed, get a floating notch at the top of the screen.</p>
     <p class="mm-note" id="mm-note" role="status" hidden>Music Mode is on, so this page has taken the album's colours. On your Mac, it's your whole desktop. <a href="#music-mode">See it</a></p>
   </div>
   <figure class="showcase rise" id="showcase">
@@ -971,7 +977,7 @@ footer nav a:hover { color: var(--ink); }
       </div>
       <div class="faq-list" data-reveal>
         <details><summary>Is ShawNotch free?</summary><p>For now, yes: every feature, with no licence needed. When it goes on sale, it will cost $7.99 once, and you'll get 7 more days free before it asks for a licence. Settings → Licence shows which it is.</p></details>
-        <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way.</p></details>
+        <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way. The same goes for an external monitor while your MacBook's lid is closed; with the lid open, ShawNotch stays in the MacBook's own notch.</p></details>
         <details><summary>Which music apps work?</summary><p>Spotify, Apple Music and other apps that show up in macOS's Now Playing. Spotify's shuffle and repeat work from the notch too. Something playing in a browser shows in the open notch, but Music Mode and the small record leave browsers and videos alone.</p></details>
         <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, and the icon style, which it switches to Tinted so the colour shows. It puts both back when you switch Music Mode off or quit. It doesn't change your wallpaper, except on macOS 14 and 15 if you turn on <b>Use the album as your wallpaper</b> in Settings, which makes the menu bar match the album too. Your own comes back when Music Mode turns off.</p></details>
         <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
