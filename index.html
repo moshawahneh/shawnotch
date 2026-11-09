@@ -258,6 +258,30 @@ p { margin: 0; }
 .tray-tabs button { width: 24px; height: 16px; display: grid; place-items: center; border-radius: 999px; color: rgba(255, 255, 255, 0.7); }
 .tray-tabs button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.22); color: #fff; }
 .tray-tabs svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* The Tray's Clipboard list: off until turned on, then a card for each thing copied. */
+.tray.clips .tray-files { display: none; }
+.tray-note { position: absolute; left: 34px; right: 34px; top: 30px; height: 90px; display: none; align-items: center; gap: 12px; font: 400 11px/1.35 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.5); }
+.tray.note .tray-note { display: flex; }
+.tray-note > svg { flex: none; width: 22px; height: 22px; fill: none; stroke: rgba(255, 255, 255, 0.5); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tray-note > div { display: grid; justify-items: start; gap: 1px; }
+.tray-note b { font-size: 13px; font-weight: 600; color: #fff; }
+.tray-note button { margin-top: 5px; padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); color: #fff; font: 600 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.tray-note button:hover { background: rgba(255, 255, 255, 0.24); }
+.tray-note.plain button { display: none; }
+.tray-clips { position: absolute; left: 26px; right: 26px; top: 29px; height: 92px; display: none; grid-template-columns: repeat(3, 138px); grid-auto-rows: 38px; gap: 6px 10px; align-content: start; padding: 7px 6px 0 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.tray-clips::-webkit-scrollbar { display: none; }
+.tray.cards .tray-clips { display: grid; }
+.clip { position: relative; display: flex; align-items: center; gap: 7px; padding: 0 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); font: 400 10.5px/13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.85); text-align: left; cursor: default; }
+.clip:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.7); outline-offset: 1px; }
+.clip .link { flex: none; width: 12px; height: 12px; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.clip img { flex: none; width: 26px; height: 26px; border-radius: 5px; object-fit: cover; }
+.clip .label { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.clip .label.two { display: grid; gap: 1px; }
+.clip .label small { font-size: 9.5px; line-height: 12px; color: rgba(255, 255, 255, 0.5); font-variant-numeric: tabular-nums; }
+.clip .remove { position: absolute; top: -4px; right: -4px; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center; background: #3D3D40; }
+.clip .remove svg { width: 7px; height: 7px; fill: none; stroke: rgba(255, 255, 255, 0.85); stroke-width: 3; stroke-linecap: round; }
+.clip .done { position: absolute; inset: 0; border-radius: 10px; display: grid; place-items: center; background: #333336; color: #fff; font-weight: 600; font-size: 11px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+.clip.copied .done { opacity: 1; transition-duration: 0.12s; }
 .stage.dropping .nook::after { content: ""; position: absolute; inset: 4px 8px 12px; border: 1.5px dashed rgba(255, 111, 174, 0.8); border-radius: 18px; pointer-events: none; animation: breathe 1s ease-in-out infinite alternate; }
 @keyframes breathe { to { border-color: rgba(255, 111, 174, 0.35); } }
 
@@ -747,10 +771,13 @@ footer nav a:hover { color: var(--ink); }
               <div class="tray-head"><span id="tray-title">Tray · 5</span><button type="button" id="tray-clear">Clear</button></div>
               <div class="tray-files" id="tray-files"></div>
               <div class="tray-empty"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg><b>Drop files on the notch</b><span>They'll wait here until you drag them out</span></div>
+              <div class="tray-clips" id="tray-clips"></div>
+              <div class="tray-note" id="tray-note"><svg viewBox="0 0 24 24"><path d="M9.5 4.5H7A1.5 1.5 0 0 0 5.5 6v12.5A1.5 1.5 0 0 0 7 20h3M9.5 3.5h5v2.5h-5zM14.5 4.5H17a1.5 1.5 0 0 1 1.5 1.5v2"/><rect x="12" y="10.5" width="8" height="10.5" rx="1.5"/></svg><div><b id="tray-note-title"></b><span id="tray-note-detail"></span><button type="button" id="clip-on">Turn On</button></div></div>
               <div class="tray-tabs" role="group" aria-label="Show">
                 <button type="button" data-feed="tray" aria-pressed="true" aria-label="Tray"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg></button>
                 <button type="button" data-feed="downloads" aria-pressed="false" aria-label="Downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v8M8.5 12.5 12 16l3.5-3.5"/></svg></button>
                 <button type="button" data-feed="recent" aria-pressed="false" aria-label="Recent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button>
+                <button type="button" data-feed="clipboard" aria-pressed="false" aria-label="Clipboard"><svg viewBox="0 0 24 24"><path d="M9.5 4.5H7A1.5 1.5 0 0 0 5.5 6v12.5A1.5 1.5 0 0 0 7 20h3M9.5 3.5h5v2.5h-5zM14.5 4.5H17a1.5 1.5 0 0 1 1.5 1.5v2"/><rect x="12" y="10.5" width="8" height="10.5" rx="1.5"/></svg></button>
               </div>
             </div>
           </div>
@@ -901,8 +928,8 @@ footer nav a:hover { color: var(--ink); }
         <p class="side"><b>B</b>Side B · Files, camera and calendar</p>
         <button class="track-row" type="button" id="track-tray" aria-expanded="false" aria-controls="detail-tray"><span class="no"><span>B1</span></span><span class="name">Tray</span><span class="sum">Somewhere to put files down</span><span class="fact">AirDrop</span></button>
         <div class="detail" id="detail-tray" role="region" aria-labelledby="track-tray">
-          <div class="shot"><img class="wide" src="images/notch-tray.png?v=5afece0bb2" alt="The Tray: five files kept for later, with buttons for Downloads and Recent" width="544" height="152" loading="lazy"></div>
-          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+          <div class="shot"><img class="wide" src="images/notch-tray.png?v=fd4d8675a2" alt="The Tray: five files kept for later, with buttons for Downloads, Recent and the Clipboard" width="544" height="152" loading="lazy"></div>
+          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away, and so are the last things you copied, once you turn Clipboard history on. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-mirror" aria-expanded="false" aria-controls="detail-mirror"><span class="no"><span>B2</span></span><span class="name">Mirror</span><span class="sum">A camera check before every call</span><span class="fact">Left edge</span></button>
         <div class="detail" id="detail-mirror" role="region" aria-labelledby="track-mirror">
@@ -962,7 +989,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.24 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.25 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -982,7 +1009,8 @@ footer nav a:hover { color: var(--ink); }
         <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, and the icon style, which it switches to Tinted so the colour shows. It puts both back when you switch Music Mode off or quit. It doesn't change your wallpaper, except on macOS 14 and 15 if you turn on <b>Use the album as your wallpaper</b> in Settings, which makes the menu bar match the album too. Your own comes back when Music Mode turns off.</p></details>
         <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
         <details><summary>Why does ShawNotch ask to hear my music?</summary><p>So the equalizer beside the notch moves with the song and rests when it's quiet. It listens only to your music app, on your Mac, and the sound is measured as it plays, never recorded or sent anywhere. Turn it off in Settings → Now Playing → React to the sound, and the equalizer keeps its own rhythm instead.</p></details>
-        <details><summary>What happens with my camera and calendar?</summary><p>They're only shown in the notch. Nothing leaves your Mac, and the camera is only on while the mirror is open. macOS asks you before ShawNotch can use either.</p></details>
+        <details><summary>What happens with my camera and calendar?</summary><p>They're only shown in the notch. Nothing leaves your Mac, and the camera is only on while the mirror is open. macOS asks you before ShawNotch can use either, and Settings → Permissions lists everything ShawNotch may use, with a button to change each one.</p></details>
+        <details><summary>Does ShawNotch keep what I copy?</summary><p>Only if you turn on Clipboard history, in the Tray or in Settings; it's off until you do. Then the last 25 things you copy wait in the Tray, a click from being copied again. They're held in memory on your Mac, never saved to disk or sent anywhere, and forgotten when ShawNotch quits. Passwords copied from password managers are skipped.</p></details>
         <details><summary>Which version of macOS do I need?</summary><p>macOS 14 Sonoma or later, on Apple silicon or Intel. Music Mode's icon colours need macOS 26; before that, it shows the album poster on your desktop.</p></details>
       </div>
     </div>
@@ -1357,7 +1385,7 @@ footer nav a:hover { color: var(--ink); }
       { name: 'Notes.md', kind: 'doc', ext: 'MD' },
     ],
   };
-  const feedNames = { tray: 'Tray', downloads: 'Downloads', recent: 'Recent' };
+  const feedNames = { tray: 'Tray', downloads: 'Downloads', recent: 'Recent', clipboard: 'Clipboard' };
   let feed = 'tray';
   const trayPage = $('tray'), trayFiles = $('tray-files');
   const noteIcon = '<svg viewBox="0 0 24 24"><path d="M10 18.2a3.2 3.2 0 1 1-2-2.97V5.8c0-.6.4-1.1 1-1.25l9-2.2c.8-.2 1.5.4 1.5 1.2V15a3.2 3.2 0 1 1-2-2.97V8.1l-7.5 1.85v8.25z"/></svg>';
@@ -1386,7 +1414,116 @@ footer nav a:hover { color: var(--ink); }
     return thumb;
   }
 
+  // The Clipboard list, as in the app: off until it's turned on, then the
+  // newest 25 things copied. Here that's a few examples, plus any text you
+  // copy on this page. It stays in this browser tab: nothing is sent.
+  const clipLimit = 25;
+  let clipOn = false;
+  let clips = [
+    { text: 'Meet at the library at 4pm, bring the charger' },
+    { text: 'https://shawnotch.com/privacy' },
+    { image: 'images/cover-ember.png?v=73846dd3ac', width: 600, height: 600 },
+  ];
+  const isLink = text => /^https?:\/\/[^\s/]+\S*$/i.test(text.trim());
+  const linkTitle = text => text.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '');
+  const clipSummary = clip => clip.image ? `Picture, ${clip.width} × ${clip.height}` : clip.text.slice(0, 300).split(/\s+/).filter(Boolean).join(' ');
+
+  function recordClip(clip) {
+    clips = [clip, ...clips.filter(other => other.text !== clip.text)].slice(0, clipLimit);
+    if (feed === 'clipboard') renderTray();
+  }
+  async function copyClip(clip) {
+    try {
+      if (clip.text) return await navigator.clipboard.writeText(clip.text);
+      const picture = await (await fetch(clip.image)).blob();
+      await navigator.clipboard.write([new ClipboardItem({ [picture.type]: picture })]);
+    } catch { /* A browser that won't let a page copy: the card still answers. */ }
+  }
+  function clipCard(clip) {
+    const card = document.createElement('div');
+    card.className = 'clip';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `${clipSummary(clip)}. Copies it again`);
+    card.title = `${clipSummary(clip)}\nClick to copy it again.`;
+    const label = document.createElement('span');
+    label.className = 'label';
+    if (clip.image) {
+      const picture = document.createElement('img');
+      picture.src = clip.image;
+      picture.alt = '';
+      picture.draggable = false;
+      card.appendChild(picture);
+      label.classList.add('two');
+      label.innerHTML = `<span>Picture</span><small>${clip.width} × ${clip.height}</small>`;
+    } else if (isLink(clip.text)) {
+      card.insertAdjacentHTML('beforeend', '<svg class="link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.400 0l3-3a4.5 4.5 0 0 0-6.400-6.400l-1 1M14 10a4.5 4.5 0 0 0-6.400 0l-3 3a4.5 4.5 0 0 0 6.400 6.400l1-1"/></svg>');
+      // An address may wrap after a slash, as in the app.
+      label.append(...linkTitle(clip.text).split(/(?<=\/)/).flatMap((piece, index) => index ? [document.createElement('wbr'), piece] : [piece]));
+    } else {
+      label.textContent = clipSummary(clip);
+    }
+    card.appendChild(label);
+    card.insertAdjacentHTML('beforeend', '<span class="done" aria-hidden="true">✓ Copied</span>');
+    let showing;
+    const copy = () => {
+      copyClip(clip);
+      card.classList.add('copied');
+      clearTimeout(showing);
+      showing = setTimeout(() => card.classList.remove('copied'), 900);
+    };
+    card.addEventListener('click', copy);
+    card.addEventListener('keydown', event => {
+      if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
+      event.preventDefault();
+      copy();
+    });
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'remove';
+    remove.title = 'Forget this';
+    remove.setAttribute('aria-label', `Forget ${clipSummary(clip)}`);
+    remove.innerHTML = '<svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg>';
+    remove.addEventListener('click', event => {
+      event.stopPropagation();
+      clips = clips.filter(other => other !== clip);
+      renderTray();
+    });
+    card.appendChild(remove);
+    return card;
+  }
+  function renderClips() {
+    const shown = clipOn ? clips : [];
+    $('tray-title').textContent = shown.length ? `Clipboard · ${shown.length}` : 'Clipboard';
+    $('tray-clear').hidden = shown.length === 0;
+    trayPage.classList.toggle('cards', shown.length > 0);
+    trayPage.classList.toggle('note', shown.length === 0);
+    $('tray-note').classList.toggle('plain', clipOn);
+    $('tray-note-title').textContent = clipOn ? 'Nothing copied yet' : 'Clipboard history is off';
+    $('tray-note-detail').textContent = clipOn
+      ? 'What you copy from now on shows up here, and is forgotten when ShawNotch quits.'
+      : `Turn it on to keep the last ${clipLimit} things you copy here, ready to copy again. They stay on this Mac, and passwords from password managers are skipped.`;
+    $('tray-clips').replaceChildren(...shown.map(clipCard));
+  }
+  $('clip-on').addEventListener('click', () => { clipOn = true; renderTray(); });
+  document.addEventListener('copy', event => {
+    if (!clipOn) return;
+    const field = event.target;
+    const typed = field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement;
+    if (typed && field.type === 'password') return;
+    const text = typed ? field.value.slice(field.selectionStart ?? 0, field.selectionEnd ?? 0) : String(document.getSelection() ?? '');
+    if (text.trim()) recordClip({ text });
+  });
+
   function renderTray(added = 0) {
+    document.querySelectorAll('[data-feed]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.feed === feed)));
+    trayPage.classList.toggle('clips', feed === 'clipboard');
+    if (feed === 'clipboard') {
+      trayPage.classList.remove('empty');
+      renderClips();
+      return;
+    }
+    trayPage.classList.remove('cards', 'note');
     const files = feeds[feed];
     $('tray-title').textContent = `${feedNames[feed]} · ${files.length}`;
     $('tray-clear').hidden = feed !== 'tray' || files.length === 0;
@@ -1417,11 +1554,11 @@ footer nav a:hover { color: var(--ink); }
       return tile;
     }));
     if (added) trayFiles.scrollTo({ left: trayFiles.scrollWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
-    document.querySelectorAll('[data-feed]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.feed === feed)));
   }
   function setFeed(name) { feed = name; renderTray(); }
   document.querySelectorAll('[data-feed]').forEach(button => button.addEventListener('click', () => setFeed(button.dataset.feed)));
   $('tray-clear').addEventListener('click', () => {
+    if (feed === 'clipboard') { clips = []; renderTray(); return; }
     feeds.tray.forEach(file => file.url && URL.revokeObjectURL(file.url));
     feeds.tray = [];
     renderTray();
@@ -1824,7 +1961,7 @@ footer nav a:hover { color: var(--ink); }
 
   let drag = null;
   nook.addEventListener('pointerdown', event => {
-    if (!expanded || event.button !== 0 || event.target.closest('button, input, .line, .wedge, .tray-files')) return;
+    if (!expanded || event.button !== 0 || event.target.closest('button, input, .line, .wedge, .tray-files, .tray-clips')) return;
     drag = { start: event.clientX, last: event.clientX, time: event.timeStamp, velocity: 0, moving: false };
     capture(nook, event);
   });
@@ -1858,7 +1995,7 @@ footer nav a:hover { color: var(--ink); }
   // lets the rest of that swipe pass.
   let swipe = null;
   nook.addEventListener('wheel', event => {
-    if (!expanded || event.target.closest('.wedge, .tray-files')) return;
+    if (!expanded || event.target.closest('.wedge, .tray-files, .tray-clips')) return;
     const dx = -event.deltaX, horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY);
     // Swiping back while the last swipe's inertia is still arriving.
     if (swipe?.done && horizontal && Math.sign(dx) === -Math.sign(swipe.total)) {
@@ -1904,7 +2041,7 @@ footer nav a:hover { color: var(--ink); }
     closed: 'Closed: a tiny record spins beside the notch, with a wave in the album’s colour.',
     airpods: 'AirPods: each earbud’s battery, for a moment.',
     playing: 'Now Playing: the song as a spinning record, with a playback line and controls.',
-    tray: 'Tray: files kept for later, with Downloads and Recent a click away.',
+    tray: 'Tray: files kept for later, with Downloads, Recent and the Clipboard a click away.',
     mirror: 'Mirror: your camera, with lighting and framing checks.',
     calendar: 'Calendar: today’s events, with Join for calls.',
   };
@@ -2159,7 +2296,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.24";
+      item.textContent = "You're up to date: 1.7.25";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }

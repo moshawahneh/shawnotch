@@ -3,20 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.24</title>
-            <pubDate>Mon, 09 Nov 2026 15:26:22 +0000</pubDate>
+            <title>1.7.25</title>
+            <pubDate>Mon, 09 Nov 2026 20:50:13 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10724</sparkle:version>
-            <sparkle:shortVersionString>1.7.24</sparkle:shortVersionString>
+            <sparkle:version>10725</sparkle:version>
+            <sparkle:shortVersionString>1.7.25</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.24</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.25</h2>
 <ul>
-<li>Using another display? Choose where the notch lives in Settings → General → Show the notch on: your MacBook's notch, the main display, or whichever screen you're using.</li>
-<li>Click the closed notch to open it straight away, and click anywhere else to close it. Clicking at the open notch's left or right edge slides out the Mirror or the Calendar.</li>
-<li>Ready for MacBooks with a pill-shaped camera: the notch floats around it like the iPhone's Dynamic Island.</li>
+<li>Clipboard history in the Tray: the last 25 things you copied, one click from being copied again. It's off until you turn it on, it stays on your Mac, and passwords from password managers are skipped.</li>
+<li>Settings → Permissions shows everything ShawNotch may use (camera, calendars, Spotify, your music's sound, Downloads), with a button to allow or change each one.</li>
+<li>Settings → Help has Request a Feature and Report a Problem, and opening ShawNotch again while it's running shows Settings.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.24/ShawNotch-1.7.24.zip" length="4950623" type="application/octet-stream" sparkle:edSignature="TLa7qpqbM/HNcNzMTCDVB+AARd+pRk21Km2AxFR5h13kKjcm/FruzE76iGz83yS1G7lxsMNDybMUSmlY6+D/Cw=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.25/ShawNotch-1.7.25.zip" length="5215999" type="application/octet-stream" sparkle:edSignature="r8599K/FpAWcuWC+dhmvi8DuVW1oThSyWVyQc0Fm+CzpJ7gzlFxxSbWBvXIdiFI6umAeQ9AOa84QlGumrHuDBA=="/>
         </item>
     </channel>
 </rss>
