@@ -797,7 +797,7 @@ footer nav a:hover { color: var(--ink); }
     </div>
     <p class="meta badges rise"><span>Native Mac app</span><span>1% CPU footprint</span><span>100% local privacy (no analytics)</span></p>
     <p class="meta rise"><span>macOS 14 Sonoma or later</span><span>Apple silicon and Intel</span><span>Notarized by Apple</span></p>
-    <p class="screens rise">Works on Macs without a notch too: older Macs, and external monitors while your MacBook's lid is closed, get a floating notch at the top of the screen.</p>
+    <p class="screens rise">Works on every screen: older Macs and external monitors get a floating notch at the top, and you choose which screen it lives on.</p>
     <p class="mm-note" id="mm-note" role="status" hidden>Music Mode is on, so this page has taken the album's colours. On your Mac, it's your whole desktop. <a href="#music-mode">See it</a></p>
   </div>
   <figure class="showcase rise" id="showcase">
@@ -962,7 +962,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.23 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.24 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -977,7 +977,7 @@ footer nav a:hover { color: var(--ink); }
       </div>
       <div class="faq-list" data-reveal>
         <details><summary>Is ShawNotch free?</summary><p>For now, yes: every feature, with no licence needed. When it goes on sale, it will cost $7.99 once, and you'll get 7 more days free before it asks for a licence. Settings → Licence shows which it is.</p></details>
-        <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way. The same goes for an external monitor while your MacBook's lid is closed; with the lid open, ShawNotch stays in the MacBook's own notch.</p></details>
+        <details><summary>Does my Mac need a notch?</summary><p>No. On a Mac without one, ShawNotch draws a small pill at the top of the screen that opens the same way. The same goes for an external monitor. With the lid open, Settings → General → Show the notch on puts it in the MacBook's notch, on the main display, or on whichever screen you're using.</p></details>
         <details><summary>Which music apps work?</summary><p>Spotify, Apple Music and other apps that show up in macOS's Now Playing. Spotify's shuffle and repeat work from the notch too. Something playing in a browser shows in the open notch, but Music Mode and the small record leave browsers and videos alone.</p></details>
         <details><summary>What does ShawNotch change on my Mac?</summary><p>Only while Music Mode is on: macOS's icon, widget and folder colour, and the icon style, which it switches to Tinted so the colour shows. It puts both back when you switch Music Mode off or quit. It doesn't change your wallpaper, except on macOS 14 and 15 if you turn on <b>Use the album as your wallpaper</b> in Settings, which makes the menu bar match the album too. Your own comes back when Music Mode turns off.</p></details>
         <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
@@ -2159,7 +2159,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.23";
+      item.textContent = "You're up to date: 1.7.24";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }
