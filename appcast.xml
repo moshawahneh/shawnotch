@@ -3,20 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.25</title>
-            <pubDate>Mon, 09 Nov 2026 20:50:13 +0000</pubDate>
+            <title>1.7.26</title>
+            <pubDate>Tue, 10 Nov 2026 17:10:47 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10725</sparkle:version>
-            <sparkle:shortVersionString>1.7.25</sparkle:shortVersionString>
+            <sparkle:version>10726</sparkle:version>
+            <sparkle:shortVersionString>1.7.26</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.25</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.26</h2>
 <ul>
-<li>Clipboard history in the Tray: the last 25 things you copied, one click from being copied again. It's off until you turn it on, it stays on your Mac, and passwords from password managers are skipped.</li>
-<li>Settings → Permissions shows everything ShawNotch may use (camera, calendars, Spotify, your music's sound, Downloads), with a button to allow or change each one.</li>
-<li>Settings → Help has Request a Feature and Report a Problem, and opening ShawNotch again while it's running shows Settings.</li>
+<li>Clean Desktop, for Music Mode: while the album is on your desktop, the icons, widgets, Dock and menu bar step aside and the screen's edges darken, leaving just the album.</li>
+<li>Switch it on or off from the notch's right-click menu or the menu bar icon's menu. The Dock and the menu bar still slide in when you move the pointer to them.</li>
+<li>Your own Dock and menu bar settings come back when Music Mode or Clean Desktop turns off, or when ShawNotch quits.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.25/ShawNotch-1.7.25.zip" length="5215999" type="application/octet-stream" sparkle:edSignature="r8599K/FpAWcuWC+dhmvi8DuVW1oThSyWVyQc0Fm+CzpJ7gzlFxxSbWBvXIdiFI6umAeQ9AOa84QlGumrHuDBA=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.26/ShawNotch-1.7.26.zip" length="5263691" type="application/octet-stream" sparkle:edSignature="ccM56nLT2gdzZ7CqG2eUkRKCUPvvuY+2ieEiUfJWa5CLLU59T7xpOfhGek2OzrbXIEMFfP0KVQsMiENdFUf1Dg=="/>
         </item>
     </channel>
 </rss>
