@@ -258,7 +258,7 @@ p { margin: 0; }
 .tray-tabs button { width: 24px; height: 16px; display: grid; place-items: center; border-radius: 999px; color: rgba(255, 255, 255, 0.7); }
 .tray-tabs button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.22); color: #fff; }
 .tray-tabs svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-/* The Tray's Clipboard list: off until turned on, then a card for each thing copied. */
+/* The Tray's Clipboard list: off until turned on, then what was copied, as a list (with or without its preview) or as cards. */
 .tray.clips .tray-files { display: none; }
 .tray-note { position: absolute; left: 34px; right: 34px; top: 30px; height: 90px; display: none; align-items: center; gap: 12px; font: 400 11px/1.35 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.5); }
 .tray.note .tray-note { display: flex; }
@@ -268,20 +268,136 @@ p { margin: 0; }
 .tray-note button { margin-top: 5px; padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); color: #fff; font: 600 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
 .tray-note button:hover { background: rgba(255, 255, 255, 0.24); }
 .tray-note.plain button { display: none; }
-.tray-clips { position: absolute; left: 26px; right: 26px; top: 29px; height: 92px; display: none; grid-template-columns: repeat(3, 138px); grid-auto-rows: 38px; gap: 6px 10px; align-content: start; padding: 7px 6px 0 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
-.tray-clips::-webkit-scrollbar { display: none; }
-.tray.cards .tray-clips { display: grid; }
-.clip { position: relative; display: flex; align-items: center; gap: 7px; padding: 0 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); font: 400 10.5px/13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.85); text-align: left; cursor: default; }
-.clip:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.7); outline-offset: 1px; }
-.clip .link { flex: none; width: 12px; height: 12px; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.clip img { flex: none; width: 26px; height: 26px; border-radius: 5px; object-fit: cover; }
-.clip .label { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
-.clip .label.two { display: grid; gap: 1px; }
-.clip .label small { font-size: 9.5px; line-height: 12px; color: rgba(255, 255, 255, 0.5); font-variant-numeric: tabular-nums; }
-.clip .remove { position: absolute; top: -4px; right: -4px; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center; background: #3D3D40; }
-.clip .remove svg { width: 7px; height: 7px; fill: none; stroke: rgba(255, 255, 255, 0.85); stroke-width: 3; stroke-linecap: round; }
-.clip .done { position: absolute; inset: 0; border-radius: 10px; display: grid; place-items: center; background: #333336; color: #fff; font-weight: 600; font-size: 11px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
-.clip.copied .done { opacity: 1; transition-duration: 0.12s; }
+.tray-clips { position: absolute; left: 24px; right: 24px; top: 33px; height: 93px; display: none; font: 400 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.88); }
+.tray.listed .tray-clips { display: flex; }
+.tray.listed .tray-head { display: none; }
+/* Its own header: the search on the left, Clear and the layouts on the right, clear of the notch. */
+.clip-head { position: absolute; left: 26px; right: 26px; top: 5px; height: 22px; display: none; align-items: center; justify-content: space-between; font: 500 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.tray.listed .clip-head { display: flex; }
+.clip-search { display: flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 7px; background: rgba(255, 255, 255, 0.07); cursor: text; }
+.clip-search:focus-within { background: rgba(255, 255, 255, 0.11); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.16); }
+.clip-search svg { flex: none; width: 11px; height: 11px; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.4; stroke-linecap: round; }
+.clip-search input { width: 104px; padding: 0; border: 0; outline: 0; background: none; color: rgba(255, 255, 255, 0.95); font: inherit; }
+.clip-search input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.clip-tools { display: flex; align-items: center; gap: 5px; }
+.clip-clear { height: 20px; padding: 0 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.72); font: 500 10.5px/20px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.clip-clear:hover { color: #fff; }
+.clip-seg { display: flex; gap: 1px; padding: 2px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+.clip-seg[hidden], .clip-clear[hidden] { display: none; }
+.clip-seg button { width: 22px; height: 16px; display: grid; place-items: center; border-radius: 999px; color: rgba(255, 255, 255, 0.45); }
+.clip-seg button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.clip-seg svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.clip-kinds { position: absolute; right: 144px; bottom: 4px; display: none; }
+.tray.listed .clip-kinds { display: flex; }
+.pin-on { color: #FF5C9E; }
+.pin-on svg { fill: currentColor; }
+.clip-none { margin: auto; display: grid; justify-items: center; gap: 2px; text-align: center; color: rgba(255, 255, 255, 0.5); }
+.clip-none b { font-size: 13px; font-weight: 600; color: #fff; }
+/* As a list with its preview: a row each on the left, the one under the pointer shown whole on the right. */
+.tray-clips.paned { gap: 10px; }
+.clip-rows { flex: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: 22px; gap: 2px; align-content: start; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.clip-rows::-webkit-scrollbar, .tray-clips.deck::-webkit-scrollbar { display: none; }
+.clip-row { display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 7px; border-radius: 7px; cursor: default; white-space: nowrap; }
+.clip-row .pic { flex: none; width: 15px; height: 15px; display: grid; place-items: center; }
+.clip-row .pic img { width: 14px; height: 14px; border-radius: 3px; object-fit: cover; }
+.clip-row .pic svg { width: 10px; height: 10px; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.clip-row .pic i { width: 13px; height: 13px; border-radius: 4px; box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.28); }
+.clip-row .label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.clip-row .label.code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; }
+.clip-row .age { flex: none; font-size: 9.5px; color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+.clip-row .mark { flex: none; display: grid; }
+.clip-row .mark svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.clip-row .tick { display: none; color: #30D158; }
+.clip-row.copied .tick { display: grid; }
+.clip-row.copied .age, .clip-row.copied .pin-on { display: none; }
+.paned .clip-row:hover, .paned .clip-row:focus-visible { background: rgba(255, 255, 255, 0.92); color: rgba(0, 0, 0, 0.92); font-weight: 500; outline: none; }
+.paned .clip-row:hover .pic svg, .paned .clip-row:focus-visible .pic svg { stroke: rgba(0, 0, 0, 0.65); }
+.paned .clip-row:hover .age, .paned .clip-row:focus-visible .age { color: rgba(0, 0, 0, 0.5); }
+.paned .clip-row:hover .tick, .paned .clip-row:focus-visible .tick { color: rgba(0, 0, 0, 0.75); }
+.clip-inspect { flex: none; width: 222px; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; padding: 7px 10px; border-radius: 11px; background: rgba(255, 255, 255, 0.065); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.11); }
+.insp-head { flex: none; display: flex; align-items: center; gap: 5px; height: 16px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.65); white-space: nowrap; }
+.insp-head .pic { flex: none; width: 13px; height: 13px; display: grid; place-items: center; }
+.insp-head .pic svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.insp-head .pic img { width: 12px; height: 12px; border-radius: 3px; object-fit: cover; }
+.insp-head .pic i { width: 11px; height: 11px; border-radius: 3px; }
+.insp-head .from { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.insp-head button, .insp-head a { flex: none; width: 17px; height: 17px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.11); color: rgba(255, 255, 255, 0.82); }
+.insp-head button:hover, .insp-head a:hover { background: rgba(255, 255, 255, 0.2); }
+.insp-head button svg, .insp-head a svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.insp-head .pin-on { color: #FF6BA8; }
+.insp-head .pin-on svg { fill: currentColor; }
+.insp-head .done { color: #30D158; }
+.insp-body { flex: 1; min-height: 0; overflow: hidden; font-size: 10px; line-height: 13.5px; color: rgba(255, 255, 255, 0.86); overflow-wrap: anywhere; }
+.insp-body .words { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.insp-body .words.code, .card-body.code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.insp-body img { display: block; height: 42px; border-radius: 6px; }
+.insp-body .host { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 3px; padding: 2px 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); font-weight: 600; color: rgba(255, 255, 255, 0.9); }
+.insp-body .host svg, .card-body .host svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.insp-body .address { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: rgba(255, 255, 255, 0.72); }
+.swatch { display: flex; align-items: center; gap: 8px; padding-top: 3px; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: rgba(255, 255, 255, 0.92); }
+.swatch i { flex: none; width: 28px; height: 28px; border-radius: 6px; box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.22); }
+.insp-foot { flex: none; font-size: 9.5px; line-height: 12px; color: rgba(255, 255, 255, 0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+/* As a list without the preview: Pinned and Recent, with each row's buttons under the pointer. */
+.tray-clips.minimal { display: none; }
+.tray.listed .tray-clips.minimal { display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: min-content; gap: 2px; align-content: start; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.tray-clips.minimal::-webkit-scrollbar { display: none; }
+.clip-group { height: 12px; padding: 1px 8px 0; font-size: 8.5px; line-height: 11px; font-weight: 700; letter-spacing: 0.8px; color: rgba(255, 255, 255, 0.42); }
+.minimal .clip-row { position: relative; height: 25px; padding: 0 8px; gap: 8px; border-radius: 8px; font-size: 11.5px; }
+.minimal .clip-row .pic { width: 18px; height: 18px; }
+.minimal .clip-row .pic img { width: 17px; height: 17px; border-radius: 4px; }
+.minimal .clip-row .pic i { width: 16px; height: 16px; border-radius: 4.5px; }
+.minimal .clip-row .age { font-size: 10px; color: rgba(255, 255, 255, 0.44); }
+.minimal .clip-row:hover, .minimal .clip-row:focus-within { background: linear-gradient(135deg, rgba(255, 255, 255, 0.19), rgba(255, 255, 255, 0.10)); box-shadow: inset 0 0 0 0.6px rgba(255, 255, 255, 0.24); font-weight: 600; color: rgba(255, 255, 255, 0.98); outline: none; }
+.clip-row .acts { display: none; flex: none; align-items: center; gap: 4px; }
+.minimal .clip-row:hover .acts, .minimal .clip-row:focus-within .acts { display: flex; }
+.minimal .clip-row:hover .age, .minimal .clip-row:focus-within .age, .minimal .clip-row:hover .pin-on.mark, .minimal .clip-row:focus-within .pin-on.mark { display: none; }
+.minimal .clip-row.copied .acts { display: none; }
+.minimal .clip-row .tick { grid-auto-flow: column; align-items: center; gap: 3px; height: 17px; padding: 0 7px; border-radius: 999px; background: rgba(48, 209, 88, 0.16); font-size: 9.5px; font-weight: 600; }
+.acts button, .acts a { display: flex; align-items: center; gap: 3px; height: 17px; padding: 0 7px; border-radius: 5px; background: rgba(255, 255, 255, 0.15); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.24); color: rgba(255, 255, 255, 0.95); font: 600 9.5px/17px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; text-decoration: none; }
+.acts button:hover, .acts a:hover { background: rgba(255, 255, 255, 0.24); }
+.acts svg { width: 8px; height: 8px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.acts .pin { background: rgba(255, 115, 179, 0.22); box-shadow: inset 0 0 0 0.5px rgba(255, 115, 179, 0.24); color: #FF73B3; }
+.acts .pin.pin-on { background: rgba(255, 115, 179, 0.30); }
+/* As cards: a strip to scroll sideways, each card headed in its kind's colour. */
+.tray-clips.deck { left: 0; right: 0; gap: 8px; padding: 3px 24px 4px; box-sizing: border-box; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 16px), transparent); mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 16px), transparent); }
+.clip-card { position: relative; flex: 0 0 142px; height: 86px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: rgba(255, 255, 255, 0.065); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.11); cursor: default; }
+.clip-card:hover, .clip-card:focus-visible { background: rgba(255, 255, 255, 0.11); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.88); outline: none; }
+.clip-card.pinned { box-shadow: inset 0 0 0 0.9px rgba(255, 107, 168, 0.42); }
+.clip-card.pinned:hover, .clip-card.pinned:focus-visible { box-shadow: inset 0 0 0 1.5px #FF6BA8; }
+.card-head { flex: none; display: flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; font-size: 9px; font-weight: 600; color: rgba(255, 255, 255, 0.9); font-variant-numeric: tabular-nums; background: linear-gradient(#475266, #30384A); }
+.card-head > svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.clip-card.link .card-head { background: linear-gradient(#1499AD, #0D6B80); }
+.clip-card.picture .card-head { background: linear-gradient(#5787E6, #3B61B8); }
+.clip-card.colour .card-head { background: linear-gradient(#7A57BD, #4F3685); }
+.clip-card.code .card-head { background: linear-gradient(#947033, #5C476B); }
+.clip-card.pinned .card-head { background: linear-gradient(#BD2975, #7A1A4F); }
+.card-head .badge { margin-left: auto; display: flex; align-items: center; gap: 2.5px; height: 14px; padding: 0 5px; border-radius: 999px; background: rgba(0, 0, 0, 0.28); font-size: 7.5px; font-weight: 700; letter-spacing: 0.3px; }
+.card-head .badge svg { width: 7px; height: 7px; fill: currentColor; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.clip-card:hover .badge, .clip-card:focus-within .badge { display: none; }
+.card-body { flex: 1; min-height: 0; padding: 5px 8px; font-size: 10px; line-height: 13px; color: rgba(255, 255, 255, 0.9); overflow: hidden; overflow-wrap: anywhere; border-top: 0.5px solid rgba(255, 255, 255, 0.08); }
+.card-body.code { font-size: 9.5px; }
+.card-body .host { display: flex; align-items: center; gap: 4px; font-weight: 600; color: rgba(255, 255, 255, 0.94); }
+.card-body .host svg { color: #61DBEB; }
+.card-body .path { color: rgba(255, 255, 255, 0.66); font-size: 9.5px; }
+.card-body .swatch { padding: 0; font-size: 11px; }
+.card-body .swatch i { width: 24px; height: 24px; }
+.card-foot { flex: none; display: flex; align-items: center; height: 18px; padding: 0 8px; background: rgba(0, 0, 0, 0.22); border-top: 0.5px solid rgba(255, 255, 255, 0.06); font-size: 8.5px; font-weight: 500; color: rgba(255, 255, 255, 0.5); white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; }
+.clip-card.copied .card-foot { color: #30D158; font-size: 9px; font-weight: 600; }
+/* A picture fills its card; its bars come over it with the pointer. */
+.clip-card.picture .card-body { position: absolute; inset: 0; padding: 5px 8px; border: 0; display: grid; place-items: center; }
+.clip-card.picture .card-body img { max-width: 100%; max-height: 100%; border-radius: 5px; }
+.clip-card.picture .card-head, .clip-card.picture .card-foot { position: absolute; left: 0; right: 0; z-index: 1; display: none; }
+.clip-card.picture .card-head { top: 0; }
+.clip-card.picture .card-foot { bottom: 0; background: rgba(0, 0, 0, 0.68); color: rgba(255, 255, 255, 0.78); }
+.clip-card.picture:hover .card-head, .clip-card.picture:hover .card-foot, .clip-card.picture:focus-within .card-head, .clip-card.picture:focus-within .card-foot, .clip-card.picture.copied .card-foot { display: flex; }
+.clip-card.picture.pinned:not(:hover)::after { content: ""; position: absolute; top: 5px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: #BD2975; box-shadow: 0 0 0 2px rgba(189, 41, 117, 0.35); }
+.card-acts { position: absolute; top: 3px; right: 5px; z-index: 2; display: none; gap: 3px; }
+.clip-card:hover .card-acts, .clip-card:focus-within .card-acts { display: flex; }
+.clip-card.copied .card-acts { display: none; }
+.card-acts button, .card-acts a { width: 14px; height: 14px; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, 0.36); color: rgba(255, 255, 255, 0.92); }
+.card-acts svg { width: 7.5px; height: 7.5px; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-acts .pin-on { color: #FF6BA8; }
+.card-acts .pin-on svg { fill: currentColor; }
 .stage.dropping .nook::after { content: ""; position: absolute; inset: 4px 8px 12px; border: 1.5px dashed rgba(255, 111, 174, 0.8); border-radius: 18px; pointer-events: none; animation: breathe 1s ease-in-out infinite alternate; }
 @keyframes breathe { to { border-color: rgba(255, 111, 174, 0.35); } }
 
@@ -769,10 +885,12 @@ footer nav a:hover { color: var(--ink); }
             </div>
             <div class="page tray" id="tray" aria-label="Tray">
               <div class="tray-head"><span id="tray-title">Tray · 5</span><button type="button" id="tray-clear">Clear</button></div>
+              <div class="clip-head" id="clip-head"><label class="clip-search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg><input type="text" id="clip-search" placeholder="Search" aria-label="Search what you copied" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"></label><span class="clip-tools"><button type="button" class="clip-clear" id="clip-clear" title="Forget everything copied, except pins">Clear</button><span class="clip-seg" id="clip-preview-seg"><button type="button" id="clip-preview" aria-pressed="true" aria-label="Preview pane" title="Hide preview pane"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M14.5 5v14"/></svg></button></span><span class="clip-seg" role="group" aria-label="Show the clipboard"><button type="button" data-layout="list" aria-pressed="true" aria-label="as List" title="Show as List"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></button><button type="button" data-layout="cards" aria-pressed="false" aria-label="as Cards" title="Show as Cards"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M9 6v12M15 6v12"/></svg></button></span></span></div>
               <div class="tray-files" id="tray-files"></div>
               <div class="tray-empty"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg><b>Drop files on the notch</b><span>They'll wait here until you drag them out</span></div>
               <div class="tray-clips" id="tray-clips"></div>
               <div class="tray-note" id="tray-note"><svg viewBox="0 0 24 24"><path d="M9.5 4.5H7A1.5 1.5 0 0 0 5.5 6v12.5A1.5 1.5 0 0 0 7 20h3M9.5 3.5h5v2.5h-5zM14.5 4.5H17a1.5 1.5 0 0 1 1.5 1.5v2"/><rect x="12" y="10.5" width="8" height="10.5" rx="1.5"/></svg><div><b id="tray-note-title"></b><span id="tray-note-detail"></span><button type="button" id="clip-on">Turn On</button></div></div>
+              <div class="clip-seg clip-kinds" id="clip-kinds" role="group" aria-label="Kind"><button type="button" data-kind="all" aria-pressed="true" aria-label="Everything" title="Everything"><svg viewBox="0 0 24 24"><rect x="5" y="8.5" width="14" height="11" rx="2"/><path d="M7.5 5h9"/></svg></button><button type="button" data-kind="text" aria-pressed="false" aria-label="Text" title="Text"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></button><button type="button" data-kind="links" aria-pressed="false" aria-label="Links" title="Links"><svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button><button type="button" data-kind="pictures" aria-pressed="false" aria-label="Pictures" title="Pictures"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 17"/></svg></button><button type="button" data-kind="files" aria-pressed="false" aria-label="Files" title="Files"><svg viewBox="0 0 24 24"><path d="M7.5 3.5H14l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1.5-1.5zM14 3.5v4h4"/></svg></button></div>
               <div class="tray-tabs" role="group" aria-label="Show">
                 <button type="button" data-feed="tray" aria-pressed="true" aria-label="Tray"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg></button>
                 <button type="button" data-feed="downloads" aria-pressed="false" aria-label="Downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v8M8.5 12.5 12 16l3.5-3.5"/></svg></button>
@@ -905,7 +1023,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="head" data-reveal>
         <span class="tag">Everything else</span>
         <h2 class="h2">The rest of the record, <span class="glow">track by track</span></h2>
-        <p class="lead">Seven more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
+        <p class="lead">Eight more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
       </div>
       <div class="tracklist" id="tracklist" data-reveal>
         <p class="side"><b>A</b>Side A · Music and sound</p>
@@ -933,14 +1051,19 @@ footer nav a:hover { color: var(--ink); }
         <button class="track-row" type="button" id="track-tray" aria-expanded="false" aria-controls="detail-tray"><span class="no"><span>B1</span></span><span class="name">Tray</span><span class="sum">Somewhere to put files down</span><span class="fact">AirDrop</span></button>
         <div class="detail" id="detail-tray" role="region" aria-labelledby="track-tray">
           <div class="shot"><img class="wide" src="images/notch-tray.png?v=fd4d8675a2" alt="The Tray: five files kept for later, with buttons for Downloads, Recent and the Clipboard" width="544" height="152" loading="lazy"></div>
-          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads are one click away, and so are the last things you copied, once you turn Clipboard history on. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads and the files you opened last are one click away. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
-        <button class="track-row" type="button" id="track-mirror" aria-expanded="false" aria-controls="detail-mirror"><span class="no"><span>B2</span></span><span class="name">Mirror</span><span class="sum">A camera check before every call</span><span class="fact">Left edge</span></button>
+        <button class="track-row" type="button" id="track-clipboard" aria-expanded="false" aria-controls="detail-clipboard"><span class="no"><span>B2</span></span><span class="name">Clipboard</span><span class="sum">What you copied, ready to copy again</span><span class="fact">Last 25</span></button>
+        <div class="detail" id="detail-clipboard" role="region" aria-labelledby="track-clipboard">
+          <div class="shot"><img class="wide" src="images/notch-clipboard.png?v=04e16b1583" alt="The Clipboard as cards: a pinned address, a message, a link, a picture, a colour and a command, each headed in its own colour" width="544" height="152" loading="lazy"></div>
+          <div class="text"><h3>What you copied, ready to copy again</h3><p>Turn Clipboard history on and the last 25 things you copy wait in the Tray: text, links, pictures and files, each with the app it came from. Browse them as a list with a preview or as cards, search them, click one to copy it again or drag it out. Pin what you use most and it's still there after quitting. Open a picture to see it full size in the notch, zoom in, and lock it open while you work beside it.</p><button class="try" type="button" data-try="clipboard">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+        </div>
+        <button class="track-row" type="button" id="track-mirror" aria-expanded="false" aria-controls="detail-mirror"><span class="no"><span>B3</span></span><span class="name">Mirror</span><span class="sum">A camera check before every call</span><span class="fact">Left edge</span></button>
         <div class="detail" id="detail-mirror" role="region" aria-labelledby="track-mirror">
           <div class="shot"><img class="side-shot" src="images/notch-mirror.png?v=7037b281fc" alt="The Mirror: a camera preview showing Live, Good light and Centered, with buttons to flip, snap a photo and light your face" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>A mirror before every call</h3><p>Push the pointer to the notch's left edge for your camera. It checks your lighting and framing, and in a dark room it can light your face from the edges of the screen. The camera is only on while the mirror is open.</p><button class="try" type="button" data-try="mirror">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
-        <button class="track-row" type="button" id="track-calendar" aria-expanded="false" aria-controls="detail-calendar"><span class="no"><span>B3</span></span><span class="name">Calendar</span><span class="sum">Your day, and a quick way to add to it</span><span class="fact">Right edge</span></button>
+        <button class="track-row" type="button" id="track-calendar" aria-expanded="false" aria-controls="detail-calendar"><span class="no"><span>B4</span></span><span class="name">Calendar</span><span class="sum">Your day, and a quick way to add to it</span><span class="fact">Right edge</span></button>
         <div class="detail" id="detail-calendar" role="region" aria-labelledby="track-calendar">
           <div class="shot"><img class="side-shot" src="images/notch-calendar.png?v=62f41e8685" alt="The Calendar: Saturday the 10th, dinner with Jonathan now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
@@ -954,7 +1077,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="head" data-reveal>
         <span class="tag">Under the hood</span>
         <h2 class="h2" id="specs-title">Light enough to leave running</h2>
-        <p class="lead">ShawNotch sits in your notch all day, so it's built to stay out of the way.</p>
+        <p class="lead">ShawNotch sits in your notch all day, so it's built to stay out of the way. What you can't see rests: the record stops turning when its page is out of view, and the equalizer stops listening when your screen is locked or asleep.</p>
       </div>
       <div class="figures" data-reveal aria-label="ShawNotch in numbers">
         <div><b>1%</b><span>CPU while music plays</span></div>
@@ -1015,7 +1138,7 @@ footer nav a:hover { color: var(--ink); }
         <details><summary>Why isn't it on the App Store?</summary><p>ShawNotch uses parts of macOS the App Store doesn't allow, such as reading what's playing in other apps. It's signed with a Developer ID and notarized by Apple, so it opens like any other app.</p></details>
         <details><summary>Why does ShawNotch ask to hear my music?</summary><p>So the equalizer beside the notch moves with the song and rests when it's quiet. It listens only to your music app, on your Mac, and the sound is measured as it plays, never recorded or sent anywhere. Turn it off in Settings → Now Playing → React to the sound, and the equalizer keeps its own rhythm instead.</p></details>
         <details><summary>What happens with my camera and calendar?</summary><p>They're only shown in the notch. Nothing leaves your Mac, and the camera is only on while the mirror is open. macOS asks you before ShawNotch can use either, and Settings → Permissions lists everything ShawNotch may use, with a button to change each one.</p></details>
-        <details><summary>Does ShawNotch keep what I copy?</summary><p>Only if you turn on Clipboard history, in the Tray or in Settings; it's off until you do. Then the last 25 things you copy wait in the Tray, a click from being copied again. They're held in memory on your Mac, never saved to disk or sent anywhere, and forgotten when ShawNotch quits. Passwords copied from password managers are skipped.</p></details>
+        <details><summary>Does ShawNotch keep what I copy?</summary><p>Only if you turn on Clipboard history, in the Tray or in Settings; it's off until you do. Then the last 25 things you copy wait in the Tray (or on a page of their own, if you switch the Tray off), as a list or as cards, a click from being copied again. They're held in memory on your Mac, never sent anywhere, and forgotten when ShawNotch quits. Only what you pin is saved, on your Mac, until you unpin it or switch Clipboard history off. Passwords copied from password managers are skipped.</p></details>
         <details><summary>Which version of macOS do I need?</summary><p>macOS 14 Sonoma or later, on Apple silicon or Intel. Music Mode's icon colours need macOS 26; before that, it shows the album poster on your desktop.</p></details>
       </div>
     </div>
@@ -1420,21 +1543,82 @@ footer nav a:hover { color: var(--ink); }
   }
 
   // The Clipboard list, as in the app: off until it's turned on, then the
-  // newest 25 things copied. Here that's a few examples, plus any text you
-  // copy on this page. It stays in this browser tab: nothing is sent.
+  // newest 25 things copied, pins first, as a list (with a preview of the
+  // one under the pointer, or without it) or as cards, narrowed by a
+  // search and a kind. Here that's a few examples, plus any text you copy
+  // on this page. It stays in this browser tab: nothing is sent.
   const clipLimit = 25;
   let clipOn = false;
+  let clipLayout = 'list', clipPreview = true, clipKind = 'all', clipQuery = '';
+  let clipSelected = null;
+  const minutesAgo = minutes => Date.now() - minutes * 60000;
   let clips = [
-    { text: 'Meet at the library at 4pm, bring the charger' },
-    { text: 'https://shawnotch.com/privacy' },
-    { image: 'images/cover-ember.png?v=73846dd3ac', width: 600, height: 600 },
+    { text: 'support@shawnotch.com', from: 'Mail', at: minutesAgo(190), pinned: true },
+    { text: 'Meet at the library at 4pm, bring the charger', from: 'Messages', at: minutesAgo(2) },
+    { image: 'images/cover-ember.png?v=73846dd3ac', width: 600, height: 600, from: 'Preview', at: minutesAgo(9) },
+    { text: 'https://shawnotch.com/privacy', from: 'Safari', at: minutesAgo(26) },
+    { text: '#FF6FAE', from: 'Notes', at: minutesAgo(41) },
+    { text: 'git push origin main', from: 'Terminal', at: minutesAgo(58) },
   ];
+  // What the app would say a copy on this page came from: your browser.
+  const thisBrowser = (() => {
+    const agent = navigator.userAgent;
+    if (/Edg\//.test(agent)) return 'Microsoft Edge';
+    if (/Firefox\//.test(agent)) return 'Firefox';
+    if (/Chrome\//.test(agent)) return 'Google Chrome';
+    if (/Safari\//.test(agent)) return 'Safari';
+    return 'Your browser';
+  })();
   const isLink = text => /^https?:\/\/[^\s/]+\S*$/i.test(text.trim());
   const linkTitle = text => text.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '');
+  const hexColour = text => /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(text.trim()) ? text.trim() : null;
+  const looksLikeCode = text => /[{=]|->|\(\)|&&/.test(text) || /^(?:func|git|npm|xcodebuild) /.test(text.trim());
+  const clipType = clip => clip.image ? 'picture' : isLink(clip.text) ? 'link' : hexColour(clip.text) ? 'colour' : looksLikeCode(clip.text) ? 'code' : 'text';
   const clipSummary = clip => clip.image ? `Picture, ${clip.width} × ${clip.height}` : clip.text.slice(0, 300).split(/\s+/).filter(Boolean).join(' ');
+  const clipTitle = clip => clip.image ? clipSummary(clip) : isLink(clip.text) ? linkTitle(clip.text) : clipSummary(clip);
+  const clipKinds = {
+    all: () => true,
+    text: clip => !clip.image && !isLink(clip.text),
+    links: clip => !clip.image && isLink(clip.text),
+    pictures: clip => Boolean(clip.image),
+    files: () => false,  // a web page can't see the files you copy
+  };
+  function clipMatches(clip) {
+    const all = `${clip.image ? 'Picture' : clip.text} ${clip.from}`.toLowerCase();
+    return clipQuery.toLowerCase().split(/\s+/).filter(Boolean).every(word => all.includes(word));
+  }
+  // Pins first, then the rest, newest first.
+  const shownClips = () => [...clips.filter(clip => clip.pinned), ...clips.filter(clip => !clip.pinned)]
+    .filter(clip => clipKinds[clipKind](clip) && clipMatches(clip));
+  function timeAgo(time, short) {
+    const seconds = Math.max(0, (Date.now() - time) / 1000);
+    if (seconds < 60) return 'now';
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}${short ? 'm' : ' min'}`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}${short ? 'h' : ' hr'}`;
+    return `${Math.floor(seconds / 86400)}${short ? 'd' : ' d'}`;
+  }
+  const glyph = path => `<svg viewBox="0 0 24 24" aria-hidden="true">${path}</svg>`;
+  const glyphs = {
+    link: glyph('<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>'),
+    text: glyph('<path d="M4 6h16M4 11h16M4 16h10"/>'),
+    picture: glyph('<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 17"/>'),
+    colour: glyph('<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/>'),
+    code: glyph('<path d="M8.5 7l-5 5 5 5M15.5 7l5 5-5 5"/>'),
+    globe: glyph('<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/>'),
+    pin: glyph('<path d="M9 4h6l-1 6 3 3H7l3-3-1-6zM12 13v7"/>'),
+    copy: glyph('<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5v-2a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>'),
+    forget: glyph('<path d="M5 7h14M10 7V4.5h4V7M7 7l1 12.5h8L17 7"/>'),
+    tick: glyph('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    cross: glyph('<path d="M6 6l12 12M18 6L6 18"/>'),
+    open: glyph('<path d="M7 17L17 7M9 7h8v8"/>'),
+  };
 
   function recordClip(clip) {
-    clips = [clip, ...clips.filter(other => other.text !== clip.text)].slice(0, clipLimit);
+    // The same thing copied again moves to the front; something pinned stays where it is.
+    if (clips.some(other => other.pinned && other.text === clip.text)) return;
+    const pins = clips.filter(other => other.pinned);
+    const rest = clips.filter(other => !other.pinned && other.text !== clip.text);
+    clips = [...pins, clip, ...rest].slice(0, pins.length + clipLimit);
     if (feed === 'clipboard') renderTray();
   }
   async function copyClip(clip) {
@@ -1442,74 +1626,345 @@ footer nav a:hover { color: var(--ink); }
       if (clip.text) return await navigator.clipboard.writeText(clip.text);
       const picture = await (await fetch(clip.image)).blob();
       await navigator.clipboard.write([new ClipboardItem({ [picture.type]: picture })]);
-    } catch { /* A browser that won't let a page copy: the card still answers. */ }
+    } catch { /* A browser that won't let a page copy: the item still answers. */ }
   }
-  function clipCard(clip) {
-    const card = document.createElement('div');
-    card.className = 'clip';
-    card.tabIndex = 0;
-    card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', `${clipSummary(clip)}. Copies it again`);
-    card.title = `${clipSummary(clip)}\nClick to copy it again.`;
-    const label = document.createElement('span');
-    label.className = 'label';
-    if (clip.image) {
-      const picture = document.createElement('img');
-      picture.src = clip.image;
-      picture.alt = '';
-      picture.draggable = false;
-      card.appendChild(picture);
-      label.classList.add('two');
-      label.innerHTML = `<span>Picture</span><small>${clip.width} × ${clip.height}</small>`;
-    } else if (isLink(clip.text)) {
-      card.insertAdjacentHTML('beforeend', '<svg class="link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.400 0l3-3a4.5 4.5 0 0 0-6.400-6.400l-1 1M14 10a4.5 4.5 0 0 0-6.400 0l-3 3a4.5 4.5 0 0 0 6.400 6.400l1-1"/></svg>');
-      // An address may wrap after a slash, as in the app.
-      label.append(...linkTitle(clip.text).split(/(?<=\/)/).flatMap((piece, index) => index ? [document.createElement('wbr'), piece] : [piece]));
-    } else {
-      label.textContent = clipSummary(clip);
-    }
-    card.appendChild(label);
-    card.insertAdjacentHTML('beforeend', '<span class="done" aria-hidden="true">✓ Copied</span>');
-    let showing;
-    const copy = () => {
-      copyClip(clip);
-      card.classList.add('copied');
-      clearTimeout(showing);
-      showing = setTimeout(() => card.classList.remove('copied'), 900);
-    };
-    card.addEventListener('click', copy);
-    card.addEventListener('keydown', event => {
-      if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
+  function togglePin(clip) {
+    clip.pinned = !clip.pinned;
+    // Pinned, it goes on top; unpinned, back to the front of the rest.
+    clips = [clip, ...clips.filter(other => other !== clip)];
+    renderClips();
+  }
+  function forgetClip(clip) {
+    clips = clips.filter(other => other !== clip);
+    if (clipSelected === clip) clipSelected = null;
+    renderTray();
+  }
+  // Shows "copied" on a row or a card for a moment.
+  function flashCopied(element, clip, after) {
+    copyClip(clip);
+    element.classList.add('copied');
+    clearTimeout(element.copiedTimer);
+    element.copiedTimer = setTimeout(() => {
+      element.classList.remove('copied');
+      after?.();
+    }, 900);
+  }
+  function clipButton(className, title, html, action) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = className;
+    button.title = title;
+    button.setAttribute('aria-label', title);
+    button.innerHTML = html;
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      action();
+    });
+    return button;
+  }
+  // Only ever an http(s) address (see `isLink`), opened in a new tab.
+  function clipOpener(clip, html) {
+    const link = document.createElement('a');
+    link.href = clip.text.trim();
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.title = 'Open in browser';
+    link.setAttribute('aria-label', 'Open in browser');
+    link.innerHTML = html;
+    link.addEventListener('click', event => event.stopPropagation());
+    return link;
+  }
+  const pinButton = (clip, html) => clipButton(clip.pinned ? 'pin pin-on' : 'pin', clip.pinned ? 'Unpin' : 'Pin: keep on top, even after quitting', html, () => togglePin(clip));
+  function asButton(element, clip, copy) {
+    element.tabIndex = 0;
+    element.setAttribute('role', 'button');
+    element.setAttribute('aria-label', `${clipSummary(clip)}. Copies it again`);
+    element.addEventListener('click', copy);
+    element.addEventListener('keydown', event => {
+      if (event.target !== element || (event.key !== 'Enter' && event.key !== ' ')) return;
       event.preventDefault();
       copy();
     });
-    const remove = document.createElement('button');
-    remove.type = 'button';
-    remove.className = 'remove';
-    remove.title = 'Forget this';
-    remove.setAttribute('aria-label', `Forget ${clipSummary(clip)}`);
-    remove.innerHTML = '<svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg>';
-    remove.addEventListener('click', event => {
-      event.stopPropagation();
-      clips = clips.filter(other => other !== clip);
-      renderTray();
+  }
+  function clipImage(clip) {
+    const image = document.createElement('img');
+    image.src = clip.image;
+    image.alt = '';
+    image.draggable = false;
+    return image;
+  }
+  // The small picture beside a row: the picture itself, a colour, or a symbol.
+  function clipPicture(clip, swatches) {
+    const picture = document.createElement('span');
+    picture.className = 'pic';
+    const type = clipType(clip);
+    if (clip.image) {
+      picture.appendChild(clipImage(clip));
+    } else if (swatches && type === 'colour') {
+      const swatch = document.createElement('i');
+      swatch.style.background = hexColour(clip.text);
+      picture.appendChild(swatch);
+    } else {
+      picture.innerHTML = type === 'link' ? glyphs.link : glyphs.text;
+    }
+    return picture;
+  }
+  function clipSwatch(clip) {
+    const swatch = document.createElement('div');
+    swatch.className = 'swatch';
+    const colour = document.createElement('i');
+    colour.style.background = hexColour(clip.text);
+    swatch.append(colour, clip.text.trim());
+    return swatch;
+  }
+  const addressOf = clip => { try { return new URL(clip.text.trim()); } catch { return null; } };
+
+  function clipRow(clip, minimal) {
+    const row = document.createElement('div');
+    row.className = 'clip-row';
+    const label = document.createElement('span');
+    label.className = minimal && clipType(clip) === 'code' ? 'label code' : 'label';
+    label.textContent = clipTitle(clip);
+    row.append(clipPicture(clip, minimal), label);
+    row.insertAdjacentHTML('beforeend', `<span class="mark tick">${glyphs.tick}${minimal ? 'Copied' : ''}</span>`);
+    const copy = () => flashCopied(row, clip);
+    if (minimal) {
+      const actions = document.createElement('span');
+      actions.className = 'acts';
+      if (clipType(clip) === 'link') actions.appendChild(clipOpener(clip, glyphs.open));
+      actions.append(
+        pinButton(clip, `${glyphs.pin}${clip.pinned ? 'Pinned' : 'Pin'}`),
+        clipButton('', 'Copy again', 'Copy', copy),
+        clipButton('', 'Forget this', glyphs.cross, () => forgetClip(clip)),
+      );
+      row.appendChild(actions);
+    }
+    if (clip.pinned) row.insertAdjacentHTML('beforeend', `<span class="mark pin-on">${glyphs.pin}</span>`);
+    if (minimal || !clip.pinned) {
+      const age = document.createElement('span');
+      age.className = 'age';
+      age.textContent = minimal ? `${clip.from} · ${timeAgo(clip.at, true)}` : timeAgo(clip.at, true);
+      row.appendChild(age);
+    }
+    asButton(row, clip, copy);
+    if (!minimal) {
+      const select = () => {
+        if (clipSelected === clip) return;
+        clipSelected = clip;
+        renderInspector();
+      };
+      row.addEventListener('pointerenter', select);
+      row.addEventListener('focus', select);
+    }
+    return row;
+  }
+
+  // The preview beside the list: the item under the pointer (the first, until then), whole.
+  let inspector = null;
+  function renderInspector(copied = false) {
+    if (!inspector) return;
+    const shown = shownClips();
+    const clip = shown.includes(clipSelected) ? clipSelected : shown[0];
+    inspector.replaceChildren();
+    if (!clip) return;
+    const type = clipType(clip);
+    const head = document.createElement('div');
+    head.className = 'insp-head';
+    const picture = document.createElement('span');
+    picture.className = 'pic';
+    if (clip.image) picture.appendChild(clipImage(clip)); else picture.innerHTML = type === 'link' ? glyphs.link : glyphs.text;
+    const from = document.createElement('span');
+    from.className = 'from';
+    from.textContent = `${clip.from} · ${timeAgo(clip.at)}`;
+    head.append(picture, from);
+    if (type === 'link') head.appendChild(clipOpener(clip, glyphs.open));
+    head.append(
+      pinButton(clip, glyphs.pin),
+      clipButton(copied ? 'done' : '', 'Copy', copied ? glyphs.tick : glyphs.copy, () => {
+        copyClip(clip);
+        renderInspector(true);
+        clearTimeout(inspector.copiedTimer);
+        inspector.copiedTimer = setTimeout(() => renderInspector(), 900);
+      }),
+      clipButton('', 'Forget this', glyphs.forget, () => forgetClip(clip)),
+    );
+    const body = document.createElement('div');
+    body.className = 'insp-body';
+    if (clip.image) {
+      body.appendChild(clipImage(clip));
+    } else if (type === 'link') {
+      const address = addressOf(clip);
+      if (address) {
+        const host = document.createElement('span');
+        host.className = 'host';
+        host.innerHTML = glyphs.globe;
+        host.append(address.host);
+        body.appendChild(host);
+      }
+      const whole = document.createElement('div');
+      whole.className = 'address';
+      whole.textContent = clip.text.trim();
+      body.appendChild(whole);
+    } else if (type === 'colour') {
+      body.appendChild(clipSwatch(clip));
+    } else {
+      const words = document.createElement('div');
+      words.className = type === 'code' ? 'words code' : 'words';
+      words.textContent = clip.text.trim().slice(0, 400);
+      body.appendChild(words);
+    }
+    const foot = document.createElement('div');
+    foot.className = 'insp-foot';
+    foot.textContent = copied ? 'Copied to clipboard'
+      : clip.image ? `PNG · ${clip.width}×${clip.height} · Click or drag`
+      : `${type === 'link' ? 'URL' : 'Text'} · ${[...clip.text].length} chars · Click row to copy`;
+    inspector.append(head, body, foot);
+  }
+
+  function clipCard(clip) {
+    const type = clipType(clip);
+    const card = document.createElement('div');
+    card.className = `clip-card ${type}${clip.pinned ? ' pinned' : ''}`;
+    const head = document.createElement('div');
+    head.className = 'card-head';
+    head.innerHTML = type === 'link' ? glyphs.globe : glyphs[type];
+    head.append(timeAgo(clip.at, true));
+    if (clip.pinned) head.insertAdjacentHTML('beforeend', `<span class="badge">${glyphs.pin}PINNED</span>`);
+    const body = document.createElement('div');
+    body.className = type === 'code' ? 'card-body code' : 'card-body';
+    if (clip.image) {
+      body.appendChild(clipImage(clip));
+    } else if (type === 'link') {
+      const address = addressOf(clip);
+      const host = document.createElement('div');
+      host.className = 'host';
+      host.innerHTML = glyphs.globe;
+      host.append(address ? address.host : linkTitle(clip.text));
+      body.appendChild(host);
+      const rest = address ? address.pathname + address.search : '';
+      if (rest.length > 1) {
+        const path = document.createElement('div');
+        path.className = 'path';
+        path.textContent = rest;
+        body.appendChild(path);
+      }
+    } else if (type === 'colour') {
+      body.appendChild(clipSwatch(clip));
+    } else {
+      body.textContent = clip.text.trim().slice(0, 240);
+    }
+    const foot = document.createElement('div');
+    foot.className = 'card-foot';
+    const footText = clip.image ? `${clip.width}×${clip.height} · PNG`
+      : `${{ link: 'LINK', colour: 'COLOR', code: 'CODE', text: 'TEXT' }[type]} · ${clip.from}`;
+    foot.textContent = footText;
+    const actions = document.createElement('span');
+    actions.className = 'card-acts';
+    if (type === 'link') actions.appendChild(clipOpener(clip, glyphs.open));
+    actions.append(pinButton(clip, glyphs.pin), clipButton('', 'Forget this', glyphs.cross, () => forgetClip(clip)));
+    card.append(head, body, foot, actions);
+    asButton(card, clip, () => {
+      foot.textContent = '✓ Copied';
+      flashCopied(card, clip, () => { foot.textContent = footText; });
     });
-    card.appendChild(remove);
     return card;
   }
+
+  function renderClipList() {
+    const list = $('tray-clips');
+    const shown = clipOn ? shownClips() : [];
+    inspector = null;
+    if (!shown.length) {
+      list.className = 'tray-clips';
+      const none = document.createElement('div');
+      none.className = 'clip-none';
+      const title = document.createElement('b');
+      title.textContent = 'Nothing matches';
+      const detail = document.createElement('span');
+      const kind = { text: 'text', links: 'links', pictures: 'pictures', files: 'files' }[clipKind];
+      detail.textContent = !kind ? `Nothing copied has “${clipQuery}” in it.`
+        : `No ${kind} ${clipQuery.trim() ? `with “${clipQuery}”` : 'copied'}.`;
+      none.append(title, detail);
+      list.replaceChildren(none);
+    } else if (clipLayout === 'cards') {
+      list.className = 'tray-clips deck';
+      list.replaceChildren(...shown.map(clipCard));
+    } else if (clipPreview) {
+      list.className = 'tray-clips paned';
+      const rows = document.createElement('div');
+      rows.className = 'clip-rows';
+      rows.append(...shown.map(clip => clipRow(clip, false)));
+      inspector = document.createElement('div');
+      inspector.className = 'clip-inspect';
+      list.replaceChildren(rows, inspector);
+      renderInspector();
+    } else {
+      list.className = 'tray-clips minimal';
+      const group = (name, items) => {
+        if (!items.length) return [];
+        const title = document.createElement('div');
+        title.className = 'clip-group';
+        title.textContent = name;
+        return [title, ...items.map(clip => clipRow(clip, true))];
+      };
+      list.replaceChildren(...group('PINNED', shown.filter(clip => clip.pinned)), ...group('RECENT', shown.filter(clip => !clip.pinned)));
+    }
+  }
   function renderClips() {
-    const shown = clipOn ? clips : [];
-    $('tray-title').textContent = shown.length ? `Clipboard · ${shown.length}` : 'Clipboard';
-    $('tray-clear').hidden = shown.length === 0;
-    trayPage.classList.toggle('cards', shown.length > 0);
-    trayPage.classList.toggle('note', shown.length === 0);
+    const kept = clipOn ? clips : [];
+    const listed = kept.length > 0;
+    $('tray-title').textContent = 'Clipboard';
+    $('tray-clear').hidden = true;
+    trayPage.classList.toggle('listed', listed);
+    trayPage.classList.toggle('note', !listed);
     $('tray-note').classList.toggle('plain', clipOn);
     $('tray-note-title').textContent = clipOn ? 'Nothing copied yet' : 'Clipboard history is off';
     $('tray-note-detail').textContent = clipOn
-      ? 'What you copy from now on shows up here, and is forgotten when ShawNotch quits.'
+      ? 'What you copy from now on shows up here, and is forgotten when ShawNotch quits. Pin something to keep it.'
       : `Turn it on to keep the last ${clipLimit} things you copy here, ready to copy again. They stay on this Mac, and passwords from password managers are skipped.`;
-    $('tray-clips').replaceChildren(...shown.map(clipCard));
+    $('clip-search').placeholder = `Search · ${kept.length}`;
+    $('clip-clear').hidden = !kept.some(clip => !clip.pinned);
+    $('clip-preview-seg').hidden = clipLayout !== 'list';
+    $('clip-preview').setAttribute('aria-pressed', String(clipPreview));
+    $('clip-preview').title = clipPreview ? 'Hide preview pane' : 'Show preview pane';
+    document.querySelectorAll('[data-layout]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.layout === clipLayout)));
+    document.querySelectorAll('[data-kind]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.kind === clipKind)));
+    renderClipList();
   }
+  document.querySelectorAll('[data-layout]').forEach(button => button.addEventListener('click', () => {
+    clipLayout = button.dataset.layout;
+    renderClips();
+  }));
+  document.querySelectorAll('[data-kind]').forEach(button => button.addEventListener('click', () => {
+    clipKind = button.dataset.kind;
+    clipSelected = null;
+    renderClips();
+  }));
+  $('clip-preview').addEventListener('click', () => {
+    clipPreview = !clipPreview;
+    renderClips();
+  });
+  $('clip-search').addEventListener('input', event => {
+    clipQuery = event.target.value;
+    clipSelected = null;
+    renderClipList();
+  });
+  $('clip-search').addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    // Esc clears what's typed, then leaves the search.
+    if (clipQuery) {
+      event.target.value = clipQuery = '';
+      renderClipList();
+    } else {
+      event.target.blur();
+    }
+  });
+  $('clip-clear').addEventListener('click', () => {
+    // Pins stay: unpin them one by one.
+    clips = clips.filter(clip => clip.pinned);
+    clipSelected = null;
+    renderTray();
+  });
   $('clip-on').addEventListener('click', () => { clipOn = true; renderTray(); });
   document.addEventListener('copy', event => {
     if (!clipOn) return;
@@ -1517,7 +1972,7 @@ footer nav a:hover { color: var(--ink); }
     const typed = field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement;
     if (typed && field.type === 'password') return;
     const text = typed ? field.value.slice(field.selectionStart ?? 0, field.selectionEnd ?? 0) : String(document.getSelection() ?? '');
-    if (text.trim()) recordClip({ text });
+    if (text.trim()) recordClip({ text, from: thisBrowser, at: Date.now() });
   });
 
   function renderTray(added = 0) {
@@ -1528,7 +1983,7 @@ footer nav a:hover { color: var(--ink); }
       renderClips();
       return;
     }
-    trayPage.classList.remove('cards', 'note');
+    trayPage.classList.remove('listed', 'note');
     const files = feeds[feed];
     $('tray-title').textContent = `${feedNames[feed]} · ${files.length}`;
     $('tray-clear').hidden = feed !== 'tray' || files.length === 0;
@@ -1563,7 +2018,6 @@ footer nav a:hover { color: var(--ink); }
   function setFeed(name) { feed = name; renderTray(); }
   document.querySelectorAll('[data-feed]').forEach(button => button.addEventListener('click', () => setFeed(button.dataset.feed)));
   $('tray-clear').addEventListener('click', () => {
-    if (feed === 'clipboard') { clips = []; renderTray(); return; }
     feeds.tray.forEach(file => file.url && URL.revokeObjectURL(file.url));
     feeds.tray = [];
     renderTray();
@@ -2037,7 +2491,10 @@ footer nav a:hover { color: var(--ink); }
     if (name === 'closed') { pinned = false; return collapse(); }
     pinned = true;
     expand();
-    if (name === 'tray') return show(1);
+    if (name === 'tray' || name === 'clipboard') {
+      setFeed(name);
+      return show(1);
+    }
     if (page !== 0) show(0);
     setDrawer(name === 'mirror' || name === 'calendar' ? name : 'none');
   }
@@ -2047,10 +2504,11 @@ footer nav a:hover { color: var(--ink); }
     airpods: 'AirPods: each earbud’s battery, for a moment.',
     playing: 'Now Playing: the song as a spinning record, with a playback line and controls.',
     tray: 'Tray: files kept for later, with Downloads, Recent and the Clipboard a click away.',
+    clipboard: 'Clipboard: the last things you copied, as a list or as cards, a click from being copied again.',
     mirror: 'Mirror: your camera, with lighting and framing checks.',
     calendar: 'Calendar: today’s events, with Join for calls.',
   };
-  const part = () => peeking && !expanded ? 'airpods' : !expanded ? 'closed' : drawer !== 'none' ? drawer : page === 1 ? 'tray' : 'playing';
+  const part = () => peeking && !expanded ? 'airpods' : !expanded ? 'closed' : drawer !== 'none' ? drawer : page === 1 ? (feed === 'clipboard' ? 'clipboard' : 'tray') : 'playing';
   let told = null;
   function sync() {
     const current = part();
