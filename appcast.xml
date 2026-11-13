@@ -3,22 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.27</title>
-            <pubDate>Fri, 13 Nov 2026 20:50:21 +0000</pubDate>
+            <title>1.7.28</title>
+            <pubDate>Fri, 13 Nov 2026 21:40:55 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10727</sparkle:version>
-            <sparkle:shortVersionString>1.7.27</sparkle:shortVersionString>
+            <sparkle:version>10728</sparkle:version>
+            <sparkle:shortVersionString>1.7.28</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.27</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.28</h2>
 <ul>
-<li>Clipboard history, rebuilt: see it as a list with a preview or as cards, search it, narrow it to text, links, pictures or files, and pin what you use most. Pins stay after quitting.</li>
-<li>Each new copy shows as “Copied” beside the closed notch for a moment; open the notch then and it goes straight to the clipboard.</li>
-<li>Open a copied picture full size in the notch: pinch or scroll to zoom, drag its edges to resize it, and lock it open while you work beside it.</li>
-<li>Lighter and quicker: with a song playing, the open notch uses about a tenth of the CPU it did, and buttons and the menu answer the pointer at once.</li>
-<li>Settings → General can hide the menu bar icon (right-click the notch for Settings), and Help has a tidier look.</li>
+<li>The Dock comes back after Clean Desktop every time. Leaving it straight after it began, or as songs changed, could leave the Dock set to hide itself.</li>
+<li>Clipboard history is on from the start when you first install ShawNotch. If you already had it off, it stays off; switch it in Settings → Widgets.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.27/ShawNotch-1.7.27.zip" length="6404761" type="application/octet-stream" sparkle:edSignature="r78ZFXU/t2v+yWgNnFZY6jb4rI+8UVhIdroZJzR9JcygJ+MjgOEeLETEIrWGVECVtriTzO5xt0WGNvftWKWtDQ=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.28/ShawNotch-1.7.28.zip" length="6415493" type="application/octet-stream" sparkle:edSignature="FVnIbMDA9mwqbPR14XtPNXc8GRgBtROIdi3nkvAfD9634nu8B4IwnY0b2LlJ4xK6SbaEFs2vRDuuwY/CN3+/Ag=="/>
         </item>
     </channel>
 </rss>
