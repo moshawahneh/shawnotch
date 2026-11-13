@@ -1082,7 +1082,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="figures" data-reveal aria-label="ShawNotch in numbers">
         <div><b>1%</b><span>CPU while music plays</span></div>
         <div><b>20–60<small> MB</small></b><span>of memory</span></div>
-        <div><b>5.7<small> MB</small></b><span>download</span></div>
+        <div><b>6.8<small> MB</small></b><span>download</span></div>
         <div><b>7.5<small> rpm</small></b><span>the record's speed</span></div>
       </div>
       <p class="footnote">Measured with ShawNotch 1.7.22 on a 14-inch MacBook Pro with Apple silicon while playing music, with Music Mode on and the equalizer reacting to the sound (0.02% CPU with that switched off). The Mirror's camera uses more while it's open. Your numbers will vary.</p>
@@ -1542,13 +1542,14 @@ footer nav a:hover { color: var(--ink); }
     return thumb;
   }
 
-  // The Clipboard list, as in the app: off until it's turned on, then the
+  // The Clipboard list, as in the app (where it's off until it's turned
+  // on; here it starts on, so there's something to try): the
   // newest 25 things copied, pins first, as a list (with a preview of the
   // one under the pointer, or without it) or as cards, narrowed by a
   // search and a kind. Here that's a few examples, plus any text you copy
   // on this page. It stays in this browser tab: nothing is sent.
   const clipLimit = 25;
-  let clipOn = false;
+  let clipOn = true;
   let clipLayout = 'list', clipPreview = true, clipKind = 'all', clipQuery = '';
   let clipSelected = null;
   const minutesAgo = minutes => Date.now() - minutes * 60000;
