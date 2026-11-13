@@ -3,19 +3,21 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.28</title>
-            <pubDate>Fri, 13 Nov 2026 21:40:55 +0000</pubDate>
+            <title>1.7.29</title>
+            <pubDate>Fri, 13 Nov 2026 23:40:47 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10728</sparkle:version>
-            <sparkle:shortVersionString>1.7.28</sparkle:shortVersionString>
+            <sparkle:version>10729</sparkle:version>
+            <sparkle:shortVersionString>1.7.29</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.28</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.29</h2>
 <ul>
-<li>The Dock comes back after Clean Desktop every time. Leaving it straight after it began, or as songs changed, could leave the Dock set to hide itself.</li>
-<li>Clipboard history is on from the start when you first install ShawNotch. If you already had it off, it stays off; switch it in Settings → Widgets.</li>
+<li>Clean Desktop has a stage: the Poster, a Spinning Vinyl with its tonearm, or Clock &amp; Up Next with your next event today. Pick one from the notch's right-click menu or Settings → Clean Desktop.</li>
+<li>Hold ⌥ while Clean Desktop is on and your files come back, so you can drag one out. Let go and they step aside again.</li>
+<li>Idle Curtain: step away for a few minutes and the stage comes up over everything. Move the pointer or press a key and it's gone. It stays down during video calls, presentations and films, and you can change the wait or switch it off in Settings.</li>
+<li>The record in the notch keeps its place when the notch closes, and turns in step with the one on your desktop.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.28/ShawNotch-1.7.28.zip" length="6415493" type="application/octet-stream" sparkle:edSignature="FVnIbMDA9mwqbPR14XtPNXc8GRgBtROIdi3nkvAfD9634nu8B4IwnY0b2LlJ4xK6SbaEFs2vRDuuwY/CN3+/Ag=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.29/ShawNotch-1.7.29.zip" length="6942897" type="application/octet-stream" sparkle:edSignature="wnFNmydIFCf6j4yh+/nT5T018UR4q7R3ojevL040fM9/rf+XQ5rLMXtOej0W2wh50dS/gdxroCAgpORcPFaPDg=="/>
         </item>
     </channel>
 </rss>
