@@ -1056,7 +1056,7 @@ footer nav a:hover { color: var(--ink); }
         <button class="track-row" type="button" id="track-clipboard" aria-expanded="false" aria-controls="detail-clipboard"><span class="no"><span>B2</span></span><span class="name">Clipboard</span><span class="sum">What you copied, ready to copy again</span><span class="fact">Last 25</span></button>
         <div class="detail" id="detail-clipboard" role="region" aria-labelledby="track-clipboard">
           <div class="shot"><img class="wide" src="images/notch-clipboard.png?v=04e16b1583" alt="The Clipboard as cards: a pinned address, a message, a link, a picture, a colour and a command, each headed in its own colour" width="544" height="152" loading="lazy"></div>
-          <div class="text"><h3>What you copied, ready to copy again</h3><p>Turn Clipboard history on and the last 25 things you copy wait in the Tray: text, links, pictures and files, each with the app it came from. Browse them as a list with a preview or as cards, search them, click one to copy it again or drag it out. Pin what you use most and it's still there after quitting. Open a picture to see it full size in the notch, zoom in, and lock it open while you work beside it.</p><button class="try" type="button" data-try="clipboard">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+          <div class="text"><h3>What you copied, ready to copy again</h3><p>Turn Clipboard history on and the last 25 things you copy wait in the Tray: text, links, pictures and files, each with the app it came from. Browse them as a list with a preview or as cards, search them, click one to copy it again or drag it out. Each new copy shows as “Copied” beside the closed notch for a moment, and opening the notch then goes straight to it. Pin what you use most and it's still there after quitting. Open a picture to see it full size in the notch, zoom in, and lock it open while you work beside it.</p><button class="try" type="button" data-try="clipboard">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-mirror" aria-expanded="false" aria-controls="detail-mirror"><span class="no"><span>B3</span></span><span class="name">Mirror</span><span class="sum">A camera check before every call</span><span class="fact">Left edge</span></button>
         <div class="detail" id="detail-mirror" role="region" aria-labelledby="track-mirror">
@@ -1116,7 +1116,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.26 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.27 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -2759,7 +2759,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.26";
+      item.textContent = "You're up to date: 1.7.27";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }

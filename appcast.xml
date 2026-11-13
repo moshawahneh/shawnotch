@@ -3,20 +3,22 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.26</title>
-            <pubDate>Tue, 10 Nov 2026 17:10:47 +0000</pubDate>
+            <title>1.7.27</title>
+            <pubDate>Fri, 13 Nov 2026 20:50:21 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10726</sparkle:version>
-            <sparkle:shortVersionString>1.7.26</sparkle:shortVersionString>
+            <sparkle:version>10727</sparkle:version>
+            <sparkle:shortVersionString>1.7.27</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.26</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.27</h2>
 <ul>
-<li>Clean Desktop, for Music Mode: while the album is on your desktop, the icons, widgets, Dock and menu bar step aside and the screen's edges darken, leaving just the album.</li>
-<li>Switch it on or off from the notch's right-click menu or the menu bar icon's menu. The Dock and the menu bar still slide in when you move the pointer to them.</li>
-<li>Your own Dock and menu bar settings come back when Music Mode or Clean Desktop turns off, or when ShawNotch quits.</li>
+<li>Clipboard history, rebuilt: see it as a list with a preview or as cards, search it, narrow it to text, links, pictures or files, and pin what you use most. Pins stay after quitting.</li>
+<li>Each new copy shows as “Copied” beside the closed notch for a moment; open the notch then and it goes straight to the clipboard.</li>
+<li>Open a copied picture full size in the notch: pinch or scroll to zoom, drag its edges to resize it, and lock it open while you work beside it.</li>
+<li>Lighter and quicker: with a song playing, the open notch uses about a tenth of the CPU it did, and buttons and the menu answer the pointer at once.</li>
+<li>Settings → General can hide the menu bar icon (right-click the notch for Settings), and Help has a tidier look.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.26/ShawNotch-1.7.26.zip" length="5263691" type="application/octet-stream" sparkle:edSignature="ccM56nLT2gdzZ7CqG2eUkRKCUPvvuY+2ieEiUfJWa5CLLU59T7xpOfhGek2OzrbXIEMFfP0KVQsMiENdFUf1Dg=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.27/ShawNotch-1.7.27.zip" length="6404761" type="application/octet-stream" sparkle:edSignature="r78ZFXU/t2v+yWgNnFZY6jb4rI+8UVhIdroZJzR9JcygJ+MjgOEeLETEIrWGVECVtriTzO5xt0WGNvftWKWtDQ=="/>
         </item>
     </channel>
 </rss>
