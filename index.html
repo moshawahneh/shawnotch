@@ -588,6 +588,27 @@ p { margin: 0; }
 .heads-up svg { flex: none; margin-top: 2px; color: var(--brand); }
 .heads-up p { font-size: 14.5px; line-height: 1.55; color: var(--muted); }
 .heads-up b { color: var(--ink); }
+/* Clean Desktop on the Music Mode side: the icons, widgets, Dock and menu bar step aside for the stage the visitor picks, and come back while ⌥ is held. */
+.desk.on .widget, .desk.on .folders, .desk.on .dock { transition: opacity 0.35s ease; }
+.compare.clean .desk.on .dock, .compare.clean:not(.cd-peek) .desk.on .widget, .compare.clean:not(.cd-peek) .desk.on .folders { opacity: 0; }
+.compare.clean .desk-bar { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+.cd-stage { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.45s ease; }
+.compare[data-stage="vinyl"] .cd-stage, .compare[data-stage="clock"] .cd-stage { opacity: 1; }
+.stage-vinyl, .stage-clock { opacity: 0; transition: opacity 0.3s ease; }
+.compare[data-stage="vinyl"]:not(.cd-peek) .stage-vinyl, .compare[data-stage="clock"]:not(.cd-peek) .stage-clock { opacity: 1; }
+.cd-stage .glow-back { opacity: 0; }
+.compare.cd-glow .cd-stage .glow-back { opacity: 1; }
+.compare.cd-glow .cd-stage .blur-back { opacity: 0; }
+.cd-stage text { font-family: var(--body); fill: #fff; }
+.cd-stage .time { font-variant-numeric: tabular-nums; }
+.clean-controls .seg { flex-wrap: wrap; justify-content: center; }
+.peek-btn { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); color: var(--ink); font: 600 14px/1 var(--body); letter-spacing: 0; text-transform: none; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; transition: border-color 0.25s ease, background-color 0.25s ease, opacity 0.25s ease; }
+.peek-btn:hover { border-color: var(--line-hi); }
+.peek-btn[aria-pressed="true"] { background: rgba(255, 255, 255, 0.12); }
+.peek-btn:disabled { opacity: 0.4; cursor: default; }
+.peek-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.peek-btn kbd { font: inherit; }
+@media (max-width: 560px) { .clean-controls .seg button { padding: 8px 11px; font-size: 13px; } }
 
 /* MARK: Everything else, as a record's track list: a side A and a side B, and a listening post beside them */
 .tracklist { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); column-gap: clamp(28px, 5vw, 64px); align-items: start; margin-top: 56px; }
@@ -986,6 +1007,59 @@ footer nav a:hover { color: var(--ink); }
             <div class="desk on" aria-hidden="true">
               <img class="poster" id="posterA" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy">
               <img class="poster" id="posterB" src="images/poster-midnight.jpg?v=e570e2e04f" alt="" loading="lazy" style="opacity: 0">
+              <svg class="cd-stage" viewBox="0 0 1512 982" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <filter id="stage-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="64"/></filter>
+                  <radialGradient id="stage-halo"><stop offset="0" style="stop-color: var(--draw)" stop-opacity="0.6"/><stop offset="0.55" style="stop-color: var(--draw)" stop-opacity="0.18"/><stop offset="1" style="stop-color: var(--draw)" stop-opacity="0"/></radialGradient>
+                  <radialGradient id="stage-glow" cx="50%" cy="46%" r="70%"><stop offset="0" style="stop-color: var(--draw)"/><stop offset="0.6" style="stop-color: var(--dtint)"/><stop offset="1" stop-color="#050507"/></radialGradient>
+                  <linearGradient id="stage-sheen" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0.1"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0.06"/></linearGradient>
+                  <clipPath id="stage-record"><circle cx="756" cy="439" r="192"/></clipPath>
+                  <clipPath id="stage-square"><rect x="936" y="300" width="280" height="280" rx="14"/></clipPath>
+                </defs>
+                <rect width="1512" height="982" fill="#060608"/>
+                <image class="blur-back stage-cover" href="images/cover-midnight.png?v=255bf0b55b" x="-120" y="-385" width="1752" height="1752" preserveAspectRatio="xMidYMid slice" filter="url(#stage-blur)" opacity="0.85"/>
+                <rect class="glow-back" width="1512" height="982" fill="url(#stage-glow)"/>
+                <rect width="1512" height="982" fill="#000" opacity="0.3"/>
+                <g class="stage-vinyl">
+                  <circle cx="756" cy="439" r="355" fill="url(#stage-halo)"/>
+                  <circle cx="756" cy="453" r="188" fill="#000" opacity="0.45" filter="url(#stage-blur)"/>
+                  <g clip-path="url(#stage-record)">
+                    <image class="stage-cover" href="images/cover-midnight.png?v=255bf0b55b" x="564" y="247" width="384" height="384" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="756" cy="439" r="192" fill="url(#stage-sheen)"/>
+                    <g fill="none" stroke="#000" stroke-opacity="0.2" stroke-width="1"><circle cx="756" cy="439" r="172.8"/><circle cx="756" cy="439" r="149.8"/><circle cx="756" cy="439" r="126.7"/><circle cx="756" cy="439" r="103.7"/></g>
+                    <circle cx="756" cy="439" r="177.6" fill="none" stroke="#08080a" stroke-opacity="0.86" stroke-width="28.8"/>
+                    <circle cx="756" cy="439" r="163.2" fill="none" stroke="#fff" stroke-opacity="0.14" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="756" cy="439" r="25" fill="#000" opacity="0.28"/>
+                  <circle cx="756" cy="439" r="15.4" fill="#000" stroke="#fff" stroke-opacity="0.22" stroke-width="1"/>
+                  <line x1="1009.4" y1="270" x2="894" y2="493" stroke="#DCDCDE" stroke-width="5.5" stroke-linecap="round"/>
+                  <rect x="-13" y="-9" width="26" height="18" rx="4" fill="#DCDCDE" transform="translate(894 493) rotate(117.4)"/>
+                  <circle cx="1009.4" cy="270" r="16" fill="#2B2B30" stroke="#5A5A60" stroke-width="2.5"/>
+                  <circle cx="1009.4" cy="270" r="5.5" fill="#E5E5E7"/>
+                  <text class="stage-title" x="756" y="681" text-anchor="middle" font-size="26" font-weight="600">Midnight Drive</text>
+                  <text class="stage-artist" x="756" y="707" text-anchor="middle" font-size="17" opacity="0.72">Neon Coast</text>
+                  <text class="time stage-elapsed" x="596" y="748" text-anchor="end" font-size="12" font-weight="500" opacity="0.7">1:21</text>
+                  <rect x="606" y="742" width="300" height="4" rx="2" fill="#fff" opacity="0.22"/>
+                  <rect class="stage-fill" x="606" y="742" width="114" height="4" rx="2" fill="#fff" opacity="0.9"/>
+                  <text class="time stage-length" x="916" y="748" font-size="12" font-weight="500" opacity="0.7">3:33</text>
+                </g>
+                <g class="stage-clock">
+                  <circle cx="1076" cy="440" r="266" fill="url(#stage-halo)"/>
+                  <rect x="944" y="318" width="264" height="264" rx="14" fill="#000" opacity="0.45" filter="url(#stage-blur)"/>
+                  <image class="stage-cover" href="images/cover-midnight.png?v=255bf0b55b" x="936" y="300" width="280" height="280" preserveAspectRatio="xMidYMid slice" clip-path="url(#stage-square)"/>
+                  <text class="stage-title" x="1076" y="620" text-anchor="middle" font-size="21" font-weight="600">Midnight Drive</text>
+                  <text class="stage-artist" x="1076" y="644" text-anchor="middle" font-size="15" opacity="0.72">Neon Coast</text>
+                  <text class="time stage-elapsed" x="926" y="681" text-anchor="end" font-size="12" font-weight="500" opacity="0.7">1:21</text>
+                  <rect x="936" y="675" width="280" height="4" rx="2" fill="#fff" opacity="0.22"/>
+                  <rect class="stage-fill" x="936" y="675" width="106" height="4" rx="2" fill="#fff" opacity="0.9"/>
+                  <text class="time stage-length" x="1226" y="681" font-size="12" font-weight="500" opacity="0.7">3:33</text>
+                  <text x="296" y="392" font-size="17" font-weight="500" opacity="0.74">Saturday 10 May</text>
+                  <text class="time" x="290" y="516" font-size="122" font-weight="700" letter-spacing="-2">9:41</text>
+                  <rect id="stage-pill" x="296" y="565" width="250" height="34" rx="17" fill="#fff" fill-opacity="0.11" stroke="#fff" stroke-opacity="0.16"/>
+                  <circle cx="313" cy="582" r="4" fill="#FF9F0A"/>
+                  <text id="stage-pill-text" x="323" y="587" font-size="14.5" font-weight="500" opacity="0.92">Up Next · Mix review · 10:30</text>
+                </g>
+              </svg>
               <div class="widget w-date tinted"><small>Saturday</small><big>10</big></div>
               <div class="widget w-clock tinted"><small>Screen time today</small>4h 12m</div>
               <div class="folders"><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div><div class="folder tinted"></div></div>
@@ -1006,6 +1080,7 @@ footer nav a:hover { color: var(--ink); }
         </div>
         <button class="switch" id="mm-switch" type="button" role="switch" aria-checked="false"><span class="rail"></span>Music Mode on this page</button>
         <div class="backdrops" role="group" aria-label="Behind the cover">Behind the cover<span class="seg"><button type="button" data-backdrop="" aria-pressed="true">Blurred cover</button><button type="button" data-backdrop="-glow" aria-pressed="false">Album colour</button></span></div>
+        <div class="backdrops clean-controls" role="group" aria-label="Clean Desktop">Clean Desktop<span class="seg"><button type="button" data-stage="" aria-pressed="true">Off</button><button type="button" data-stage="poster" aria-pressed="false">Poster</button><button type="button" data-stage="vinyl" aria-pressed="false">Spinning Vinyl</button><button type="button" data-stage="clock" aria-pressed="false">Clock &amp; Up Next</button></span><button class="peek-btn" id="peek" type="button" aria-pressed="false" disabled>Hold <kbd>⌥</kbd> to peek</button></div>
       </div>
       <aside class="heads-up" role="note" aria-label="macOS version note" data-reveal>
         <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.05" fill="currentColor"/></svg>
@@ -1013,7 +1088,11 @@ footer nav a:hover { color: var(--ink); }
       </aside>
       <aside class="heads-up" role="note" aria-label="Clean Desktop" data-reveal>
         <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2.5l15 15M8.8 4.3A8 8 0 0 1 10 4.2c4 0 7 3.6 7.8 5.8-.3.8-1 1.9-2 2.9M5.4 5.6C3.7 6.8 2.6 8.4 2.2 10c.8 2.2 3.8 5.8 7.8 5.8 1.4 0 2.7-.4 3.8-1.1M8.3 8.3a2.4 2.4 0 0 0 3.4 3.4"/></svg>
-        <p><b>Clean Desktop.</b> Turn it on from the notch's right-click menu or the menu bar, and while Music Mode is on, your desktop's icons and widgets, the Dock and the menu bar step aside and the screen's edges darken, leaving just the album. Nothing on your desktop is moved, and the Dock and menu bar slide back when you reach for them.</p>
+        <p><b>Clean Desktop.</b> Turn it on from the notch's right-click menu or the menu bar, and while Music Mode is on, your desktop's icons and widgets, the Dock and the menu bar step aside for a stage: the <b>Poster</b>, a <b>Spinning Vinyl</b> with its tonearm, or <b>Clock &amp; Up Next</b> with your next event today. Hold <kbd>⌥</kbd> and your files come back so you can drag one out, then let go. Nothing on your desktop is moved, and the Dock and menu bar slide back when you reach for them.</p>
+      </aside>
+      <aside class="heads-up" role="note" aria-label="Idle Curtain" data-reveal>
+        <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5h14M4.5 3.5v13M15.5 3.5v13M4.5 6.5c2 3 2 7 0 10M15.5 6.5c-2 3-2 7 0 10"/></svg>
+        <p><b>Idle Curtain.</b> Step away from your Mac for a few minutes (you pick how many) and the stage comes up over everything, with the song that's playing or the time and your next event. Move the pointer or press a key and it's gone. It stays down during video calls, presentations and films, and you can switch it off in Settings.</p>
       </aside>
     </div>
   </section>
@@ -1081,11 +1160,11 @@ footer nav a:hover { color: var(--ink); }
       </div>
       <div class="figures" data-reveal aria-label="ShawNotch in numbers">
         <div><b>1%</b><span>CPU while music plays</span></div>
-        <div><b>20–60<small> MB</small></b><span>of memory</span></div>
-        <div><b>6.9<small> MB</small></b><span>download</span></div>
+        <div><b>50–100<small> MB</small></b><span>of memory</span></div>
+        <div><b>7.4<small> MB</small></b><span>download</span></div>
         <div><b>7.5<small> rpm</small></b><span>the record's speed</span></div>
       </div>
-      <p class="footnote">Measured with ShawNotch 1.7.22 on a 14-inch MacBook Pro with Apple silicon while playing music, with Music Mode on and the equalizer reacting to the sound (0.02% CPU with that switched off). The Mirror's camera uses more while it's open. Your numbers will vary.</p>
+      <p class="footnote">Measured with ShawNotch 1.7.29 on a 14-inch MacBook Pro with Apple silicon while playing music, with Music Mode on and the equalizer reacting to the sound: 1.2% CPU and 53 MB. With nothing playing, 0% and 50 MB. Clean Desktop's Spinning Vinyl takes it to 2.6% and 63 MB, and the Idle Curtain, while it's up, 2% and 97 MB. The Mirror's camera uses more while it's open. Your numbers will vary.</p>
       <div class="promises" data-reveal>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5A1.5 1.5 0 0 1 6 5h12a1.5 1.5 0 0 1 1.5 1.5V16h-15V6.5zM2.5 16h19l-.8 1.9a1.5 1.5 0 0 1-1.4.9H4.7a1.5 1.5 0 0 1-1.4-.9L2.5 16z"/></svg></span><h3>It stays on your Mac</h3><p>Your music, camera and calendar never leave it, and there's no account to make.</p></div>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>The camera's off until you look</h3><p>It's only on while the mirror is open, and macOS asks you before ShawNotch can use it.</p></div>
@@ -1116,7 +1195,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.28 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.29 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -2760,7 +2839,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.28";
+      item.textContent = "You're up to date: 1.7.29";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }
@@ -2884,6 +2963,47 @@ footer nav a:hover { color: var(--ink); }
   records.forEach(button => button.addEventListener('click', () => notch.play(button.dataset.song)));
   follow('song', song => { if (!song.byItself) wear(song); }, notch.song);
   $('mm-switch').addEventListener('click', () => notch.setMusicMode(!notch.musicMode));
+
+  // MARK: Clean Desktop on the Music Mode side: the stage the visitor picks,
+  // dressed in the record that's on, and ⌥ (or the button) to peek under it.
+
+  const stageButtons = [...document.querySelectorAll('[data-stage]')], peek = $('peek');
+  const minutes = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+  function dressStage(song) {
+    compare.querySelectorAll('.stage-cover').forEach(image => image.setAttribute('href', `images/cover-${song.id}.png`));
+    compare.querySelectorAll('.stage-title').forEach(text => { text.textContent = song.title; });
+    compare.querySelectorAll('.stage-artist').forEach(text => { text.textContent = song.artist; });
+    compare.querySelectorAll('.stage-length').forEach(text => { text.textContent = minutes(song.length); });
+    compare.querySelectorAll('.stage-fill').forEach(bar => {
+      const track = bar.previousElementSibling;
+      bar.setAttribute('width', (Number(track.getAttribute('width')) * Math.min(1, 81 / song.length)).toFixed(1));
+    });
+  }
+  function setPeek(on) {
+    const peeking = on && compare.classList.contains('clean');
+    compare.classList.toggle('cd-peek', peeking);
+    peek.setAttribute('aria-pressed', String(peeking));
+  }
+  function setStage(stage) {
+    stageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.stage === stage)));
+    compare.classList.toggle('clean', stage !== '');
+    compare.dataset.stage = stage;
+    peek.disabled = stage === '';
+    if (stage === '') setPeek(false);
+  }
+  stageButtons.forEach(button => button.addEventListener('click', () => setStage(button.dataset.stage)));
+  backdrops.forEach(button => button.addEventListener('click', () => compare.classList.toggle('cd-glow', button.dataset.backdrop !== '')));
+  peek.addEventListener('pointerdown', event => { capture(peek, event); setPeek(true); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => peek.addEventListener(type, () => setPeek(false)));
+  peek.addEventListener('keydown', event => { if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); setPeek(true); } });
+  peek.addEventListener('keyup', event => { if (event.key === ' ' || event.key === 'Enter') setPeek(false); });
+  addEventListener('keydown', event => { if (event.key === 'Alt') setPeek(true); });
+  addEventListener('keyup', event => { if (event.key === 'Alt') setPeek(false); });
+  addEventListener('blur', () => setPeek(false));
+  if (!hover) peek.textContent = 'Hold to peek';
+  follow('song', song => { if (!song.byItself) dressStage(song); }, notch.song);
+  const pillText = $('stage-pill-text');
+  document.fonts.ready.then(() => $('stage-pill').setAttribute('width', (pillText.getComputedTextLength() + 38).toFixed(1)));
 
   // MARK: The track list: one track open at a time, tried in the real notch
 
