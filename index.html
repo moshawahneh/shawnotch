@@ -1057,7 +1057,7 @@ footer nav a:hover { color: var(--ink); }
                   <text class="time" x="290" y="516" font-size="122" font-weight="700" letter-spacing="-2">9:41</text>
                   <rect id="stage-pill" x="296" y="565" width="250" height="34" rx="17" fill="#fff" fill-opacity="0.11" stroke="#fff" stroke-opacity="0.16"/>
                   <circle cx="313" cy="582" r="4" fill="#FF9F0A"/>
-                  <text id="stage-pill-text" x="323" y="587" font-size="14.5" font-weight="500" opacity="0.92">Up Next · Mix review · 10:30</text>
+                  <text id="stage-pill-text" x="323" y="587" font-size="14.5" font-weight="500" opacity="0.92">Up Next 10:30 · Mix review</text>
                 </g>
               </svg>
               <div class="widget w-date tinted"><small>Saturday</small><big>10</big></div>
@@ -1092,7 +1092,7 @@ footer nav a:hover { color: var(--ink); }
       </aside>
       <aside class="heads-up" role="note" aria-label="Idle Curtain" data-reveal>
         <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5h14M4.5 3.5v13M15.5 3.5v13M4.5 6.5c2 3 2 7 0 10M15.5 6.5c-2 3-2 7 0 10"/></svg>
-        <p><b>Idle Curtain.</b> Step away from your Mac for a few minutes (you pick how many) and the stage comes up over everything, with the song that's playing or the time and your next event. Move the pointer or press a key and it's gone. It stays down during video calls, presentations and films, and you can switch it off in Settings.</p>
+        <p><b>Idle Curtain.</b> Switch it on in Settings with Clean Desktop, and when you step away from your Mac (for 10 minutes, or the time you pick, up to an hour) the stage comes up over everything, with the song that's playing or the time and what's next on your calendar today. Move the pointer or press a key and it's gone. It stays down during video calls, presentations and films.</p>
       </aside>
     </div>
   </section>
@@ -1195,7 +1195,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.29 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.7.30 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -2839,7 +2839,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.29";
+      item.textContent = "You're up to date: 1.7.30";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }

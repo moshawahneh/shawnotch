@@ -3,21 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.29</title>
-            <pubDate>Fri, 13 Nov 2026 23:40:47 +0000</pubDate>
+            <title>1.7.30</title>
+            <pubDate>Sat, 14 Nov 2026 20:11:14 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10729</sparkle:version>
-            <sparkle:shortVersionString>1.7.29</sparkle:shortVersionString>
+            <sparkle:version>10730</sparkle:version>
+            <sparkle:shortVersionString>1.7.30</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.29</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.30</h2>
 <ul>
-<li>Clean Desktop has a stage: the Poster, a Spinning Vinyl with its tonearm, or Clock &amp; Up Next with your next event today. Pick one from the notch's right-click menu or Settings → Clean Desktop.</li>
-<li>Hold ⌥ while Clean Desktop is on and your files come back, so you can drag one out. Let go and they step aside again.</li>
-<li>Idle Curtain: step away for a few minutes and the stage comes up over everything. Move the pointer or press a key and it's gone. It stays down during video calls, presentations and films, and you can change the wait or switch it off in Settings.</li>
-<li>The record in the notch keeps its place when the notch closes, and turns in step with the one on your desktop.</li>
+<li>The Dock comes back when you switch Clean Desktop off, even after you went from music to a video while it was on.</li>
+<li>Idle Curtain is now off until you switch it on, and it's part of Clean Desktop: you'll find it in Settings → Clean Desktop once Clean Desktop is on. It waits 10 minutes by default, and you can pick anything up to an hour.</li>
+<li>Clock &amp; Up Next shows only what's on your calendar today, in full, and shows nothing when your day is clear.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.29/ShawNotch-1.7.29.zip" length="6942897" type="application/octet-stream" sparkle:edSignature="wnFNmydIFCf6j4yh+/nT5T018UR4q7R3ojevL040fM9/rf+XQ5rLMXtOej0W2wh50dS/gdxroCAgpORcPFaPDg=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.30/ShawNotch-1.7.30.zip" length="6957038" type="application/octet-stream" sparkle:edSignature="FEf9YO2KDQL4Xpaas5x0s8yYi4KIJ4UuqZgl0aZDfIDNBwo5+VuqHhMus14GkKdw2ywT5rYWtJ2subaQRrSlAw=="/>
         </item>
     </channel>
 </rss>
