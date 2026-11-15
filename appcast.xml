@@ -3,20 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.30</title>
-            <pubDate>Sat, 14 Nov 2026 20:11:14 +0000</pubDate>
+            <title>1.7.31</title>
+            <pubDate>Sun, 15 Nov 2026 12:13:26 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10730</sparkle:version>
-            <sparkle:shortVersionString>1.7.30</sparkle:shortVersionString>
+            <sparkle:version>10731</sparkle:version>
+            <sparkle:shortVersionString>1.7.31</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.30</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.7.31</h2>
 <ul>
-<li>The Dock comes back when you switch Clean Desktop off, even after you went from music to a video while it was on.</li>
-<li>Idle Curtain is now off until you switch it on, and it's part of Clean Desktop: you'll find it in Settings → Clean Desktop once Clean Desktop is on. It waits 10 minutes by default, and you can pick anything up to an hour.</li>
-<li>Clock &amp; Up Next shows only what's on your calendar today, in full, and shows nothing when your day is clear.</li>
+<li>Drag a card out of the Clipboard and drop it where you want it. Dragging one used to slide the notch's pages instead.</li>
+<li>A copied picture drags out as a PNG file, so it drops into Finder, a chat or an upload box. A link opens in the browser you drop it on.</li>
+<li>Dragging a file out of the Tray no longer nudges the pages either.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.30/ShawNotch-1.7.30.zip" length="6957038" type="application/octet-stream" sparkle:edSignature="FEf9YO2KDQL4Xpaas5x0s8yYi4KIJ4UuqZgl0aZDfIDNBwo5+VuqHhMus14GkKdw2ywT5rYWtJ2subaQRrSlAw=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.31/ShawNotch-1.7.31.zip" length="6973936" type="application/octet-stream" sparkle:edSignature="1DkZXiSn0c62Fq55J57fiqzVTpEr8gDkNLCKE8OGBsHp8p30eCy9Bq3JR0oC0gofZX8YVS9DoZ5Tdrv2TBypDg=="/>
         </item>
     </channel>
 </rss>
