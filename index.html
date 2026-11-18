@@ -87,7 +87,9 @@ p { margin: 0; }
 .button[aria-disabled="true"], .button[aria-disabled="true"]:hover { cursor: default; transform: none; opacity: 0.6; background: rgba(255, 255, 255, 0.05); border-color: var(--line-hi); }
 
 /* MARK: The menu bar, with ShawNotch's own menus on the left and the notch in the middle */
-.menubar { position: fixed; inset: 0 0 auto; z-index: 50; height: var(--bar); display: flex; align-items: center; justify-content: space-between; padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); font: 500 13px/1 var(--system); color: rgba(255, 255, 255, 0.94); background: rgba(22, 14, 30, 0.38); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06); }
+.menubar { position: fixed; inset: 0 0 auto; z-index: 50; height: var(--bar); display: flex; align-items: center; justify-content: space-between; padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); font: 500 13px/1 var(--system); color: rgba(255, 255, 255, 0.94); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06); }
+/* The bar's frosting is a layer under its contents, not the bar itself: a blur on the bar would wall off the notch inside it, and Liquid Glass would see nothing of the page behind. */
+.menubar::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(22, 14, 30, 0.38); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); pointer-events: none; }
 .mb-left, .mb-right { display: flex; align-items: center; height: 100%; }
 .mb-right { gap: 6px; }
 .menu { position: relative; height: 100%; display: flex; align-items: center; }
@@ -129,7 +131,7 @@ p { margin: 0; }
 .drawer > img { width: 340px; height: 152px; max-width: none; }
 .drawer.mirror { left: 0; }
 .drawer.calendar { left: 884px; }
-.stage[data-drawer="mirror"] .drawer.mirror, .stage[data-drawer="calendar"] .drawer.calendar { opacity: 1; }
+.stage[data-drawer="mirror"] .drawer.mirror, .stage[data-drawer="calendar"] .drawer.calendar, .stage[data-drawer="both"] .drawer { opacity: 1; }
 .camera { position: absolute; left: 18px; top: 14px; width: 166px; height: 124px; border-radius: 14px; object-fit: cover; transform: scaleX(-1); background: #111; display: none; }
 .stage.camera-on .camera { display: block; }
 .use-camera { position: absolute; left: 101px; top: 110px; transform: translateX(-50%); padding: 5px 12px; border: 0; border-radius: 999px; background: #fff; color: #000; font: 600 11px/1.2 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; white-space: nowrap; cursor: pointer; }
@@ -148,6 +150,21 @@ p { margin: 0; }
 .stage[data-wanted="mirror"] .edge-glow.left::after, .stage[data-wanted="calendar"] .edge-glow.right::after { opacity: 1; transition: opacity 0.26s ease-in; }
 .spins { animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Liquid Glass (Notch → Liquid Glass), the app's other look: the shape blurs what's behind it, darkened and tinted with the widget colour (the album's while Music Mode is on, a neutral grey otherwise), with the widgets' light edge along the bottom while it's open, and along the top too when it floats around a camera pill. */
+.stage.glass .shape { background: var(--glass-tint, rgba(26, 26, 28, 0.5)); -webkit-backdrop-filter: blur(22px) saturate(1.7) brightness(0.6); backdrop-filter: blur(22px) saturate(1.7) brightness(0.6); }
+.rim { position: absolute; left: 0; top: 0; overflow: visible; opacity: 0; mix-blend-mode: plus-lighter; pointer-events: none; transition: opacity 0.25s ease-out; }
+.stage.glass.expanded .rim { opacity: 1; }
+.rim .top { display: none; }
+.stage.pill .rim .top { display: inline; }
+/* The MacBook Pro with PROLED XDR display (Notch → MacBook Pro XDR): no notch, but a camera pill a few points below the top, and the shape floating around it like the iPhone's Dynamic Island. */
+.camera-hole { position: absolute; left: 583.5px; top: 5px; width: 57px; height: 27px; border-radius: 13.5px; background: #000; display: none; pointer-events: none; }
+.stage.pill .camera-hole { display: block; }
+.stage.pill { height: 157px; }
+.stage.pill .open { transform: translateY(5px) scale(0.94); }
+.stage.pill.expanded .open { transform: translateY(5px); }
+.stage.pill .wings .mini { left: 554px; top: 8px; }
+.stage.pill .wings canvas { left: 645.5px; top: 9.5px; }
+.stage.pill .peek { top: 2.5px; }
 .dots { position: absolute; left: 77px; top: 139px; transform: translate(-50%, -50%); display: flex; gap: 6px; }
 .dots button { padding: 4px 2px; border: 0; background: none; cursor: pointer; }
 .dots span { display: block; width: 5px; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.25); transition: width 0.25s ease, background 0.25s ease; }
@@ -640,6 +657,14 @@ p { margin: 0; }
 .shot img.side-shot { width: min(80%, 380px); height: auto; border-radius: 0 0 22px 22px; }
 /* Live pictures: Now Playing, the closed notch and the volume bars, copied from the notch at the top of the page and kept in step with it. Drawn in points and scaled to fit, like the notch; the picture underneath is for browsers without scripts. */
 .shot.is-live > img { visibility: hidden; }
+/* Side C's shots: the app's own pictures of the open notch, see-through, on Liquid Glass over the shot's light. */
+.shot.wall { background: var(--poster) center 38% / cover; }
+.glass-shot { position: absolute; left: 50%; top: 0; z-index: 1; width: min(94%, var(--w)); transform: translateX(-50%); display: flex; background: var(--tint, rgba(46, 30, 60, 0.42)); -webkit-backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); border-radius: 0 0 var(--r, 30px) var(--r, 30px); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.34), inset 0 -6px 7px -6px rgba(255, 255, 255, 0.14); overflow: hidden; }
+.glass-shot img { position: static; transform: none; display: block; flex: 1 1 0; min-width: 0; height: auto; }
+.glass-shot.floating { top: 10px; border-radius: var(--r, 30px); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -6px 7px -6px rgba(255, 255, 255, 0.14); padding-top: 3px; }
+.glass-shot .cam { position: absolute; left: 50%; top: 3px; width: 10.5%; aspect-ratio: 57 / 27; transform: translateX(-50%); border-radius: 999px; background: #000; }
+.screens .see { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-decoration: underline; text-decoration-color: var(--line-hi); text-underline-offset: 3px; cursor: pointer; }
+.screens .see:hover { text-decoration-color: currentColor; }
 .live { position: absolute; top: 0; left: 50%; z-index: 1; transform: translateX(-50%); }
 .live.wide { width: min(94%, 544px); aspect-ratio: 544 / 152; }
 .live.strip { width: min(calc(var(--w) * 1.55px), 94%); aspect-ratio: var(--w) / 32; }
@@ -821,8 +846,15 @@ footer nav a:hover { color: var(--ink); }
         <button type="button" role="menuitemradio" aria-checked="false" data-action="show" data-value="tray">Tray</button>
         <button type="button" role="menuitemradio" aria-checked="false" data-action="show" data-value="mirror">Mirror<span class="key">Left edge</span></button>
         <button type="button" role="menuitemradio" aria-checked="false" data-action="show" data-value="calendar">Calendar<span class="key">Right edge</span></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-action="show" data-value="both">Both drawers<span class="key">Top middle</span></button>
         <hr>
         <button type="button" role="menuitemradio" aria-checked="false" data-action="show" data-value="airpods">Connect AirPods</button>
+        <hr>
+        <button type="button" role="menuitemradio" aria-checked="true" data-action="look" data-value="black">Black</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-action="look" data-value="glass">Liquid Glass<span class="key">New</span></button>
+        <hr>
+        <button type="button" role="menuitemradio" aria-checked="true" data-action="mac" data-value="notch">MacBook with a notch</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-action="mac" data-value="pill">MacBook Pro XDR<span class="key">Pill</span></button>
       </div>
     </div>
     <div class="menu wide-only">
@@ -854,14 +886,30 @@ footer nav a:hover { color: var(--ink); }
   </nav>
   <div class="stage" id="stage" data-drawer="none">
     <div class="shape" id="shape">
+      <svg class="rim" id="rim" width="1224" height="160" aria-hidden="true">
+        <defs>
+          <linearGradient id="rim-fade" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="128" y2="146"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
+          <linearGradient id="rim-fade-top" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="26" y2="8"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
+          <linearGradient id="rim-glow" x1="0" x2="0" y1="0" y2="1"></linearGradient>
+          <linearGradient id="rim-glow-top" x1="0" x2="0" y1="1" y2="0"></linearGradient>
+        </defs>
+        <rect class="glow" x="0" width="1224" height="7.5" fill="url(#rim-glow)"/>
+        <path class="edge" fill="none" stroke="url(#rim-fade)" stroke-width="2" stroke-opacity="0.118"/>
+        <path class="edge" fill="none" stroke="url(#rim-fade)" stroke-width="1" stroke-opacity="0.153"/>
+        <g class="top">
+          <rect class="glow" x="0" width="1224" height="7.5" fill="url(#rim-glow-top)" opacity="0.75"/>
+          <path class="edge" fill="none" stroke="url(#rim-fade-top)" stroke-width="2" stroke-opacity="0.104"/>
+          <path class="edge" fill="none" stroke="url(#rim-fade-top)" stroke-width="1" stroke-opacity="0.135"/>
+        </g>
+      </svg>
       <div class="wings" aria-hidden="true">
         <div class="mini disc spins" id="mini-disc"></div>
         <canvas id="wave" width="84" height="54"></canvas>
       </div>
-      <img class="peek" src="images/peek.png?v=bc0c7797cc" alt="" aria-hidden="true">
+      <img class="peek" src="images/peek-clear.png?v=d68ea15067" alt="" aria-hidden="true">
       <div class="open">
         <div class="drawer mirror">
-          <img src="images/notch-mirror.png?v=7037b281fc" alt="The Mirror: a camera preview showing Live, Good light and Centered, with buttons to flip, snap a photo and light your face">
+          <img src="images/notch-mirror-clear.png?v=1c99a1834c" alt="The Mirror: a camera preview showing Live, Good light and Centered, with buttons to flip, snap a photo and light your face">
           <video class="camera" id="camera" muted playsinline></video>
           <button class="use-camera" id="use-camera" type="button">Use my camera</button>
         </div>
@@ -934,6 +982,7 @@ footer nav a:hover { color: var(--ink); }
         </div>
       </div>
     </div>
+    <i class="camera-hole" aria-hidden="true"></i>
   </div>
   <div class="mb-right">
     <div class="menu mb-status">
@@ -963,7 +1012,7 @@ footer nav a:hover { color: var(--ink); }
     </div>
     <p class="meta badges rise"><span>Native Mac app</span><span>1% CPU footprint</span><span>100% local privacy (no analytics)</span></p>
     <p class="meta rise"><span>macOS 14 Sonoma or later</span><span>Apple silicon and Intel</span><span>Notarized by Apple</span></p>
-    <p class="screens rise">Works on every screen: older Macs and external monitors get a floating notch at the top, and you choose which screen it lives on. Ready for the new MacBook Pro with PROLED XDR Display too: the notch floats around its camera like the iPhone's Dynamic Island, and opens with a tap.</p>
+    <p class="screens rise">Works on every screen: older Macs and external monitors get a floating notch at the top, and you choose which screen it lives on. Ready for the new MacBook Pro with PROLED XDR Display too: the notch floats around its camera like the iPhone's Dynamic Island, and opens with a tap. <button class="see" type="button" data-try="xdr">See it in the notch above</button></p>
     <p class="mm-note" id="mm-note" role="status" hidden>Music Mode is on, so this page has taken the album's colours. On your Mac, it's your whole desktop. <a href="#music-mode">See it</a></p>
   </div>
   <figure class="showcase rise" id="showcase">
@@ -1102,7 +1151,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="head" data-reveal>
         <span class="tag">Everything else</span>
         <h2 class="h2">The rest of the record, <span class="glow">track by track</span></h2>
-        <p class="lead">Eight more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
+        <p class="lead">Eleven more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
       </div>
       <div class="tracklist" id="tracklist" data-reveal>
         <p class="side"><b>A</b>Side A · Music and sound</p>
@@ -1147,6 +1196,22 @@ footer nav a:hover { color: var(--ink); }
           <div class="shot"><img class="side-shot" src="images/notch-calendar.png?v=62f41e8685" alt="The Calendar: Saturday the 10th, dinner with Jonathan now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
+        <p class="side"><b>C</b>Side C · New in 1.8</p>
+        <button class="track-row" type="button" id="track-glass" aria-expanded="false" aria-controls="detail-glass"><span class="no"><span>C1</span></span><span class="name">Liquid Glass</span><span class="sum">A notch that looks like your widgets</span><span class="fact">Settings</span></button>
+        <div class="detail" id="detail-glass" role="region" aria-labelledby="track-glass">
+          <div class="shot wall" style="--poster: url(images/poster-midnight.jpg?v=e570e2e04f)"><div class="glass-shot" style="--w: 544px; --r: 32px; --tint: rgba(44, 26, 77, 0.5)" role="img" aria-label="The open notch in Liquid Glass: Now Playing on a tinted glass panel, the light behind it showing through, with a thin light edge along the bottom"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy"></div></div>
+          <div class="text"><h3>A notch that looks like your widgets</h3><p>Choose Liquid Glass in Settings and the open notch turns to the same glass as macOS's desktop widgets: what's behind it shows through, lighter and darker, in your widget colour, with their soft light edge along the bottom and their rounder corners. With Music Mode on, it takes the album's colour the moment your desktop does. Closed, it stays black like the camera, until music plays beside it.</p><button class="try" type="button" data-try="glass">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+        </div>
+        <button class="track-row" type="button" id="track-both" aria-expanded="false" aria-controls="detail-both"><span class="no"><span>C2</span></span><span class="name">Both drawers</span><span class="sum">The Mirror and the Calendar at once</span><span class="fact">Top middle</span></button>
+        <div class="detail" id="detail-both" role="region" aria-labelledby="track-both">
+          <div class="shot wall" style="--poster: url(images/poster-ember.jpg?v=029fb376df)"><div class="glass-shot" style="--w: 1224px; --r: 32px; --tint: rgba(174, 54, 25, 0.5)" role="img" aria-label="The open notch with both drawers out: the Mirror on the left, Now Playing in the middle and the Calendar on the right"><img src="images/notch-mirror-clear.png?v=1c99a1834c" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy" style="flex-grow: 544"><img src="images/notch-calendar-clear.png?v=62aee51cb7" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"></div></div>
+          <div class="text"><h3>The Mirror and the Calendar at once</h3><p>With the notch open, move the pointer off the top middle, where the camera is, and back onto it: both drawers slide out together. Click anywhere in the notch and they stay out, even when you move away or click another app. Come back to the top middle and they slide away again, no click needed.</p><button class="try" type="button" data-try="both">Open them in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+        </div>
+        <button class="track-row" type="button" id="track-xdr" aria-expanded="false" aria-controls="detail-xdr"><span class="no"><span>C3</span></span><span class="name">MacBook Pro XDR</span><span class="sum">A notch for a Mac without one</span><span class="fact">Pill</span></button>
+        <div class="detail" id="detail-xdr" role="region" aria-labelledby="track-xdr">
+          <div class="shot wall" style="--poster: url(images/poster-tide.jpg?v=cbcfb81047)"><div class="glass-shot floating" style="--w: 544px; --r: 30px; --tint: rgba(14, 58, 96, 0.5)" role="img" aria-label="On the MacBook Pro with PROLED XDR display: the notch as a floating glass card around the camera pill, with Now Playing inside and a light edge along its top and bottom"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy"><i class="cam" aria-hidden="true"></i></div></div>
+          <div class="text"><h3>Made for the camera pill</h3><p>The new MacBook Pro with PROLED XDR display has a small camera pill instead of a notch. ShawNotch floats around it like the iPhone's Dynamic Island: a pill with the record and the wave beside the camera, opening into a card below it, with a tap or a hover. In Liquid Glass, the card's light edge runs along its top too, above the camera.</p><button class="try" type="button" data-try="xdr">See it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1164,7 +1229,7 @@ footer nav a:hover { color: var(--ink); }
         <div><b>7.4<small> MB</small></b><span>download</span></div>
         <div><b>7.5<small> rpm</small></b><span>the record's speed</span></div>
       </div>
-      <p class="footnote">Measured with ShawNotch 1.7.29 on a 14-inch MacBook Pro with Apple silicon while playing music, with Music Mode on and the equalizer reacting to the sound: 1.2% CPU and 53 MB. With nothing playing, 0% and 50 MB. Clean Desktop's Spinning Vinyl takes it to 2.6% and 63 MB, and the Idle Curtain, while it's up, 2% and 97 MB. The Mirror's camera uses more while it's open. Your numbers will vary.</p>
+      <p class="footnote">Measured with ShawNotch 1.8.0 on a 14-inch MacBook Pro with Apple silicon, with Music Mode on: 1.2% CPU while a song plays, closed or open, in Black or Liquid Glass; 55 MB of memory with the notch closed and 67 MB once it's been opened. Liquid Glass adds about 2 MB, and no measurable work for macOS, which draws the glass. Measured with 1.7.29: with nothing playing, 0% and 50 MB; Clean Desktop's Spinning Vinyl, 2.6% and 63 MB; the Idle Curtain, while it's up, 2% and 97 MB. The Mirror's camera uses more while it's open. Your numbers will vary.</p>
       <div class="promises" data-reveal>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5A1.5 1.5 0 0 1 6 5h12a1.5 1.5 0 0 1 1.5 1.5V16h-15V6.5zM2.5 16h19l-.8 1.9a1.5 1.5 0 0 1-1.4.9H4.7a1.5 1.5 0 0 1-1.4-.9L2.5 16z"/></svg></span><h3>It stays on your Mac</h3><p>Your music, camera and calendar never leave it, and there's no account to make.</p></div>
         <div class="promise"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.5-2h7.6l1.5 2h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>The camera's off until you look</h3><p>It's only on while the mirror is open, and macOS asks you before ShawNotch can use it.</p></div>
@@ -1195,7 +1260,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.7.32 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.8.0 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -1300,6 +1365,15 @@ footer nav a:hover { color: var(--ink); }
   let expanded = false, drawer = 'none', page = 0;
   let wingsOn = false, wingsTimer;
   let pointerInside = false, pinned = false, transition;
+  // Settings → Notch look (black or Liquid Glass), and which Mac it's on:
+  // one with a notch, or the MacBook Pro XDR with its camera pill, where the
+  // shape floats 5 points down (2 when open in glass, so its top edge clears
+  // the camera), as NotchGeometry.islandGap and islandOpenGlassGap.
+  let look = 'black', mac = 'notch';
+  const gap = () => mac === 'pill' ? 5 : 0;
+  // Both drawers from the camera strip (NotchViewModel.updateCameraStrip):
+  // the pointer has to leave the strip after the notch opens and come back.
+  let stripArmed = false, onStrip = false, stripTimer, fromStrip = false, stripLocked = false, lastPoint = null;
   let drawerTimer, drawerWanted = null;
   // How long the pointer rests before the notch or a drawer opens: the app's default (Settings → Open speed).
   const openDelay = 260;
@@ -1312,7 +1386,7 @@ footer nav a:hover { color: var(--ink); }
   let scale = 1;
   let peeking = false, peekTimer;
 
-  const rect = { x: new Spring(0), w: new Spring(0), h: new Spring(0), top: new Spring(0), bottom: new Spring(0) };
+  const rect = { x: new Spring(0), w: new Spring(0), h: new Spring(0), top: new Spring(0), bottom: new Spring(0), y: new Spring(0) };
   const pageOffset = new Spring(0), pan = new Spring(0);
   const allSprings = [...Object.values(rect), pageOffset, pan];
 
@@ -1395,6 +1469,7 @@ footer nav a:hover { color: var(--ink); }
       elapsedAt = 0;
       since = clock();
       renderSong(byItself);
+      tintGlass();
       disc.classList.remove('changing');
     }, reduceMotion ? 0 : 200);
   }
@@ -1565,6 +1640,7 @@ footer nav a:hover { color: var(--ink); }
     player.musicMode = on;
     mmButton.setAttribute('aria-pressed', String(on));
     root.classList.toggle('mm-on', on);
+    tintGlass();
     tell('musicmode', { on });
   }
   mmButton.addEventListener('click', () => setMusicMode(!player.musicMode));
@@ -2294,15 +2370,49 @@ footer nav a:hover { color: var(--ink); }
   // plays, or AirPods' battery for a moment), the nook, or the nook with a
   // drawer out.
   function shapeRect() {
+    const glass = look === 'glass', pill = mac === 'pill';
+    // Closed: a notch's tight corners (a continuous 6.5 covers what the
+    // quadratic 10 does), or a pill around the camera.
+    const closedBottom = pill ? (notch.h - gap()) / 2 : glass ? 6.5 : 10;
     if (!expanded) {
-      if (peeking) return { x: (width - peekWidth) / 2, w: peekWidth, h: notch.h, top: 6, bottom: 10 };
+      if (peeking) return { x: (width - peekWidth) / 2, w: peekWidth, h: notch.h, top: 6, bottom: closedBottom, y: gap() };
       const wings = player.playing ? wing : 0;
-      return { x: notch.x - wings, w: notch.w + wings * 2, h: notch.h, top: 6, bottom: 10 };
+      return { x: notch.x - wings, w: notch.w + wings * 2, h: notch.h, top: 6, bottom: closedBottom, y: gap() };
     }
     let x = nookRect.x, w = nookRect.w;
     if (drawer === 'mirror') { x -= drawerWidth; w += drawerWidth; }
     if (drawer === 'calendar') w += drawerWidth;
-    return { x, w, h: height, top: 8, bottom: 22 };
+    if (drawer === 'both') { x -= drawerWidth; w += drawerWidth * 2; }
+    // Open: the widgets' 32-point corner in glass, the floating card's 30.
+    return { x, w, h: height + gap(), top: 8, bottom: pill ? 30 : glass ? 32 : 22, y: pill ? (glass ? 2 : 5) : 0 };
+  }
+
+  // A corner `d` from where it turns, its control points `e` from the
+  // corner: a circle's for a pill's round ends, Apple's continuous corner
+  // (the curve starting further out) otherwise.
+  const bend = (r, room) => {
+    const d = Math.max(0, Math.min(r * 1.3, room));
+    return { d, e: d < r * 1.3 - 0.01 ? d * 0.4477 : r * 0.35 };
+  };
+  // NotchShape with continuous bottom corners, as the glass draws it.
+  function smoothNotchPath(x, w, h, topRadius, bottomRadius) {
+    const top = Math.max(0, Math.min(topRadius, w / 4, h / 2));
+    const { d, e } = bend(bottomRadius, Math.min((w - top * 2) / 2, h - top));
+    const left = x + top, right = x + w - top;
+    return `M${x} 0Q${left} 0 ${left} ${top}L${left} ${h - d}C${left} ${h - e} ${left + e} ${h} ${left + d} ${h}` +
+      `L${right - d} ${h}C${right - e} ${h} ${right} ${h - e} ${right} ${h - d}L${right} ${top}Q${right} 0 ${x + w} 0Z`;
+  }
+  // Around a camera pill: every corner rounded, floating `y` below the top.
+  function islandPath(x, y, w, h, radius) {
+    const { d, e } = bend(radius, Math.min(w / 2, h / 2));
+    const r = x + w, b = y + h;
+    return `M${x + d} ${y}L${r - d} ${y}C${r - e} ${y} ${r} ${y + e} ${r} ${y + d}L${r} ${b - d}C${r} ${b - e} ${r - e} ${b} ${r - d} ${b}` +
+      `L${x + d} ${b}C${x + e} ${b} ${x} ${b - e} ${x} ${b - d}L${x} ${y + d}C${x} ${y + e} ${x + e} ${y} ${x + d} ${y}Z`;
+  }
+  function currentPath() {
+    const x = rect.x.value, w = rect.w.value, h = rect.h.value;
+    if (mac === 'pill') return islandPath(x, rect.y.value, w, h - rect.y.value, rect.bottom.value);
+    return look === 'glass' ? smoothNotchPath(x, w, h, rect.top.value, rect.bottom.value) : notchPath(x, w, h, rect.top.value, rect.bottom.value);
   }
 
   // NotchShape: a flat top, concave shoulders, rounded bottom corners.
@@ -2353,6 +2463,10 @@ footer nav a:hover { color: var(--ink); }
     clearTimeout(transition);
     if (expanded) return;
     endPeek(false);
+    // The pointer that opens it is usually on the strip: it has to leave
+    // and come back before the strip does anything.
+    stripArmed = false;
+    onStrip = !!lastPoint && inStrip(lastPoint);
     expanded = true;
     setWings(false);
     reshape(springs.expand);
@@ -2362,9 +2476,11 @@ footer nav a:hover { color: var(--ink); }
     clearTimeout(transition);
     if (!expanded) return;
     clearTimeout(drawerTimer);
+    clearTimeout(stripTimer);
     want(null);
     expanded = false;
     drawer = 'none';
+    fromStrip = stripLocked = false;
     stopCamera();
     if (adding) { adding = false; renderCalendar(); }
     closedShape();
@@ -2378,9 +2494,11 @@ footer nav a:hover { color: var(--ink); }
   }
 
   function setDrawer(next) {
+    if (next === 'none' && stripLocked) { stripLocked = false; pinned = false; }
+    if (next !== 'both') fromStrip = false;
     if (next === drawer) return;
     drawer = next;
-    if (drawer !== 'mirror') stopCamera();
+    if (drawer !== 'mirror' && drawer !== 'both') stopCamera();
     reshape(springs.drawer);
   }
 
@@ -2413,7 +2531,9 @@ footer nav a:hover { color: var(--ink); }
   // MARK: The pointer, as the app tracks it
 
   function pointerMoved(point) {
-    const r = shapeRect(), slop = expanded ? 0 : 8;
+    lastPoint = point;
+    // Closed, at least 190 points wide to hover, however small the camera pill.
+    const r = shapeRect(), slop = expanded ? 0 : Math.max(8, (190 - r.w) / 2);
     const inside = point.x >= r.x - slop && point.x <= r.x + r.w + slop && point.y >= -2 && point.y <= r.h;
     if (inside !== pointerInside) {
       pointerInside = inside;
@@ -2425,13 +2545,41 @@ footer nav a:hover { color: var(--ink); }
       }
     }
     if (inside) updateDrawer(point);
+    updateStrip(point);
+  }
+
+  // The camera strip: where the notch (or the camera pill) is, at the top.
+  // Coming back onto it brings both drawers out after the usual pause, and
+  // coming onto it again puts them away at once, locked or not.
+  const inStrip = point => point.x >= notch.x && point.x <= notch.x + notch.w && point.y >= -2 && point.y <= notch.h;
+  function updateStrip(point) {
+    if (!expanded) return;
+    if (!inStrip(point)) {
+      if (onStrip) clearTimeout(stripTimer);
+      onStrip = false;
+      stripArmed = true;
+      return;
+    }
+    if (onStrip) return;
+    onStrip = true;
+    if (!stripArmed) return;
+    stripArmed = false;
+    if (fromStrip) return setDrawer('none');
+    if (dragOffset !== 0 || seeking || wedgeDrag) return;
+    stripTimer = setTimeout(() => {
+      if (!expanded) return;
+      clearTimeout(drawerTimer);
+      want(null);
+      setDrawer('both');
+      fromStrip = true;
+    }, openDelay);
   }
 
   // On Now Playing, the nook's right edge slides the Calendar out and the
   // left edge the Mirror, after a brief pause there; heading back toward the
   // middle puts them away.
   function updateDrawer(point) {
-    if (!expanded || page !== 0 || dragOffset !== 0 || seeking || wedgeDrag) return;
+    if (!expanded || page !== 0 || dragOffset !== 0 || seeking || wedgeDrag || fromStrip) return;
     const left = nookRect.x, right = nookRect.x + nookRect.w;
     const atRight = point.x >= right - 30 && point.x <= right;
     const atLeft = point.x <= left + 30 && point.x >= left;
@@ -2465,15 +2613,19 @@ footer nav a:hover { color: var(--ink); }
 
   let lastPointer = 'mouse';
   stage.addEventListener('pointerdown', event => { lastPointer = event.pointerType; }, { passive: true });
-  shape.addEventListener('click', () => {
-    if (expanded) return;
+  shape.addEventListener('click', event => {
+    if (expanded) {
+      // With both drawers out from the strip, a click locks them out.
+      if (fromStrip && !stripLocked && !inStrip(toStage(event))) { stripLocked = true; pinned = true; clearTimeout(transition); }
+      return;
+    }
     // A tap has no hover to keep it open.
     pinned = lastPointer !== 'mouse';
     expand();
   });
   // Clicking anywhere else on the page puts a pinned notch away.
   document.addEventListener('pointerdown', event => {
-    if (!expanded || !pinned || stage.contains(event.target) || event.target.closest('[data-try], .menu')) return;
+    if (!expanded || !pinned || stripLocked || stage.contains(event.target) || event.target.closest('[data-try], .menu')) return;
     pinned = false;
     if (!pointerInside) transition = setTimeout(collapse, 150);
   });
@@ -2576,7 +2728,8 @@ footer nav a:hover { color: var(--ink); }
       return show(1);
     }
     if (page !== 0) show(0);
-    setDrawer(name === 'mirror' || name === 'calendar' ? name : 'none');
+    setDrawer(name === 'mirror' || name === 'calendar' || name === 'both' ? name : 'none');
+    if (name === 'both') fromStrip = true;
   }
 
   const descriptions = {
@@ -2587,8 +2740,35 @@ footer nav a:hover { color: var(--ink); }
     clipboard: 'Clipboard: the last things you copied, as a list or as cards, a click from being copied again.',
     mirror: 'Mirror: your camera, with lighting and framing checks.',
     calendar: 'Calendar: today’s events, with Join for calls.',
+    both: 'Both drawers: the Mirror and the Calendar out together, from the top middle of the notch.',
   };
   const part = () => peeking && !expanded ? 'airpods' : !expanded ? 'closed' : drawer !== 'none' ? drawer : page === 1 ? (feed === 'clipboard' ? 'clipboard' : 'tray') : 'playing';
+
+  // MARK: Settings → Notch look, and the MacBook Pro XDR
+
+  // The glass's colour: the album's while Music Mode is on (as the widgets
+  // take it), a neutral grey otherwise, standing in for the visitor's own
+  // widget colour.
+  function tintGlass() {
+    const hex = song().tint;
+    const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+    stage.style.setProperty('--glass-tint', player.musicMode ? `rgba(${r}, ${g}, ${b}, 0.5)` : 'rgba(26, 26, 28, 0.5)');
+  }
+  function setLook(next) {
+    look = next === 'glass' ? 'glass' : 'black';
+    stage.classList.toggle('glass', look === 'glass');
+    tintGlass();
+    reshape(springs.drawer);
+    tell('look', { look });
+  }
+  function setMac(next) {
+    mac = next === 'pill' ? 'pill' : 'notch';
+    // The camera pill measured on Apple's photo: 57 points wide, centred.
+    Object.assign(notch, mac === 'pill' ? { x: 583.5, w: 57 } : { x: 519.5, w: 185 });
+    stage.classList.toggle('pill', mac === 'pill');
+    reshape(springs.collapse);
+    tell('mac', { mac });
+  }
   let told = null;
   function sync() {
     const current = part();
@@ -2615,7 +2795,7 @@ footer nav a:hover { color: var(--ink); }
     if (stream) return stopCamera();
     try {
       const media = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 } }, audio: false });
-      if (drawer !== 'mirror') return media.getTracks().forEach(track => track.stop());
+      if (drawer !== 'mirror' && drawer !== 'both') return media.getTracks().forEach(track => track.stop());
       stream = media;
       video.srcObject = media;
       await video.play().catch(() => {});
@@ -2650,8 +2830,29 @@ footer nav a:hover { color: var(--ink); }
     target.globalAlpha = 1;
   }
 
+  const rim = $('rim'), rimEdges = rim.querySelectorAll('.edge'), rimGlows = rim.querySelectorAll('.glow');
+  const rimFade = $('rim-fade'), rimFadeTop = $('rim-fade-top');
+  // The widgets' light edge, measured on a screenshot (NotchGlassBackground):
+  // light added over the 6.5 points above the bottom edge, full under it.
+  [[$('rim-glow'), false], [$('rim-glow-top'), true]].forEach(([gradient]) => {
+    gradient.innerHTML = [[7.5, 0], [6.5, 0], [5.5, 2], [5, 2], [4.5, 3], [4, 5], [3.5, 6], [3, 8], [2.5, 11], [2, 14], [1.5, 18], [1, 24], [0, 24]]
+      .map(([above, light]) => `<stop offset="${(1 - above / 7.5).toFixed(3)}" stop-color="#fff" stop-opacity="${(light / 255).toFixed(3)}"/>`).join('');
+  });
+  function drawRim(path) {
+    const bottom = rect.h.value, top = rect.y.value;
+    rimEdges.forEach(edge => edge.setAttribute('d', path));
+    rimFade.setAttribute('y1', bottom - 24);
+    rimFade.setAttribute('y2', bottom - 6);
+    rimFadeTop.setAttribute('y1', top + 24);
+    rimFadeTop.setAttribute('y2', top + 6);
+    rimGlows[0].setAttribute('y', bottom - 6.5);
+    rimGlows[1].setAttribute('y', top - 1);
+  }
+
   function draw(now) {
-    shape.style.clipPath = `path('${notchPath(rect.x.value, rect.w.value, rect.h.value, rect.top.value, rect.bottom.value)}')`;
+    const path = currentPath();
+    shape.style.clipPath = `path('${path}')`;
+    if (look === 'glass') drawRim(path);
     pagesRow.style.transform = `translateX(${pageOffset.value}px)`;
     // Pages fade as they slide away from the middle.
     pages.forEach((element, index) => {
@@ -2712,6 +2913,10 @@ footer nav a:hover { color: var(--ink); }
     get shuffle() { return player.shuffle; },
     get repeat() { return player.repeat; },
     get part() { return part(); },
+    get look() { return look; },
+    get mac() { return mac; },
+    setLook,
+    setMac,
     elapsed,
     setPlaying,
     toggle: togglePlay,
@@ -2839,7 +3044,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.7.32";
+      item.textContent = "You're up to date: 1.8.0";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }
@@ -2853,6 +3058,8 @@ footer nav a:hover { color: var(--ink); }
     else if (action === 'repeat') notch.setRepeat(notch.nextRepeat());
     else if (action === 'song') notch.play(value);
     else if (action === 'musicmode') notch.setMusicMode(!notch.musicMode);
+    else if (action === 'look') notch.setLook(value);
+    else if (action === 'mac') notch.setMac(value);
     else if (action === 'quit') {
       const stage = document.getElementById('stage'), quitting = !stage.classList.contains('quit');
       if (quitting) notch.show('closed');
@@ -2872,6 +3079,8 @@ footer nav a:hover { color: var(--ink); }
     items('[data-action="repeat"] .key').forEach(key => { key.textContent = { off: 'Off', all: 'All', one: 'One' }[repeat]; });
   }, { shuffle: notch.shuffle, repeat: notch.repeat });
   follow('musicmode', ({ on }) => check('[data-action="musicmode"]', () => on), { on: notch.musicMode });
+  follow('look', ({ look }) => check('[data-action="look"]', item => item.dataset.value === look), { look: notch.look });
+  follow('mac', ({ mac }) => check('[data-action="mac"]', item => item.dataset.value === mac), { mac: notch.mac });
 
   if (!hover) $('notch-hint-text').lastElementChild.textContent = 'Tap it, then swipe between Now Playing and the Tray';
 
@@ -3257,6 +3466,16 @@ footer nav a:hover { color: var(--ink); }
   follow('play', () => { renderLive(); syncSpins(); run(); });
   follow('song', () => { renderLive(); run(); });
 
+  // The look and Mac buttons say how to go back once they've switched.
+  const tryLabel = (part, text) => document.querySelectorAll(`[data-try="${part}"]`).forEach(button => {
+    if (button.classList.contains('see')) button.textContent = text.inline;
+    else button.firstChild.textContent = text.full;
+  });
+  follow('look', ({ look }) => tryLabel('glass', { full: look === 'glass' ? 'Back to black' : 'Try it in the notch' }), { look: notch.look });
+  follow('mac', ({ mac }) => tryLabel('xdr', mac === 'pill'
+    ? { full: 'Back to a notch', inline: 'Back to a notch' }
+    : { full: 'See it in the notch', inline: 'See it in the notch above' }), { mac: notch.mac });
+
   // Try buttons open their part in the notch, which is always at the top of the screen.
   document.querySelectorAll('[data-try]').forEach(button => button.addEventListener('click', () => {
     const part = button.dataset.try;
@@ -3267,6 +3486,13 @@ footer nav a:hover { color: var(--ink); }
       // Now Playing, with its volume bars lit as they are when the level changes.
       notch.show('playing');
       notch.setVolume(notch.volume);
+    } else if (part === 'glass') {
+      // Switches the look, and back.
+      notch.setLook(notch.look === 'glass' ? 'black' : 'glass');
+      notch.show('playing');
+    } else if (part === 'xdr') {
+      notch.setMac(notch.mac === 'pill' ? 'notch' : 'pill');
+      notch.show(notch.mac === 'pill' ? 'playing' : 'closed');
     } else {
       notch.show(part);
     }

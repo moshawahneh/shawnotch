@@ -3,20 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.7.32</title>
-            <pubDate>Sun, 15 Nov 2026 21:46:02 +0000</pubDate>
+            <title>1.8.0</title>
+            <pubDate>Wed, 18 Nov 2026 22:55:27 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10732</sparkle:version>
-            <sparkle:shortVersionString>1.7.32</sparkle:shortVersionString>
+            <sparkle:version>10800</sparkle:version>
+            <sparkle:shortVersionString>1.8.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.7.32</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.8.0</h2>
 <ul>
-<li>The Dock comes back after Clean Desktop even when a full-screen app or video is in front. macOS ignores the request while you're in full screen, so ShawNotch now checks that the Dock has really returned and asks again once you're back on the desktop.</li>
-<li>If your Dock ever stays hidden, the notch's right-click menu and the menu bar menu now offer Fix a Missing Dock… to bring it back.</li>
-<li>A Dock you hide on purpose stays hidden after Clean Desktop.</li>
+<li>Liquid Glass: choose it in Settings → General → Notch look, and the open notch turns to the same glass as your desktop widgets, in your widget colour, with their soft light edge along the bottom and their rounder corners. With Music Mode on, it takes the album's colour the moment your desktop does. Closed, it stays black like the camera until music plays beside it.</li>
+<li>Both drawers at once: with the notch open, move off the top middle and back onto it, and the Mirror and the Calendar slide out together. Click to keep them out; come back to the top middle to put them away.</li>
+<li>On the MacBook Pro with PROLED XDR display, the floating notch around the camera gets the glass's light edge along its top too, clear of the camera.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.7.32/ShawNotch-1.7.32.zip" length="6983495" type="application/octet-stream" sparkle:edSignature="/yM8E6oQhlpUd4SmO9odoTsbKW01g1C3H1CBrE5WVEOOtJ9hh2f/G9PCgLUC+0oQW26A+qLtwc/7QG6FUbClAA=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.0/ShawNotch-1.8.0.zip" length="7075036" type="application/octet-stream" sparkle:edSignature="IJYI1hAWgz8qkfT++NfoJyQl4ypIDeIiWywxRI8NtP3D4q7UHoh+Zsqs7OXqRMMjRyv6vMIgXr39yZEW3kPCDg=="/>
         </item>
     </channel>
 </rss>
