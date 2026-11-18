@@ -3,20 +3,21 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.8.0</title>
-            <pubDate>Wed, 18 Nov 2026 22:55:27 +0000</pubDate>
+            <title>1.8.1</title>
+            <pubDate>Wed, 18 Nov 2026 23:25:47 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10800</sparkle:version>
-            <sparkle:shortVersionString>1.8.0</sparkle:shortVersionString>
+            <sparkle:version>10801</sparkle:version>
+            <sparkle:shortVersionString>1.8.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.8.0</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.8.1</h2>
 <ul>
-<li>Liquid Glass: choose it in Settings → General → Notch look, and the open notch turns to the same glass as your desktop widgets, in your widget colour, with their soft light edge along the bottom and their rounder corners. With Music Mode on, it takes the album's colour the moment your desktop does. Closed, it stays black like the camera until music plays beside it.</li>
-<li>Both drawers at once: with the notch open, move off the top middle and back onto it, and the Mirror and the Calendar slide out together. Click to keep them out; come back to the top middle to put them away.</li>
-<li>On the MacBook Pro with PROLED XDR display, the floating notch around the camera gets the glass's light edge along its top too, clear of the camera.</li>
+<li>Liquid Glass stays glass when you turn Music Mode off: with your icons in macOS's Default or Clear style, the notch is plain see-through glass, like your widgets then, instead of turning black.</li>
+<li>Settings → General → Notch look is now two buttons, Black and Liquid Glass.</li>
+<li>Spotify's shuffle and repeat can no longer get stuck behind a permission check that macOS never answers, and Settings → Permissions shows Spotify as Allowed once ShawNotch has reached it.</li>
+<li>Settings → Permissions can ask for your Downloads folder straight away, without opening the Tray.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.0/ShawNotch-1.8.0.zip" length="7075036" type="application/octet-stream" sparkle:edSignature="IJYI1hAWgz8qkfT++NfoJyQl4ypIDeIiWywxRI8NtP3D4q7UHoh+Zsqs7OXqRMMjRyv6vMIgXr39yZEW3kPCDg=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.1/ShawNotch-1.8.1.zip" length="7094892" type="application/octet-stream" sparkle:edSignature="hQowsUiopvOFdjZVm/NTfbzfMNMCauRfxQU4bjpg5Su1HB3lSoPtD0UKiKwmElJffZlNamock8S5mw9dewolDw=="/>
         </item>
     </channel>
 </rss>
