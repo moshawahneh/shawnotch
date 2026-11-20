@@ -657,14 +657,13 @@ p { margin: 0; }
 .shot img.side-shot { width: min(80%, 380px); height: auto; border-radius: 0 0 22px 22px; }
 /* Live pictures: Now Playing, the closed notch and the volume bars, copied from the notch at the top of the page and kept in step with it. Drawn in points and scaled to fit, like the notch; the picture underneath is for browsers without scripts. */
 .shot.is-live > img { visibility: hidden; }
-/* Side C's shots: the app's own pictures of the open notch, see-through, on Liquid Glass over the shot's light. */
+/* Liquid Glass and Both drawers: the app's own pictures of the open notch, see-through, on Liquid Glass over the shot's light. */
 .shot.wall { background: var(--poster) center 38% / cover; }
-.glass-shot { position: absolute; left: 50%; top: 0; z-index: 1; width: min(94%, var(--w)); transform: translateX(-50%); display: flex; background: var(--tint, rgba(46, 30, 60, 0.42)); -webkit-backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); border-radius: 0 0 var(--r, 30px) var(--r, 30px); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.34), inset 0 -6px 7px -6px rgba(255, 255, 255, 0.14); overflow: hidden; }
+/* Drawn in the notch's own points (--w wide, 152 high, --r corners) and scaled to fit, corners and all, clear of the card's rounded top corners. */
+.glass-shot { position: absolute; left: 50%; top: 0; z-index: 1; width: min(calc(100% - 64px), calc(var(--w) * 1px)); aspect-ratio: var(--w) / 152; transform: translateX(-50%); display: flex; background: var(--tint, rgba(46, 30, 60, 0.42)); -webkit-backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); backdrop-filter: blur(18px) saturate(1.7) brightness(0.62); border-radius: 0 0 calc(var(--r) / var(--w) * 100%) calc(var(--r) / var(--w) * 100%) / 0 0 calc(var(--r) / 152 * 100%) calc(var(--r) / 152 * 100%); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.34), inset 0 -6px 7px -6px rgba(255, 255, 255, 0.14); overflow: hidden; }
 .glass-shot img { position: static; transform: none; display: block; flex: 1 1 0; min-width: 0; height: auto; }
-.glass-shot.floating { top: 10px; border-radius: var(--r, 30px); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -6px 7px -6px rgba(255, 255, 255, 0.14); padding-top: 3px; }
-.glass-shot .cam { position: absolute; left: 50%; top: 3px; width: 10.5%; aspect-ratio: 57 / 27; transform: translateX(-50%); border-radius: 999px; background: #000; }
-.screens .see { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-decoration: underline; text-decoration-color: var(--line-hi); text-underline-offset: 3px; cursor: pointer; }
-.screens .see:hover { text-decoration-color: currentColor; }
+.screens .see, .heads-up .see { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-decoration: underline; text-decoration-color: var(--line-hi); text-underline-offset: 3px; cursor: pointer; }
+.screens .see:hover, .heads-up .see:hover { text-decoration-color: currentColor; }
 .live { position: absolute; top: 0; left: 50%; z-index: 1; transform: translateX(-50%); }
 .live.wide { width: min(94%, 544px); aspect-ratio: 544 / 152; }
 .live.strip { width: min(calc(var(--w) * 1.55px), 94%); aspect-ratio: var(--w) / 32; }
@@ -813,6 +812,23 @@ footer nav a:hover { color: var(--ink); }
 @media (max-width: 360px) {
   .mb-app b { display: none; }
 }
+/* Christmas (1 December to 6 January, or ?christmas to preview): snow falling over the page, behind the menu bar, and settled on the Download buttons and the Mac. Decoration only, laid over the page; the one exception to nothing moving by itself, chosen 18 November 2026. */
+:root { --snow: #F4F7FC; --snowcap: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='20' viewBox='0 0 320 20'%3E%3Cpath d='M0 7C10 3 22 2 34 5C44 7 50 3 62 2C76 1 84 6 96 6C108 6 114 2 128 3C142 4 146 8 160 7C172 6 178 2 192 2C206 2 212 6 224 6C236 6 242 1 256 2C270 3 274 7 288 6C300 5 308 4 320 7V15C312 16 306 15 298 16C292 17 290 20 286 20C282 20 281 17 276 16C262 15 250 17 236 16C222 15 212 17 198 16C186 15 178 17 166 16C160 16 158 19 154 19C150 19 149 16 144 16C130 15 116 17 102 16C90 15 80 17 66 16C54 15 44 17 32 16C26 16 24 19 20 19C16 19 15 16 10 16C6 16 3 15 0 15Z'/%3E%3C/svg%3E"); }
+.snowfall { display: none; position: fixed; inset: 0; z-index: 45; overflow: hidden; pointer-events: none; }
+.christmas .snowfall { display: block; }
+.snowfall i { position: absolute; top: 0; left: var(--x); width: var(--size); height: var(--size); border-radius: 50%; background: #fff; opacity: var(--alpha); animation: snow-fall var(--fall) linear var(--delay) infinite; will-change: transform; }
+@keyframes snow-fall {
+  from { transform: translate3d(0, -12px, 0); }
+  50% { transform: translate3d(var(--sway), 50vh, 0); }
+  to { transform: translate3d(var(--drift), calc(100vh + 12px), 0); }
+}
+.christmas .button.primary, .christmas .mb-download { position: relative; }
+.christmas .button.primary::before, .christmas .mb-download::before, .christmas .showcase::after { content: ""; position: absolute; pointer-events: none; background: var(--snow); -webkit-mask: var(--snowcap) repeat-x 0 0 / auto 100%; mask: var(--snowcap) repeat-x 0 0 / auto 100%; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25)); }
+.christmas .button.primary::before { left: 14px; right: 14px; top: -9px; height: 16px; border-radius: 12px 12px 4px 4px; -webkit-mask-position: -40px 0; mask-position: -40px 0; }
+.christmas .mb-download::before { left: 6px; right: 6px; top: -6px; height: 11px; border-radius: 8px 8px 3px 3px; -webkit-mask-position: -120px 0; mask-position: -120px 0; }
+.christmas .showcase::after { left: 0; right: 0; top: -13px; height: 26px; z-index: 1; border-radius: 30px 30px 8px 8px / 22px 22px 8px 8px; }
+@media (prefers-reduced-motion: reduce) { .christmas .snowfall { display: none; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -822,6 +838,35 @@ footer nav a:hover { color: var(--ink); }
 </head>
 <body>
 <script>document.documentElement.classList.add('js')</script>
+<script>
+  // Christmas: 1 December to 6 January, or ?christmas to preview it.
+  (() => {
+    const day = new Date();
+    if (day.getMonth() === 11 || (day.getMonth() === 0 && day.getDate() <= 6) || new URLSearchParams(location.search).has('christmas'))
+      document.documentElement.classList.add('christmas');
+  })();
+</script>
+<div class="snowfall" id="snowfall" aria-hidden="true"></div>
+<script>
+  // The flakes: fewer on a phone. Each falls on its own loop, started
+  // partway through so the page opens with snow already in the air.
+  (() => {
+    if (!document.documentElement.classList.contains('christmas')) return;
+    const field = document.getElementById('snowfall');
+    const count = innerWidth < 700 ? 34 : 70;
+    let seed = 11;
+    const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let index = 0; index < count; index++) {
+      const near = random() < 0.3;
+      const fall = near ? 9 + random() * 5 : 15 + random() * 9;
+      const flake = document.createElement('i');
+      flake.style.cssText = `--x: ${(random() * 102 - 1).toFixed(2)}%; --size: ${(near ? 3.6 + random() * 2.4 : 1.8 + random() * 1.6).toFixed(1)}px;` +
+        ` --alpha: ${(near ? 0.75 + random() * 0.2 : 0.35 + random() * 0.3).toFixed(2)}; --fall: ${fall.toFixed(1)}s; --delay: ${(-random() * fall).toFixed(1)}s;` +
+        ` --sway: ${((random() - 0.5) * 50).toFixed(0)}px; --drift: ${((random() - 0.35) * 70).toFixed(0)}px;`;
+      field.append(flake);
+    }
+  })();
+</script>
 
 <div class="menubar" id="menubar">
   <nav class="mb-left" aria-label="Menu bar">
@@ -1151,7 +1196,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="head" data-reveal>
         <span class="tag">Everything else</span>
         <h2 class="h2">The rest of the record, <span class="glow">track by track</span></h2>
-        <p class="lead">Eleven more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
+        <p class="lead">Ten more things the notch does. Pick one to see it, then try it in the real notch at the top of this page.</p>
       </div>
       <div class="tracklist" id="tracklist" data-reveal>
         <p class="side"><b>A</b>Side A · Music and sound</p>
@@ -1175,6 +1220,11 @@ footer nav a:hover { color: var(--ink); }
           <div class="shot"><img class="strip" style="--w: 333" src="images/peek.png?v=bc0c7797cc" alt="The notch showing AirPods Pro at 82 and 79 percent" width="333" height="32" loading="lazy"></div>
           <div class="text"><h3>Battery at a glance</h3><p>Connect your AirPods and the notch shows each earbud's battery for a moment. It warns you again at 20% and at 10%.</p><button class="try" type="button" data-try="airpods">Connect them in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
+        <button class="track-row" type="button" id="track-glass" aria-expanded="false" aria-controls="detail-glass"><span class="no"><span>A5</span></span><span class="name">Liquid Glass</span><span class="sum">A notch that looks like your widgets</span><span class="fact">Settings</span></button>
+        <div class="detail" id="detail-glass" role="region" aria-labelledby="track-glass">
+          <div class="shot wall" style="--poster: url(images/poster-midnight.jpg?v=e570e2e04f)"><div class="glass-shot" style="--w: 544; --r: 32; --tint: rgba(44, 26, 77, 0.5)" role="img" aria-label="The open notch in Liquid Glass: Now Playing on a tinted glass panel, the light behind it showing through, with a thin light edge along the bottom"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy"></div></div>
+          <div class="text"><h3>A notch that looks like your widgets</h3><p>Choose Liquid Glass in Settings and the open notch turns to the same glass as macOS's desktop widgets: what's behind it shows through, lighter and darker, in your widget colour, with their soft light edge along the bottom and their rounder corners. With Music Mode on, it takes the album's colour the moment your desktop does. Closed, it stays black like the camera, until music plays beside it.</p><button class="try" type="button" data-try="glass">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+        </div>
         <p class="side"><b>B</b>Side B · Files, camera and calendar</p>
         <button class="track-row" type="button" id="track-tray" aria-expanded="false" aria-controls="detail-tray"><span class="no"><span>B1</span></span><span class="name">Tray</span><span class="sum">Somewhere to put files down</span><span class="fact">AirDrop</span></button>
         <div class="detail" id="detail-tray" role="region" aria-labelledby="track-tray">
@@ -1196,23 +1246,16 @@ footer nav a:hover { color: var(--ink); }
           <div class="shot"><img class="side-shot" src="images/notch-calendar.png?v=62f41e8685" alt="The Calendar: Saturday the 10th, dinner with Jonathan now, and a call with Mia in 34 minutes with a Join button" width="340" height="152" loading="lazy"></div>
           <div class="text"><h3>Your day, and a quick way to add to it</h3><p>Push right for today's events, with a Join button for video calls. Type "Lunch with Sara tomorrow at 1pm" and it's in your calendar.</p><button class="try" type="button" data-try="calendar">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
-        <p class="side"><b>C</b>Side C · New in 1.8</p>
-        <button class="track-row" type="button" id="track-glass" aria-expanded="false" aria-controls="detail-glass"><span class="no"><span>C1</span></span><span class="name">Liquid Glass</span><span class="sum">A notch that looks like your widgets</span><span class="fact">Settings</span></button>
-        <div class="detail" id="detail-glass" role="region" aria-labelledby="track-glass">
-          <div class="shot wall" style="--poster: url(images/poster-midnight.jpg?v=e570e2e04f)"><div class="glass-shot" style="--w: 544px; --r: 32px; --tint: rgba(44, 26, 77, 0.5)" role="img" aria-label="The open notch in Liquid Glass: Now Playing on a tinted glass panel, the light behind it showing through, with a thin light edge along the bottom"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy"></div></div>
-          <div class="text"><h3>A notch that looks like your widgets</h3><p>Choose Liquid Glass in Settings and the open notch turns to the same glass as macOS's desktop widgets: what's behind it shows through, lighter and darker, in your widget colour, with their soft light edge along the bottom and their rounder corners. With Music Mode on, it takes the album's colour the moment your desktop does. Closed, it stays black like the camera, until music plays beside it.</p><button class="try" type="button" data-try="glass">Try it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
-        </div>
-        <button class="track-row" type="button" id="track-both" aria-expanded="false" aria-controls="detail-both"><span class="no"><span>C2</span></span><span class="name">Both drawers</span><span class="sum">The Mirror and the Calendar at once</span><span class="fact">Top middle</span></button>
+        <button class="track-row" type="button" id="track-both" aria-expanded="false" aria-controls="detail-both"><span class="no"><span>B5</span></span><span class="name">Both drawers</span><span class="sum">The Mirror and the Calendar at once</span><span class="fact">Top middle</span></button>
         <div class="detail" id="detail-both" role="region" aria-labelledby="track-both">
-          <div class="shot wall" style="--poster: url(images/poster-ember.jpg?v=029fb376df)"><div class="glass-shot" style="--w: 1224px; --r: 32px; --tint: rgba(174, 54, 25, 0.5)" role="img" aria-label="The open notch with both drawers out: the Mirror on the left, Now Playing in the middle and the Calendar on the right"><img src="images/notch-mirror-clear.png?v=1c99a1834c" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy" style="flex-grow: 544"><img src="images/notch-calendar-clear.png?v=62aee51cb7" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"></div></div>
+          <div class="shot wall" style="--poster: url(images/poster-ember.jpg?v=029fb376df)"><div class="glass-shot" style="--w: 1224; --r: 32; --tint: rgba(174, 54, 25, 0.5)" role="img" aria-label="The open notch with both drawers out: the Mirror on the left, Now Playing in the middle and the Calendar on the right"><img src="images/notch-mirror-clear.png?v=1c99a1834c" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy" style="flex-grow: 544"><img src="images/notch-calendar-clear.png?v=62aee51cb7" alt="" width="340" height="152" loading="lazy" style="flex-grow: 340"></div></div>
           <div class="text"><h3>The Mirror and the Calendar at once</h3><p>With the notch open, move the pointer off the top middle, where the camera is, and back onto it: both drawers slide out together. Click anywhere in the notch and they stay out, even when you move away or click another app. Come back to the top middle and they slide away again, no click needed.</p><button class="try" type="button" data-try="both">Open them in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
-        <button class="track-row" type="button" id="track-xdr" aria-expanded="false" aria-controls="detail-xdr"><span class="no"><span>C3</span></span><span class="name">MacBook Pro XDR</span><span class="sum">A notch for a Mac without one</span><span class="fact">Pill</span></button>
-        <div class="detail" id="detail-xdr" role="region" aria-labelledby="track-xdr">
-          <div class="shot wall" style="--poster: url(images/poster-tide.jpg?v=cbcfb81047)"><div class="glass-shot floating" style="--w: 544px; --r: 30px; --tint: rgba(14, 58, 96, 0.5)" role="img" aria-label="On the MacBook Pro with PROLED XDR display: the notch as a floating glass card around the camera pill, with Now Playing inside and a light edge along its top and bottom"><img src="images/notch-playing-clear.png?v=b814ee19e3" alt="" width="544" height="152" loading="lazy"><i class="cam" aria-hidden="true"></i></div></div>
-          <div class="text"><h3>Made for the camera pill</h3><p>The new MacBook Pro with PROLED XDR display has a small camera pill instead of a notch. ShawNotch floats around it like the iPhone's Dynamic Island: a pill with the record and the wave beside the camera, opening into a card below it, with a tap or a hover. In Liquid Glass, the card's light edge runs along its top too, above the camera.</p><button class="try" type="button" data-try="xdr">See it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
-        </div>
       </div>
+      <aside class="heads-up" role="note" aria-label="MacBook Pro XDR" data-reveal>
+        <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="15" height="10.5" rx="1.6"/><rect x="8.4" y="5" width="3.2" height="1.5" rx="0.75" fill="currentColor" stroke="none"/><path d="M1 16.5h18"/></svg>
+        <p><b>MacBook Pro with PROLED XDR display.</b> It has a small camera pill instead of a notch. ShawNotch floats around it like the iPhone's Dynamic Island: a pill with the record and the wave beside the camera, opening into a card below it, with a tap or a hover. In Liquid Glass, the card's light edge runs along its top too, above the camera. <button class="see" type="button" data-try="xdr">See it in the notch above</button></p>
+      </aside>
     </div>
   </section>
 
