@@ -3,21 +3,20 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.8.1</title>
-            <pubDate>Wed, 18 Nov 2026 23:25:47 +0000</pubDate>
+            <title>1.8.2</title>
+            <pubDate>Sun, 22 Nov 2026 14:19:06 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10801</sparkle:version>
-            <sparkle:shortVersionString>1.8.1</sparkle:shortVersionString>
+            <sparkle:version>10802</sparkle:version>
+            <sparkle:shortVersionString>1.8.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.8.1</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.8.2</h2>
 <ul>
-<li>Liquid Glass stays glass when you turn Music Mode off: with your icons in macOS's Default or Clear style, the notch is plain see-through glass, like your widgets then, instead of turning black.</li>
-<li>Settings → General → Notch look is now two buttons, Black and Liquid Glass.</li>
-<li>Spotify's shuffle and repeat can no longer get stuck behind a permission check that macOS never answers, and Settings → Permissions shows Spotify as Allowed once ShawNotch has reached it.</li>
-<li>Settings → Permissions can ask for your Downloads folder straight away, without opening the Tray.</li>
+<li>Dragging the playback line moves the song in Spotify again. Recent versions of Spotify stopped listening to macOS, so ShawNotch now asks Spotify itself, with the same permission it already uses for shuffle and repeat.</li>
+<li>The Black notch has Liquid Glass's rounder corners too, open and closed.</li>
+<li>The Mirror's preview follows the notch's curve, with an even edge all round it.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.1/ShawNotch-1.8.1.zip" length="7094892" type="application/octet-stream" sparkle:edSignature="hQowsUiopvOFdjZVm/NTfbzfMNMCauRfxQU4bjpg5Su1HB3lSoPtD0UKiKwmElJffZlNamock8S5mw9dewolDw=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.2/ShawNotch-1.8.2.zip" length="7104370" type="application/octet-stream" sparkle:edSignature="6vT+SBJ0MmZV2ojkZNSD4dx1iPnuTEaRoWE0JQatT6UCqHfvRiNIJL/NOuJzTAAlAo0wKy+RGZnDMVLIsPjmDw=="/>
         </item>
     </channel>
 </rss>
