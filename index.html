@@ -1284,7 +1284,7 @@ footer nav a:hover { color: var(--ink); }
       <div class="figures" data-reveal aria-label="ShawNotch in numbers">
         <div><b>1%</b><span>CPU while music plays</span></div>
         <div><b>40<small> MB</small></b><span>of memory while music plays</span></div>
-        <div><b>7.8<small> MB</small></b><span>download</span></div>
+        <div><b>8.5<small> MB</small></b><span>download</span></div>
         <div><b>7.5<small> rpm</small></b><span>the record's speed</span></div>
       </div>
       <p class="footnote">Measured with ShawNotch 1.8.3 on a 14-inch MacBook Pro with Apple silicon, with Music Mode on and the notch closed: 0.9% CPU and 39 MB of memory while a song plays, and 37 MB with it paused; a download coming in adds about 0.5%. Opening the notch adds some memory, kept while ShawNotch runs, and the Mirror's camera uses more while it's open, some of it until you quit. Measured with 1.8.0: Liquid Glass adds about 2 MB, and no measurable work for macOS, which draws the glass. Measured with 1.7.29: Clean Desktop's Spinning Vinyl, 2.6% and 63 MB; the Idle Curtain, while it's up, 2% and 97 MB. Your numbers will vary.</p>
@@ -1318,7 +1318,7 @@ footer nav a:hover { color: var(--ink); }
             <a class="button primary" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Download free</a>
             <span class="button" aria-disabled="true">Buy · Coming soon</span>
           </div>
-          <p class="note">ShawNotch 1.8.3 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
+          <p class="note">ShawNotch 1.9.0 · macOS 14 or later (Music Mode's icon colours need macOS 26 or later). Sold through Lemon Squeezy, our reseller, which handles payment and tax.</p>
         </div>
       </div>
     </div>
@@ -3114,7 +3114,7 @@ footer nav a:hover { color: var(--ink); }
     const { action, value } = item.dataset;
     // Like the app's: it answers in the menu, which stays open to say so.
     if (action === 'updates') {
-      item.textContent = "You're up to date: 1.8.3";
+      item.textContent = "You're up to date: 1.9.0";
       setTimeout(() => { item.textContent = 'Check for Updates…'; }, 2500);
       return;
     }

@@ -3,22 +3,22 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.8.3</title>
-            <pubDate>Mon, 23 Nov 2026 14:37:45 +0000</pubDate>
+            <title>1.9.0</title>
+            <pubDate>Wed, 25 Nov 2026 21:00:02 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10803</sparkle:version>
-            <sparkle:shortVersionString>1.8.3</sparkle:shortVersionString>
+            <sparkle:version>10900</sparkle:version>
+            <sparkle:shortVersionString>1.9.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.8.3</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.9.0</h2>
 <ul>
-<li>Changing the volume, the screen's brightness or the keyboard light shows the level beside the closed notch. You can also scroll on the notch: on its own for the volume, with ⌥ for brightness, with ⌥⇧ for the keyboard light.</li>
-<li>Copying now shows what you copied beside the notch: a colour's swatch, a link's website, a picture or how many files. A copy can go to the Tray in one click.</li>
-<li>A download shows its name and speed beside the notch while it comes in, and Done when it's finished.</li>
-<li>Videos in apps like Slack, Discord or Claude, and in every edition of your browser, no longer count as songs: no record and equalizer beside the notch, and Music Mode leaves your desktop alone. A browser's logo or a video's picture no longer colours the playback line and volume bars.</li>
-<li>With music playing, ShawNotch uses about a quarter less memory and a little less of your Mac's processor.</li>
+<li>The Tray, Downloads and Recent are new. Select several files at once (⌘-click, ⇧-click, or the ✓ for all) and drag them out together, or copy, move, zip, AirDrop or trash them in one go. Each list shows as rows with a bigger preview of the file beside them, or as icons.</li>
+<li>Downloads and Recent are split by day. Clean Up in Downloads gathers old installers and archives for one Move to Trash, and Recent can show just documents, PDFs, pictures or code.</li>
+<li>The Waves equalizer moves with the whole song: the front wave with voices, snares and hi-hats, the one behind with the bass. Quiet parts lie nearly flat, and drops hit harder.</li>
+<li>Scroll records the song as it plays: each moment comes in as tall as it stands out and slides away, and silence leaves a line of dots. Pausing and playing again move the waves smoothly instead of jumping.</li>
+<li>Settings can set ShawNotch up the way its creator uses it, in one click, with a way back if you change your mind.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.8.3/ShawNotch-1.8.3.zip" length="7443189" type="application/octet-stream" sparkle:edSignature="Rv6MJVVJAV0fgk0mQYDubHrss3RKwx0NzUHKiqYzOWbV3j1jSGjFvo1mAzmxKMYdzVWiOBlp/stwecajYq7cDw=="/>
+            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.9.0/ShawNotch-1.9.0.zip" length="8130268" type="application/octet-stream" sparkle:edSignature="vbsyVcY/KbHNFtK0VudhJyTJhAQQHmJ8AktZkvC1tT5aGagF+GY2A9BV90vWE38hgT6IDQnXH6JFDjBuBPoQAQ=="/>
         </item>
     </channel>
 </rss>
