@@ -251,34 +251,97 @@ p { margin: 0; }
 .wedge i.lit { background: var(--accent); }
 .wedge.adjusting i.lit { box-shadow: 0 0 4px var(--accent); }
 
-/* The Tray */
-.tray-head { position: absolute; left: 32px; right: 32px; top: 9px; display: flex; justify-content: space-between; font: 500 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.5); }
-.tray-head button:hover { color: #fff; }
-.tray-files { position: absolute; left: 26px; right: 26px; top: 33px; height: 84px; display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; padding-top: 6px; }
-.tray-files::-webkit-scrollbar { display: none; }
-.file { position: relative; flex: 0 0 64px; display: grid; justify-items: center; align-content: start; gap: 4px; animation: dropin 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-@keyframes dropin { from { opacity: 0; transform: translateY(-10px) scale(0.85); } }
-.file .thumb { width: 44px; height: 44px; display: grid; place-items: center; transition: transform 0.15s ease; }
-.file:hover .thumb { transform: translateY(-2px); }
-.file .thumb img { max-width: 44px; max-height: 44px; object-fit: contain; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
-.file .doc { position: relative; width: 34px; height: 44px; border-radius: 3px; background: #F4F4F6; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
-.file .doc::before { content: ""; position: absolute; left: 7px; right: 7px; top: 10px; height: 14px; background: repeating-linear-gradient(#C9C9CF 0 1.5px, transparent 1.5px 4px); }
-.file .doc b { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); padding: 1px 3px; border-radius: 2px; background: #6E6E78; color: #fff; font: 700 6px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
-.file .audio, .file .disk { width: 40px; height: 40px; border-radius: 6px; display: grid; place-items: center; background: #ECECEE; }
-.file .audio svg { width: 20px; height: 20px; fill: #B9B9BF; }
-.file .disk { border-radius: 50%; background: radial-gradient(circle, #9C9CA4 0 18%, #D6D6DB 19% 100%); }
-.file .name { width: 64px; height: 26px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-align: center; font: 400 10px/13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; word-break: break-word; }
-.file .remove { position: absolute; top: -5px; right: 3px; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center; background: #4A4A4E; opacity: 0; transition: opacity 0.15s ease; }
-.file:hover .remove, .file .remove:focus-visible { opacity: 1; }
-.file .remove svg { width: 7px; height: 7px; stroke: #fff; stroke-width: 3; stroke-linecap: round; }
-.tray-empty { position: absolute; left: 0; right: 0; top: 44px; display: none; justify-items: center; gap: 4px; text-align: center; font: 400 11px/1.3 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.5); }
-.tray-empty svg { width: 22px; height: 22px; fill: none; stroke: rgba(255, 255, 255, 0.5); stroke-width: 1.6; margin-bottom: 4px; }
-.tray-empty b { font-size: 13px; font-weight: 600; color: #fff; }
-.tray.empty .tray-empty { display: grid; }
-.tray-tabs { position: absolute; right: 30px; bottom: 4px; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); }
-.tray-tabs button { width: 24px; height: 16px; display: grid; place-items: center; border-radius: 999px; color: rgba(255, 255, 255, 0.7); }
-.tray-tabs button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.22); color: #fff; }
+/* The Tray: Tray, Downloads and Recent as rows with a preview pane, or as icons. The header beside the notch says what's shown, or what's selected and what can be done with it. */
+.tray-head { position: absolute; left: 26px; right: 26px; top: 5px; height: 22px; display: flex; justify-content: space-between; font: 500 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.tray-head > div { flex: none; width: 149.5px; min-width: 0; display: flex; align-items: center; gap: 5px; }
+.tray-head > .end { justify-content: flex-end; gap: 4px; }
+.head-box { flex: 0 1 auto; min-width: 0; display: flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 7px; background: rgba(255, 255, 255, 0.07); color: rgba(255, 255, 255, 0.6); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.head-box span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.head-box svg { flex: none; width: 11px; height: 11px; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+button.head-box { background: rgba(255, 255, 255, 0.14); color: rgba(255, 255, 255, 0.95); }
+button.head-box svg { width: 7.5px; height: 7.5px; stroke: rgba(255, 255, 255, 0.6); stroke-width: 3.6; }
+.head-box.flash { color: #30D158; }
+.head-box.flash.error { color: #FF807A; }
+.tray-btn { flex: none; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.11); color: rgba(255, 255, 255, 0.85); }
+.tray-btn:hover { background: rgba(255, 255, 255, 0.2); }
+.tray-btn.big { width: 20px; height: 20px; color: rgba(255, 255, 255, 0.7); }
+.tray-btn svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+:is(.tray-btn, .tray-pill):disabled { opacity: 0.35; cursor: default; background: rgba(255, 255, 255, 0.11); }
+.tray-pill { flex: none; height: 20px; padding: 0 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.72); font: 500 10.5px/20px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; white-space: nowrap; }
+.tray-pill:hover { color: #fff; }
+.tray-pill.strong { background: rgba(255, 255, 255, 0.9); color: rgba(0, 0, 0, 0.9); font-weight: 600; }
+.tray-files { position: absolute; left: 24px; right: 24px; top: 33px; height: 93px; display: flex; gap: 10px; font: 400 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.88); }
+.file-rows, .tray-files.icons { overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.file-rows::-webkit-scrollbar, .tray-files.icons::-webkit-scrollbar { display: none; }
+.file-rows { flex: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: min-content; gap: 2px; align-content: start; }
+.file-group { height: 12px; padding: 1px 7px 0; font-size: 8.5px; line-height: 11px; font-weight: 700; letter-spacing: 0.8px; color: rgba(255, 255, 255, 0.42); white-space: nowrap; }
+.file-group + .file-group, .file-row + .file-group { height: 15px; padding-top: 4px; }
+.file-row { position: relative; display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 7px; border-radius: 7px; cursor: default; white-space: nowrap; user-select: none; -webkit-user-select: none; }
+.file-row:hover { background: rgba(255, 255, 255, 0.08); }
+.file-row .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.file-row .meta { flex: none; font-size: 9.5px; color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+.file-row.removable:hover .meta { padding-right: 20px; }
+.file-row.selected { background: rgba(255, 255, 255, 0.92); color: rgba(0, 0, 0, 0.92); font-weight: 500; }
+.file-row.selected .meta { color: rgba(0, 0, 0, 0.5); }
+.file-row .remove { position: absolute; right: 4px; top: 3px; width: 18px; height: 16px; border-radius: 5px; display: none; place-items: center; background: #424242; color: rgba(255, 255, 255, 0.85); }
+.file-row:hover .remove { display: grid; }
+.file-row .remove svg, .file-tile .remove svg { width: 7.5px; height: 7.5px; fill: none; stroke: currentColor; stroke-width: 3.6; stroke-linecap: round; }
+:is(.file-row, .file-tile):focus-visible { outline: 2px solid #FF6FAE; outline-offset: -1px; }
+.tray-files.icons { display: block; }
+.file-grid { display: grid; grid-template-columns: repeat(6, 74px); gap: 6px 8px; align-content: start; padding-top: 2px; }
+.file-tile { position: relative; width: 74px; padding: 3px 0; display: grid; justify-items: center; gap: 3px; border-radius: 10px; cursor: default; user-select: none; -webkit-user-select: none; }
+.file-tile:hover { background: rgba(255, 255, 255, 0.07); }
+.file-tile.selected { background: rgba(255, 255, 255, 0.2); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55); }
+.file-tile .name { width: 68px; height: 26px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-align: center; font-size: 10px; line-height: 13px; color: rgba(255, 255, 255, 0.82); word-break: break-word; }
+.file-tile.selected .name { color: #fff; font-weight: 500; }
+.file-tile .remove { position: absolute; top: -1px; right: 4px; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center; background: #3D3D3D; color: rgba(255, 255, 255, 0.85); }
+.file-tile .remove svg { width: 7px; height: 7px; }
+/* A file's icon, drawn at 44 points and scaled to the size wanted. */
+.ficon { position: relative; flex: none; width: var(--s); height: var(--s); }
+.fi { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; display: grid; place-items: center; transform: scale(var(--k)); }
+.fi img { max-width: 44px; max-height: 44px; object-fit: contain; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+.fi .doc { position: relative; width: 34px; height: 44px; border-radius: 3px; background: #F4F4F6; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+.fi .doc::before { content: ""; position: absolute; left: 7px; right: 7px; top: 10px; height: 14px; background: repeating-linear-gradient(#C9C9CF 0 1.5px, transparent 1.5px 4px); }
+.fi .doc b { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); padding: 1px 3px; border-radius: 2px; background: #6E6E78; color: #fff; font: 700 6px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.fi .doc.zip::before { left: 15px; right: 15px; top: 2px; height: 22px; background: repeating-linear-gradient(#9C9CA4 0 2px, transparent 2px 4px); }
+.fi .audio, .fi .disk { width: 40px; height: 40px; border-radius: 6px; display: grid; place-items: center; background: #ECECEE; }
+.fi .audio svg { width: 20px; height: 20px; fill: #B9B9BF; }
+.fi .disk { border-radius: 50%; background: radial-gradient(circle, #9C9CA4 0 18%, #D6D6DB 19% 100%); }
+/* The preview pane, laid out as the Clipboard's: where it's from, the file, what it is. */
+.clip-inspect .ficon { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5)); }
+.file-hero { flex: 1; min-height: 0; display: flex; align-items: flex-start; gap: 8px; padding-top: 2px; }
+.file-hero div { min-width: 0; display: grid; gap: 1px; }
+.file-hero b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 11px; line-height: 13px; font-weight: 600; color: rgba(255, 255, 255, 0.92); overflow-wrap: anywhere; }
+.file-hero span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9.5px; line-height: 12px; color: rgba(255, 255, 255, 0.5); }
+.file-pile { flex: 1; min-height: 0; display: flex; }
+.file-pile .ficon + .ficon { margin-left: -14px; }
+.insp-head .pic svg.place-glyph { width: 12px; height: 12px; stroke: none; }
+.insp-head button:disabled { opacity: 0.35; cursor: default; }
+/* Nothing to show: the empty Tray's drop target, and the notes for the other lists. */
+.drop-zone { flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1.5px dashed rgba(255, 255, 255, 0.25); border-radius: 14px; color: rgba(255, 255, 255, 0.8); }
+.stage.dropping .drop-zone { border-color: rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.08); color: #fff; }
+.drop-zone svg, .feed-note > svg { flex: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.drop-zone div, .feed-note div { display: grid; justify-items: start; gap: 2px; }
+.drop-zone b, .feed-note b { font-size: 13px; line-height: 16px; font-weight: 600; color: #fff; }
+.drop-zone span, .feed-note span { font-size: 11px; line-height: 14px; color: rgba(255, 255, 255, 0.55); }
+.drop-zone .when-dropping, .stage.dropping .drop-zone .when-resting { display: none; }
+.stage.dropping .drop-zone .when-dropping { display: inline; }
+.feed-note { flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.feed-note > svg { color: rgba(255, 255, 255, 0.5); }
+.feed-note button { margin-top: 4px; padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); color: #fff; font: 600 11px/14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+.feed-note button:hover { background: rgba(255, 255, 255, 0.24); }
+/* Bottom right: the four lists, and Recent's kinds beside them. */
+.tray-tabs { position: absolute; right: 30px; bottom: 4px; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+.tray-tabs button { width: 24px; height: 16px; display: grid; place-items: center; border-radius: 999px; color: rgba(255, 255, 255, 0.45); }
+.tray-tabs button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.2); color: #fff; }
 .tray-tabs svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.file-kinds { position: absolute; right: 144px; bottom: 4px; }
+.file-kinds[hidden], .tray.clips .file-kinds { display: none; }
+/* A menu from the Tray's buttons or a right-click, where the pointer is, as macOS opens one. */
+.dropdown.tray-menu { position: fixed; z-index: 60; min-width: 180px; max-height: none; overflow: visible; }
+.tray-menu .chevron { margin-left: auto; padding-left: 12px; color: rgba(255, 255, 255, 0.55); }
+.tray-menu button:hover .chevron, .tray-menu button:focus-visible .chevron, .tray-menu button[aria-expanded="true"] .chevron { color: inherit; }
+.tray-menu button[aria-expanded="true"] { background: var(--brand); color: var(--brand-ink); }
 /* The Tray's Clipboard list: off until turned on, then what was copied, as a list (with or without its preview) or as cards. */
 .tray.clips .tray-files { display: none; }
 .tray-note { position: absolute; left: 34px; right: 34px; top: 30px; height: 90px; display: none; align-items: center; gap: 12px; font: 400 11px/1.35 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: rgba(255, 255, 255, 0.5); }
@@ -338,6 +401,8 @@ p { margin: 0; }
 .clip-inspect { flex: none; width: 222px; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; padding: 7px 10px; border-radius: 11px; background: rgba(255, 255, 255, 0.065); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.11); }
 .insp-head { flex: none; display: flex; align-items: center; gap: 5px; height: 16px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.65); white-space: nowrap; }
 .insp-head .pic { flex: none; width: 13px; height: 13px; display: grid; place-items: center; }
+/* Not the page's framed pictures (`.pic` below), which these small ones share a name with. */
+:is(.insp-head, .clip-row) .pic { position: static; z-index: auto; aspect-ratio: auto; transform: none; background: none; border-radius: 0; overflow: visible; }
 .insp-head .pic svg { width: 9px; height: 9px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .insp-head .pic img { width: 12px; height: 12px; border-radius: 3px; object-fit: cover; }
 .insp-head .pic i { width: 11px; height: 11px; border-radius: 3px; }
@@ -1013,13 +1078,13 @@ footer nav a:hover { color: var(--ink); }
               </div>
             </div>
             <div class="page tray" id="tray" aria-label="Tray">
-              <div class="tray-head"><span id="tray-title">Tray · 5</span><button type="button" id="tray-clear">Clear</button></div>
+              <div class="tray-head" id="tray-head"></div>
               <div class="clip-head" id="clip-head"><label class="clip-search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg><input type="text" id="clip-search" placeholder="Search" aria-label="Search what you copied" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"></label><span class="clip-tools"><button type="button" class="clip-clear" id="clip-clear" title="Forget everything copied, except pins">Clear</button><span class="clip-seg" id="clip-preview-seg"><button type="button" id="clip-preview" aria-pressed="true" aria-label="Preview pane" title="Hide preview pane"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M14.5 5v14"/></svg></button></span><span class="clip-seg" role="group" aria-label="Show the clipboard"><button type="button" data-layout="list" aria-pressed="true" aria-label="as List" title="Show as List"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></button><button type="button" data-layout="cards" aria-pressed="false" aria-label="as Cards" title="Show as Cards"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M9 6v12M15 6v12"/></svg></button></span></span></div>
-              <div class="tray-files" id="tray-files"></div>
-              <div class="tray-empty"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg><b>Drop files on the notch</b><span>They'll wait here until you drag them out</span></div>
+              <div class="tray-files" id="tray-files" aria-label="Files"></div>
               <div class="tray-clips" id="tray-clips"></div>
               <div class="tray-note" id="tray-note"><svg viewBox="0 0 24 24"><path d="M9.5 4.5H7A1.5 1.5 0 0 0 5.5 6v12.5A1.5 1.5 0 0 0 7 20h3M9.5 3.5h5v2.5h-5zM14.5 4.5H17a1.5 1.5 0 0 1 1.5 1.5v2"/><rect x="12" y="10.5" width="8" height="10.5" rx="1.5"/></svg><div><b id="tray-note-title"></b><span id="tray-note-detail"></span><button type="button" id="clip-on">Turn On</button></div></div>
               <div class="clip-seg clip-kinds" id="clip-kinds" role="group" aria-label="Kind"><button type="button" data-kind="all" aria-pressed="true" aria-label="Everything" title="Everything"><svg viewBox="0 0 24 24"><rect x="5" y="8.5" width="14" height="11" rx="2"/><path d="M7.5 5h9"/></svg></button><button type="button" data-kind="text" aria-pressed="false" aria-label="Text" title="Text"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></button><button type="button" data-kind="links" aria-pressed="false" aria-label="Links" title="Links"><svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button><button type="button" data-kind="pictures" aria-pressed="false" aria-label="Pictures" title="Pictures"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 17"/></svg></button><button type="button" data-kind="files" aria-pressed="false" aria-label="Files" title="Files"><svg viewBox="0 0 24 24"><path d="M7.5 3.5H14l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1.5-1.5zM14 3.5v4h4"/></svg></button></div>
+              <div class="clip-seg file-kinds" id="file-kinds" role="group" aria-label="Kind" hidden><button type="button" data-file-kind="all" aria-pressed="true" aria-label="Everything" title="Everything"><svg viewBox="0 0 24 24"><rect x="4.5" y="4.5" width="6.5" height="6.5" rx="1.5"/><rect x="13" y="4.5" width="6.5" height="6.5" rx="1.5"/><rect x="4.5" y="13" width="6.5" height="6.5" rx="1.5"/><rect x="13" y="13" width="6.5" height="6.5" rx="1.5"/></svg></button><button type="button" data-file-kind="documents" aria-pressed="false" aria-label="Documents" title="Documents"><svg viewBox="0 0 24 24"><path d="M7.5 3.5H14l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1.5-1.5zM9 12h6M9 15.5h6"/></svg></button><button type="button" data-file-kind="pdfs" aria-pressed="false" aria-label="PDFs" title="PDFs"><svg viewBox="0 0 24 24"><path d="M7.5 3.5H14l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1.5-1.5z"/><rect x="9" y="11" width="6" height="5" rx="1"/></svg></button><button type="button" data-file-kind="pictures" aria-pressed="false" aria-label="Pictures" title="Pictures"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 16l4.5-4.5 3.5 3.5 2.5-2.5L20 17"/></svg></button><button type="button" data-file-kind="code" aria-pressed="false" aria-label="Code" title="Code"><svg viewBox="0 0 24 24"><path d="M8.5 7l-5 5 5 5M15.5 7l5 5-5 5M13.5 5l-3 14"/></svg></button></div>
               <div class="tray-tabs" role="group" aria-label="Show">
                 <button type="button" data-feed="tray" aria-pressed="true" aria-label="Tray"><svg viewBox="0 0 24 24"><path d="M4 13l2.2-6.2A1.5 1.5 0 0 1 7.6 5.8h8.8a1.5 1.5 0 0 1 1.4 1L20 13v4.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5V13zm0 0h4.5l1 2h5l1-2H20"/></svg></button>
                 <button type="button" data-feed="downloads" aria-pressed="false" aria-label="Downloads"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v8M8.5 12.5 12 16l3.5-3.5"/></svg></button>
@@ -1243,8 +1308,8 @@ footer nav a:hover { color: var(--ink); }
         <p class="side"><b>B</b>Side B · Files, camera and calendar</p>
         <button class="track-row" type="button" id="track-tray" aria-expanded="false" aria-controls="detail-tray"><span class="no"><span>B1</span></span><span class="name">Tray</span><span class="sum">Somewhere to put files down</span><span class="fact">AirDrop</span></button>
         <div class="detail" id="detail-tray" role="region" aria-labelledby="track-tray">
-          <div class="shot"><div class="pic wide" style="--w: 544"><img src="images/notch-tray.png?v=fd4d8675a2" data-clear="images/notch-tray-clear.png?v=c717fa8ccb" alt="The Tray: five files kept for later, with buttons for Downloads, Recent and the Clipboard" width="544" height="152" loading="lazy"></div></div>
-          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads and the files you opened last are one click away. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
+          <div class="shot"><div class="pic wide" style="--w: 544"><img src="images/notch-tray.png?v=1f6767f6a7" data-clear="images/notch-tray-clear.png?v=fef3b45eb3" alt="The Tray as a list: two of its files selected, with Copy, Move, AirDrop and Remove above them and what they come to beside, and buttons for Downloads, Recent and the Clipboard" width="544" height="152" loading="lazy"></div></div>
+          <div class="text"><h3>Somewhere to put files down</h3><p>Drop files on the notch to keep them for later, or send them with AirDrop in one move. Your newest downloads and the files you opened last are one click away, by day, with a preview of each. Select a few to copy, move, zip or trash them together, and Clean Up finds old installers in Downloads. Try it here: drag a file onto this page.</p><button class="try" type="button" data-try="tray">Open it in the notch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         </div>
         <button class="track-row" type="button" id="track-clipboard" aria-expanded="false" aria-controls="detail-clipboard"><span class="no"><span>B2</span></span><span class="name">Clipboard</span><span class="sum">What you copied, ready to copy again</span><span class="fact">Last 25</span></button>
         <div class="detail" id="detail-clipboard" role="region" aria-labelledby="track-clipboard">
@@ -1705,25 +1770,51 @@ footer nav a:hover { color: var(--ink); }
 
   // MARK: The Tray, and drops from Finder
 
+  // As in the app: three lists of files (dropped on the notch, the newest
+  // downloads, the files opened lately) as rows with a preview pane, or as
+  // icons. The files are made up: nothing on this computer is read, and
+  // what you drop on this page stays in this browser tab.
+  const ago = minutes => Date.now() - minutes * 60000;
+  // A time on an earlier day, so the day headings show whatever the time is here.
+  function daysBack(days, hour) {
+    const day = new Date();
+    day.setDate(day.getDate() - days);
+    day.setHours(hour, 12, 0, 0);
+    return day.getTime();
+  }
+  const MB = 1e6;
+  const made = (folder, name, facts) => ({ name, folder, ...facts });
+  const boardingPass = made('~/Downloads', 'Boarding pass.pdf', { ext: 'PDF', type: 'PDF document', detail: '1 page', size: 186e3, site: 'mail.google.com', kind: 'pdfs' });
+  const setlist = made('~/Documents', 'Setlist.txt', { ext: 'TXT', type: 'Plain Text', size: 96, kind: 'documents' });
   const feeds = {
+    // Oldest first, as they were dropped.
     tray: [
-      { name: 'Afterglow cover.png', thumb: 'images/cover-midnight.png?v=255bf0b55b' },
-      { name: 'Boarding pass.pdf', kind: 'doc', ext: 'PDF' },
-      { name: 'Desktop idea.jpg', thumb: 'images/poster-ember.jpg?v=029fb376df' },
-      { name: 'Setlist.txt', kind: 'doc', ext: 'TXT' },
-      { name: 'Demo mix.m4a', kind: 'audio' },
+      { file: made('~/Pictures', 'Afterglow cover.png', { thumb: 'images/cover-midnight.png?v=255bf0b55b', type: 'PNG image', detail: '1200×1200', size: 1.8 * MB, kind: 'pictures' }), at: ago(42) },
+      { file: boardingPass, at: ago(24) },
+      { file: made('~/Desktop', 'Desktop idea.jpg', { thumb: 'images/poster-ember.jpg?v=029fb376df', type: 'JPEG image', detail: '2560×1600', size: 3.4 * MB, kind: 'pictures' }), at: ago(17) },
+      { file: setlist, at: ago(9) },
+      { file: made('~/Music', 'Demo mix.m4a', { icon: 'audio', type: 'Apple MPEG-4 audio', size: 7.2 * MB }), at: ago(3) },
     ],
+    // When each was downloaded, and from where.
     downloads: [
-      { name: 'ShawNotch.dmg', kind: 'disk' },
-      { name: 'Invoice 0412.pdf', kind: 'doc', ext: 'PDF' },
-      { name: 'Holiday.jpg', thumb: 'images/cover-tide.png?v=3c0edb3d24' },
-      { name: 'Fonts.zip', kind: 'doc', ext: 'ZIP' },
+      { file: boardingPass, at: ago(25) },
+      { file: made('~/Downloads', 'Holiday.jpg', { thumb: 'images/cover-tide.png?v=3c0edb3d24', type: 'JPEG image', detail: '4032×3024', size: 2.9 * MB, site: 'unsplash.com', kind: 'pictures' }), at: ago(70) },
+      { file: made('~/Downloads', 'Invoice 0412.pdf', { ext: 'PDF', type: 'PDF document', detail: '2 pages', size: 94e3, site: 'mail.google.com', kind: 'pdfs' }), at: daysBack(1, 16) },
+      { file: made('~/Downloads', 'Fonts.zip', { ext: 'ZIP', type: 'ZIP archive', size: 12.4 * MB, site: 'github.com' }), at: daysBack(1, 11) },
+      { file: made('~/Downloads', 'ShawNotch.dmg', { icon: 'disk', type: 'Disk Image', size: 8.9 * MB, site: 'github.com' }), at: daysBack(3, 20) },
+      { file: made('~/Downloads', 'Synth plugin.dmg', { icon: 'disk', type: 'Disk Image', size: 412 * MB, site: 'github.com' }), at: daysBack(9, 13) },
+      { file: made('~/Downloads', 'Course photos.zip', { ext: 'ZIP', type: 'ZIP archive', size: 1310 * MB, site: 'drive.google.com' }), at: daysBack(16, 10) },
     ],
+    // When each was last opened, and what kind it is.
     recent: [
-      { name: 'Pitch deck.key', kind: 'doc', ext: 'KEY' },
-      { name: 'Poster.png', thumb: 'images/cover-ember.png?v=73846dd3ac' },
-      { name: 'Budget.numbers', kind: 'doc', ext: 'NUM' },
-      { name: 'Notes.md', kind: 'doc', ext: 'MD' },
+      { file: made('~/Documents', 'Pitch deck.key', { ext: 'KEY', type: 'Keynote Presentation', size: 6.2 * MB, kind: 'documents' }), at: ago(38) },
+      { file: setlist, at: ago(95) },
+      { file: made('~/Documents/Uni', 'Lecture 4.pdf', { ext: 'PDF', type: 'PDF document', detail: '32 pages', size: 3.1 * MB, kind: 'pdfs' }), at: ago(170) },
+      { file: made('~/Projects/Site', 'index.html', { ext: 'HTML', type: 'HTML text', size: 14e3, kind: 'code' }), at: daysBack(1, 18) },
+      { file: made('~/Desktop', 'Poster.png', { thumb: 'images/cover-ember.png?v=73846dd3ac', type: 'PNG image', detail: '1080×1350', size: 2.2 * MB, kind: 'pictures' }), at: daysBack(1, 10) },
+      { file: made('~/Documents', 'Budget.numbers', { ext: 'NUM', type: 'Numbers Spreadsheet', size: 380e3, kind: 'documents' }), at: daysBack(2, 14) },
+      { file: made('~/Documents/Uni', 'Notes.md', { ext: 'MD', type: 'Markdown text', size: 8e3, kind: 'documents' }), at: daysBack(4, 9) },
+      { file: made('~/Projects/Site', 'style.css', { ext: 'CSS', type: 'CSS', size: 6e3, kind: 'code' }), at: daysBack(5, 17) },
     ],
   };
   const feedNames = { tray: 'Tray', downloads: 'Downloads', recent: 'Recent', clipboard: 'Clipboard' };
@@ -1731,28 +1822,34 @@ footer nav a:hover { color: var(--ink); }
   const trayPage = $('tray'), trayFiles = $('tray-files');
   const noteIcon = '<svg viewBox="0 0 24 24"><path d="M10 18.2a3.2 3.2 0 1 1-2-2.97V5.8c0-.6.4-1.1 1-1.25l9-2.2c.8-.2 1.5.4 1.5 1.2V15a3.2 3.2 0 1 1-2-2.97V8.1l-7.5 1.85v8.25z"/></svg>';
 
-  function thumbFor(file) {
-    const thumb = document.createElement('div');
-    thumb.className = 'thumb';
+  // A file's icon, `side` points square: the picture itself, or a page with its type.
+  function fileIcon(file, side) {
+    const box = document.createElement('span');
+    box.className = 'ficon';
+    box.style.setProperty('--s', `${side}px`);
+    box.style.setProperty('--k', side / 44);
+    const art = document.createElement('span');
+    art.className = 'fi';
     if (file.thumb) {
       const image = document.createElement('img');
       image.src = file.thumb;
       image.alt = '';
       image.draggable = false;
-      thumb.appendChild(image);
-    } else if (file.kind === 'audio') {
-      thumb.innerHTML = `<span class="audio">${noteIcon}</span>`;
-    } else if (file.kind === 'disk') {
-      thumb.innerHTML = '<span class="disk"></span>';
+      art.appendChild(image);
+    } else if (file.icon === 'audio') {
+      art.innerHTML = `<span class="audio">${noteIcon}</span>`;
+    } else if (file.icon === 'disk') {
+      art.innerHTML = '<span class="disk"></span>';
     } else {
       const doc = document.createElement('span');
-      doc.className = 'doc';
+      doc.className = file.ext === 'ZIP' ? 'doc zip' : 'doc';
       const ext = document.createElement('b');
       ext.textContent = file.ext || 'FILE';
       doc.appendChild(ext);
-      thumb.appendChild(doc);
+      art.appendChild(doc);
     }
-    return thumb;
+    box.appendChild(art);
+    return box;
   }
 
   // The Clipboard list, as in the app (where it's off until it's turned
@@ -2127,8 +2224,7 @@ footer nav a:hover { color: var(--ink); }
   function renderClips() {
     const kept = clipOn ? clips : [];
     const listed = kept.length > 0;
-    $('tray-title').textContent = 'Clipboard';
-    $('tray-clear').hidden = true;
+    renderTrayHead();
     trayPage.classList.toggle('listed', listed);
     trayPage.classList.toggle('note', !listed);
     $('tray-note').classList.toggle('plain', clipOn);
@@ -2189,53 +2285,633 @@ footer nav a:hover { color: var(--ink); }
     if (text.trim()) recordClip({ text, from: thisBrowser, at: Date.now() });
   });
 
+  // The file lists. Click a file to select it (⌘ and ⇧ as in Finder): the
+  // header then holds what can be done with the selection, and a
+  // right-click everything. The preview pane shows the file under the
+  // pointer, or the one selected, or the first; with several selected,
+  // what they come to.
+  let fileLayout = 'list', filePreview = true, recentKind = 'all';
+  let picked = new Set(), anchor = null, hovered = null, cleanup = null;
+  let flash = null, flashTimer = 0;
+  let pane = null;
+  const rowsByFile = new Map();
+  const fileGlyphs = {
+    folder: glyph('<path d="M3.5 7A1.5 1.5 0 0 1 5 5.5h4l2 2h8A1.5 1.5 0 0 1 20.5 9v8.5A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5z"/>'),
+    airdrop: glyph('<circle cx="12" cy="16.5" r="1.4"/><path d="M8.6 13.4a4.8 4.8 0 0 1 6.8 0M5.8 10.6a8.8 8.8 0 0 1 12.4 0"/>'),
+    addToTray: glyph('<path d="M4 14l2-6h2.5M20 14l-2-6h-2.5M4 14v4a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 18v-4h-4.5l-1 2h-5l-1-2zM12 3.5v8.5M9 9l3 3 3-3"/>'),
+    more: '<svg viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:4"><path d="M5.5 12h.01M12 12h.01M18.5 12h.01"/></svg>',
+    sparkles: glyph('<path d="M10 4l1.6 4.4L16 10l-4.4 1.6L10 16l-1.6-4.4L4 10l4.4-1.6zM17.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>'),
+    sidebar: glyph('<rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M14.5 5v14"/>'),
+    list: glyph('<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>'),
+    grid: glyph('<rect x="3.5" y="5.5" width="4.5" height="5" rx="1"/><rect x="9.75" y="5.5" width="4.5" height="5" rx="1"/><rect x="16" y="5.5" width="4.5" height="5" rx="1"/><rect x="3.5" y="13.5" width="4.5" height="5" rx="1"/><rect x="9.75" y="13.5" width="4.5" height="5" rx="1"/><rect x="16" y="13.5" width="4.5" height="5" rx="1"/>'),
+    // Finder's folder, small, for where a file is.
+    place: '<svg class="place-glyph" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4FA3EE" d="M2.5 6.5A1.5 1.5 0 0 1 4 5h5.2l2 2H20a1.5 1.5 0 0 1 1.5 1.5v9.5A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18z"/><path fill="#79BFF7" d="M2.5 9.5h19V18a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 18z"/></svg>',
+  };
+  const sourceIcon = name => document.querySelector(`[data-feed="${name}"] svg`).outerHTML;
+  // Sizes as macOS gives them: "96 bytes", "186 KB", "8.9 MB", "1.31 GB".
+  function bytes(count) {
+    if (count < 1e3) return `${Math.round(count)} bytes`;
+    if (count < 1e6) return `${Math.round(count / 1e3)} KB`;
+    if (count < 1e9) return `${(count / 1e6).toFixed(1).replace(/\.0$/, '')} MB`;
+    return `${(count / 1e9).toFixed(2).replace(/\.?0+$/, '')} GB`;
+  }
+  const folderName = file => file.folder ? file.folder.split('/').pop() : null;
+  const describe = entries => entries.length === 1 ? entries[0].file.name : `${entries.length} items`;
+  const totalSize = entries => entries.reduce((sum, entry) => sum + (entry.file.size || 0), 0);
+  // Files dropped from this computer: the page can show them, never move, copy or bin them.
+  const isReal = entry => Boolean(entry.file.real);
+  function dayOf(time) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (time >= today.getTime()) return 'TODAY';
+    const before = days => { const day = new Date(today); day.setDate(day.getDate() - days); return day.getTime(); };
+    if (time >= before(1)) return 'YESTERDAY';
+    return time >= before(6) ? 'THIS WEEK' : 'EARLIER';
+  }
+  const isOld = entry => Date.now() - entry.at > 7 * 86400000;
+  const isInstaller = entry => /\.(dmg|pkg|zip|iso)$/i.test(entry.file.name);
+
+  // What the list shows now: Clean Up's finds, or the list, newest first
+  // (the Tray in the order things were dropped), narrowed to Recent's kind.
+  function shownEntries() {
+    if (feed === 'clipboard') return [];
+    if (feed === 'downloads' && cleanup) return cleanup;
+    if (feed === 'tray') return feeds.tray;
+    const entries = [...feeds[feed]].sort((a, b) => b.at - a.at);
+    return feed === 'recent' ? entries.filter(entry => recentKind === 'all' || entry.file.kind === recentKind) : entries;
+  }
+  const pickedEntries = () => shownEntries().filter(entry => picked.has(entry.file));
+
+  // MARK: Selecting
+
+  function selectFile(entry, event) {
+    const order = shownEntries().map(each => each.file);
+    const file = entry.file;
+    const extend = event?.shiftKey, toggle = cleanup && feed === 'downloads' || event?.metaKey || event?.ctrlKey;
+    if (extend && anchor && order.includes(anchor)) {
+      const [from, to] = [order.indexOf(anchor), order.indexOf(file)].sort((a, b) => a - b);
+      picked = new Set(order.slice(from, to + 1));
+    } else if (toggle) {
+      if (!picked.delete(file)) picked.add(file);
+      anchor = file;
+    } else {
+      picked = new Set([file]);
+      anchor = file;
+    }
+    selectionChanged();
+  }
+  function selectAll() {
+    picked = new Set(shownEntries().map(entry => entry.file));
+    selectionChanged();
+  }
+  function clearSelection() {
+    if (!picked.size) return;
+    picked = new Set();
+    selectionChanged();
+  }
+  // Redraws what a selection changes, leaving the rows in place (so a double-click still lands).
+  function selectionChanged() {
+    rowsByFile.forEach((row, file) => row.classList.toggle('selected', picked.has(file)));
+    renderTrayHead();
+    renderPane();
+  }
+
+  // MARK: What can be done with files
+
+  function say(text, error = false) {
+    flash = { text, error };
+    renderTrayHead();
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => { flash = null; renderTrayHead(); }, error ? 3000 : 1800);
+  }
+  // Only a page can be opened from a web page: the pictures here, and what you dropped.
+  function openFiles(entries) {
+    entries.map(entry => entry.file.url || entry.file.thumb).filter(Boolean).slice(0, 3)
+      .forEach(address => window.open(address, '_blank', 'noopener'));
+  }
+  function copyFiles(entries) { say(`Copied ${describe(entries)}`); }
+  function addToTray(entries) {
+    const fresh = entries.filter(entry => !feeds.tray.some(kept => kept.file === entry.file));
+    fresh.forEach(entry => feeds.tray.push({ file: entry.file, at: Date.now() }));
+    say(fresh.length ? `Added ${describe(fresh)} to the Tray` : 'Already in the Tray');
+  }
+  function removeFromTray(entries) {
+    const gone = new Set(entries.map(entry => entry.file));
+    feeds.tray = feeds.tray.filter(entry => !gone.has(entry.file));
+    gone.forEach(file => { picked.delete(file); if (file.url) URL.revokeObjectURL(file.url); });
+    renderTray();
+  }
+  // Moving takes a file out of Downloads; either way, the lists show where it is now.
+  function transfer(entries, folder, moving) {
+    const name = folder.split('/').pop();
+    const going = entries.filter(entry => !moving || entry.file.folder !== folder);
+    if (!going.length) return say(`Already in ${name}`);
+    going.forEach(entry => {
+      if (moving) {
+        entry.file.folder = folder;
+        if (folder !== '~/Downloads') feeds.downloads = feeds.downloads.filter(each => each.file !== entry.file);
+      } else if (folder === '~/Downloads') {
+        feeds.downloads.push({ file: { ...entry.file, folder, site: null }, at: Date.now() });
+      }
+    });
+    renderTray();
+    say(`${moving ? 'Moved' : 'Copied'} ${describe(going)} to ${name}`);
+  }
+  function trash(entries) {
+    const gone = new Set(entries.map(entry => entry.file));
+    const freed = cleanup ? ` (${bytes(totalSize(entries))})` : '';
+    for (const name of ['tray', 'downloads', 'recent']) feeds[name] = feeds[name].filter(entry => !gone.has(entry.file));
+    picked = new Set();
+    cleanup = null;
+    renderTray();
+    say(`Moved ${describe(entries)}${freed} to the Trash`);
+  }
+  // Zipped beside them; from the Tray, the archive joins it, selected, ready to drag into an email.
+  function zip(entries) {
+    const first = entries[0].file;
+    const archive = made(first.folder, entries.length === 1 ? `${first.name}.zip` : 'Archive.zip',
+      { ext: 'ZIP', type: 'ZIP archive', size: Math.max(1e3, totalSize(entries) * 0.85) });
+    const now = Date.now();
+    if (archive.folder === '~/Downloads') feeds.downloads.push({ file: archive, at: now });
+    if (feed === 'tray') {
+      feeds.tray.push({ file: archive, at: now });
+      picked = new Set([archive]);
+      anchor = archive;
+    }
+    renderTray(feed === 'tray' ? 1 : 0);
+    say(`Zipped into ${archive.name}`);
+  }
+  function startCleanup() {
+    cleanup = feeds.downloads.filter(entry => isInstaller(entry) && isOld(entry)).sort((a, b) => b.at - a.at);
+    picked = new Set(cleanup.map(entry => entry.file));
+    renderTray();
+  }
+  function endCleanup() {
+    cleanup = null;
+    picked = new Set();
+    renderTray();
+  }
+
+  // MARK: Menus
+
+  // Desktop, Documents and Downloads; moving into the folder they're all in already is greyed out.
+  function folderMenu(entries, moving) {
+    const all = new Set(entries.map(entry => entry.file.folder));
+    return ['~/Desktop', '~/Documents', '~/Downloads'].map(folder => ({
+      title: folder.slice(2), disabled: moving && all.size === 1 && all.has(folder), action: () => transfer(entries, folder, moving),
+    }));
+  }
+  function moreMenu(entries) {
+    const many = entries.length > 1 ? ` ${entries.length} Items` : '';
+    const real = entries.some(isReal);
+    return [
+      { title: `Open${many}`, action: () => openFiles(entries) },
+      { title: 'Show in Finder' },
+      null,
+      { title: `Copy${many}`, disabled: real, action: () => copyFiles(entries) },
+      { title: 'Move To', disabled: real, items: folderMenu(entries, true) },
+      { title: 'Copy To', disabled: real, items: folderMenu(entries, false) },
+      { title: `Zip${many}`, disabled: real, action: () => zip(entries) },
+      null,
+      { title: 'AirDrop…', disabled: real },
+      ...(feed === 'tray' ? [] : [{ title: 'Add to Tray', action: () => addToTray(entries) }]),
+      null,
+      ...(feed === 'tray' ? [{ title: 'Remove from Tray', action: () => removeFromTray(entries) }] : []),
+      { title: 'Move to Trash', disabled: real, action: () => trash(entries) },
+      null,
+      { title: 'Select All', action: selectAll },
+    ];
+  }
+  let trayMenus = [];
+  function closeTrayMenus(from = 0) {
+    const closing = trayMenus.splice(from);
+    closing.forEach(menu => menu.remove());
+    // The nook stayed open for the menu; with the pointer gone, it goes now.
+    if (closing.length && !trayMenus.length && expanded && !pinned && !pointerInside) {
+      clearTimeout(transition);
+      transition = setTimeout(collapse, 400);
+    }
+  }
+  // A menu at the pointer (or under the button, from the keyboard), as the app opens one.
+  function showTrayMenu(items, event, level = 0, beside = null) {
+    closeTrayMenus(level);
+    const menu = document.createElement('div');
+    menu.className = 'dropdown tray-menu';
+    menu.setAttribute('role', 'menu');
+    items.forEach(item => {
+      if (!item) return menu.appendChild(document.createElement('hr'));
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('role', 'menuitem');
+      button.textContent = item.title;
+      if (item.disabled) button.setAttribute('aria-disabled', 'true');
+      if (item.items) {
+        button.setAttribute('aria-haspopup', 'menu');
+        button.setAttribute('aria-expanded', 'false');
+        button.insertAdjacentHTML('beforeend', '<span class="chevron" aria-hidden="true">›</span>');
+      }
+      const openSub = focus => {
+        if (item.disabled || !item.items) return;
+        menu.querySelectorAll('[aria-expanded]').forEach(other => other.setAttribute('aria-expanded', 'false'));
+        button.setAttribute('aria-expanded', 'true');
+        showTrayMenu(item.items, null, level + 1, button);
+        if (focus) trayMenus[level + 1]?.querySelector('button:not([aria-disabled])')?.focus();
+      };
+      button.addEventListener('pointerenter', () => item.items ? openSub(false) : closeTrayMenus(level + 1));
+      button.addEventListener('keydown', keyEvent => { if (keyEvent.key === 'ArrowRight') { keyEvent.preventDefault(); openSub(true); } });
+      button.addEventListener('click', () => {
+        if (item.disabled) return;
+        if (item.items) return openSub(true);
+        closeTrayMenus();
+        item.action?.();
+      });
+      menu.appendChild(button);
+    });
+    menu.addEventListener('keydown', keyEvent => {
+      const buttons = [...menu.querySelectorAll('button:not([aria-disabled])')];
+      const at = buttons.indexOf(document.activeElement);
+      const go = index => { keyEvent.preventDefault(); buttons[(index + buttons.length) % buttons.length]?.focus(); };
+      if (keyEvent.key === 'ArrowDown') go(at + 1);
+      else if (keyEvent.key === 'ArrowUp') go(at - 1);
+      else if (keyEvent.key === 'Escape' || keyEvent.key === 'ArrowLeft' && level > 0) {
+        keyEvent.preventDefault();
+        closeTrayMenus(level);
+        if (beside) { beside.setAttribute('aria-expanded', 'false'); beside.focus(); }
+      } else if (keyEvent.key === 'Tab') closeTrayMenus();
+    });
+    document.body.appendChild(menu);
+    trayMenus.push(menu);
+    const width = menu.offsetWidth, height = menu.offsetHeight;
+    let x, y;
+    if (beside) {
+      const box = beside.getBoundingClientRect();
+      x = box.right + 2;
+      y = box.top - 5;
+      if (x + width > innerWidth - 8) x = box.left - width - 2;
+    } else if (event?.detail || event?.type === 'contextmenu') {
+      x = event.clientX - 6;
+      y = event.clientY + 4;
+    } else {
+      const box = event.currentTarget.getBoundingClientRect();
+      x = box.left;
+      y = box.bottom + 4;
+    }
+    menu.style.left = `${Math.max(8, Math.min(x, innerWidth - width - 8))}px`;
+    menu.style.top = `${Math.max(8, Math.min(y, innerHeight - height - 8))}px`;
+    if (!beside && !event?.detail && event?.type !== 'contextmenu') menu.querySelector('button:not([aria-disabled])')?.focus();
+  }
+  document.addEventListener('pointerdown', event => {
+    if (trayMenus.length && !trayMenus.some(menu => menu.contains(event.target))) closeTrayMenus();
+  }, true);
+  addEventListener('blur', () => closeTrayMenus());
+  addEventListener('resize', () => closeTrayMenus());
+  addEventListener('scroll', () => closeTrayMenus(), { passive: true });
+
+  // MARK: The header beside the notch
+
+  function trayButton(className, title, html, action, disabled = false) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = className;
+    button.title = title;
+    button.setAttribute('aria-label', title);
+    button.innerHTML = html;
+    button.disabled = disabled;
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      action?.(event);
+    });
+    return button;
+  }
+  function headBox(icon, text) {
+    const box = document.createElement('span');
+    box.className = 'head-box';
+    if (icon) box.innerHTML = icon;
+    const words = document.createElement('span');
+    words.textContent = text;
+    box.appendChild(words);
+    return box;
+  }
+  function segmented(label, options) {
+    const group = document.createElement('span');
+    group.className = 'clip-seg';
+    if (label) { group.setAttribute('role', 'group'); group.setAttribute('aria-label', label); }
+    options.forEach(([title, html, on, action]) => {
+      const button = trayButton('', title, html, action);
+      button.setAttribute('aria-pressed', String(on));
+      group.appendChild(button);
+    });
+    return group;
+  }
+  // What can be done with the selection, most used first; the rest are in More (and a right-click).
+  function selectionActions(entries) {
+    const real = entries.some(isReal);
+    const buttons = [
+      trayButton('tray-btn', 'Copy (then paste the files anywhere)', glyphs.copy, () => copyFiles(entries), real),
+      trayButton('tray-btn', 'Move to…', fileGlyphs.folder, event => showTrayMenu(folderMenu(entries, true), event), real),
+    ];
+    if (feed === 'tray') {
+      buttons.push(trayButton('tray-btn', 'AirDrop', fileGlyphs.airdrop, null, real),
+        trayButton('tray-btn', 'Remove from tray (the files stay put)', glyphs.cross, () => removeFromTray(entries)));
+    } else {
+      buttons.push(trayButton('tray-btn', 'Add to Tray', fileGlyphs.addToTray, () => addToTray(entries)));
+      if (feed === 'downloads') buttons.push(trayButton('tray-btn', 'Move to Trash', glyphs.forget, () => trash(entries)));
+    }
+    buttons.push(trayButton('tray-btn', 'More', fileGlyphs.more, event => showTrayMenu(moreMenu(entries), event)));
+    return buttons;
+  }
+  function renderTrayHead() {
+    const start = document.createElement('div'), end = document.createElement('div');
+    end.className = 'end';
+    const shown = shownEntries(), chosen = pickedEntries();
+    const cleaning = cleanup && feed === 'downloads';
+    if (flash) {
+      const box = headBox(null, flash.text);
+      box.classList.add('flash');
+      box.classList.toggle('error', flash.error);
+      start.appendChild(box);
+    } else if (feed === 'clipboard') {
+      start.appendChild(headBox(sourceIcon('clipboard'), 'Clipboard'));
+    } else if (cleaning) {
+      start.appendChild(headBox(fileGlyphs.sparkles, cleanup.length ? `${chosen.length} of ${cleanup.length} · ${bytes(totalSize(chosen))}` : 'Clean Up'));
+    } else if (chosen.length) {
+      const chip = trayButton('head-box', 'Deselect all', `<span>${chosen.length} selected</span>${glyphs.cross}`, clearSelection);
+      start.appendChild(chip);
+      if (chosen.length < shown.length) start.appendChild(trayButton('tray-pill', 'Select all', 'All', selectAll));
+    } else {
+      start.appendChild(headBox(sourceIcon(feed), shown.length ? `${feedNames[feed]} · ${shown.length}` : feedNames[feed]));
+      if (shown.length > 1) start.appendChild(trayButton('tray-btn big', 'Select all', glyphs.tick, selectAll));
+    }
+    if (feed === 'clipboard') {
+      // The Clipboard's own controls are in its header.
+    } else if (cleaning) {
+      if (chosen.length) {
+        const bin = trayButton('tray-pill strong', 'Move the selected files to the Trash (Put Back brings them back)', 'Move to Trash', () => trash(chosen));
+        end.appendChild(bin);
+      }
+      end.appendChild(trayButton('tray-btn', 'Cancel', glyphs.cross, endCleanup));
+    } else if (chosen.length) {
+      end.append(...selectionActions(chosen));
+    } else {
+      end.style.gap = '5px';
+      if (feed === 'tray' && feeds.tray.length) {
+        end.appendChild(trayButton('tray-pill', 'Remove everything from the tray (the files themselves stay put)', 'Clear', () => removeFromTray([...feeds.tray])));
+      }
+      if (feed === 'downloads') end.appendChild(trayButton('tray-pill', 'Find installers and archives older than a week, to move to the Trash', 'Clean Up', startCleanup));
+      if (fileLayout === 'list') {
+        end.appendChild(segmented(null, [[filePreview ? 'Hide the preview pane' : 'Show the preview pane', fileGlyphs.sidebar, filePreview, () => { filePreview = !filePreview; renderTray(); }]]));
+      }
+      end.appendChild(segmented('Show the files', [
+        ['Show as list', fileGlyphs.list, fileLayout === 'list', () => { fileLayout = 'list'; renderTray(); }],
+        ['Show as icons', fileGlyphs.grid, fileLayout === 'icons', () => { fileLayout = 'icons'; renderTray(); }],
+      ]));
+    }
+    $('tray-head').replaceChildren(start, end);
+    // As the app's: a long message shrinks a little to fit, then is cut short.
+    const words = start.querySelector('.flash span');
+    if (words && words.scrollWidth > words.clientWidth) {
+      words.style.fontSize = `${Math.max(8.8, 11 * words.clientWidth / words.scrollWidth)}px`;
+    }
+  }
+
+  // MARK: Rows, icons and the preview pane
+
+  function fileItem(entry, element, removable) {
+    element.tabIndex = 0;
+    element.setAttribute('role', 'option');
+    element.title = entry.file.folder ? `${entry.file.folder}/${entry.file.name}` : entry.file.name;
+    element.classList.toggle('selected', picked.has(entry.file));
+    rowsByFile.set(entry.file, element);
+    element.addEventListener('click', event => {
+      event.stopPropagation();
+      selectFile(entry, event);
+    });
+    element.addEventListener('dblclick', () => openFiles([entry]));
+    element.addEventListener('keydown', event => {
+      if (event.target !== element) return;
+      if (event.key === ' ') { event.preventDefault(); selectFile(entry, event); }
+      if (event.key === 'Enter') { event.preventDefault(); openFiles([entry]); }
+    });
+    element.addEventListener('contextmenu', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!picked.has(entry.file)) selectFile(entry, null);
+      showTrayMenu(moreMenu(pickedEntries()), event);
+    });
+    element.addEventListener('pointerenter', () => { hovered = entry.file; renderPane(); });
+    element.addEventListener('pointerleave', () => { if (hovered === entry.file) { hovered = null; renderPane(); } });
+    if (removable) {
+      const remove = trayButton('remove', 'Remove from tray (the file stays put)', glyphs.cross, () => removeFromTray([entry]));
+      remove.setAttribute('aria-label', `Remove ${entry.file.name} from tray`);
+      element.appendChild(remove);
+    }
+    return element;
+  }
+  function fileRow(entry, removable) {
+    const row = document.createElement('div');
+    row.className = removable ? 'file-row removable' : 'file-row';
+    const name = document.createElement('span');
+    name.className = 'name';
+    name.textContent = entry.file.name;
+    const meta = document.createElement('span');
+    meta.className = 'meta';
+    meta.textContent = feed === 'tray' || cleanup ? bytes(entry.file.size || 0)
+      : feed === 'downloads' ? timeAgo(entry.at, true)
+      : `${folderName(entry.file)} · ${timeAgo(entry.at, true)}`;
+    row.append(fileIcon(entry.file, 15), name, meta);
+    return fileItem(entry, row, removable);
+  }
+  function fileTile(entry, removable) {
+    const tile = document.createElement('div');
+    tile.className = 'file-tile';
+    const name = document.createElement('span');
+    name.className = 'name';
+    name.textContent = entry.file.name;
+    tile.append(fileIcon(entry.file, 44), name);
+    return fileItem(entry, tile, removable);
+  }
+  function feedNote(icon, title, detail, button) {
+    const note = document.createElement('div');
+    note.className = 'feed-note';
+    note.innerHTML = icon;
+    const words = document.createElement('div');
+    const heading = document.createElement('b');
+    heading.textContent = title;
+    words.appendChild(heading);
+    if (detail) {
+      const line = document.createElement('span');
+      line.textContent = detail;
+      words.appendChild(line);
+    }
+    if (button) words.appendChild(trayButton('', button[0], button[0], button[1]));
+    note.appendChild(words);
+    return note;
+  }
+
+  function renderPane() {
+    if (!pane) return;
+    const shown = shownEntries(), chosen = pickedEntries();
+    const under = shown.find(entry => entry.file === hovered);
+    pane.replaceChildren();
+    if (under) paneFor(under);
+    else if (chosen.length > 1) paneForMany(chosen);
+    else if (chosen[0] || shown[0]) paneFor(chosen[0] || shown[0]);
+  }
+  function paneFor(entry) {
+    const file = entry.file, real = isReal(entry);
+    const head = document.createElement('div');
+    head.className = 'insp-head';
+    const picture = document.createElement('span');
+    picture.className = 'pic';
+    const fromSite = feed === 'downloads' && !cleanup && file.site;
+    picture.innerHTML = fromSite ? glyphs.globe : fileGlyphs.place;
+    const from = document.createElement('span');
+    from.className = 'from';
+    from.textContent = [fromSite ? file.site : folderName(file), timeAgo(entry.at, true)].filter(Boolean).join(' · ');
+    head.append(picture, from,
+      trayButton('', 'Open', glyphs.open, () => openFiles([entry])),
+      trayButton('', 'Show in Finder', fileGlyphs.folder, null),
+      trayButton('', 'Copy (then paste the file anywhere)', glyphs.copy, () => copyFiles([entry]), real));
+    if (feed === 'tray') head.appendChild(trayButton('', 'Remove from tray (the file stays put)', glyphs.cross, () => removeFromTray([entry])));
+    else if (feed === 'downloads') head.appendChild(trayButton('', 'Move to Trash', glyphs.forget, () => trash([entry])));
+    else head.appendChild(trayButton('', 'Add to Tray', fileGlyphs.addToTray, () => addToTray([entry])));
+    const hero = document.createElement('div');
+    hero.className = 'file-hero';
+    const words = document.createElement('div');
+    const name = document.createElement('b');
+    name.textContent = file.name;
+    words.appendChild(name);
+    if (file.folder) {
+      const place = document.createElement('span');
+      place.textContent = file.folder;
+      words.appendChild(place);
+    }
+    hero.append(fileIcon(file, 30), words);
+    const foot = document.createElement('div');
+    foot.className = 'insp-foot';
+    const facts = [file.type, file.detail, bytes(file.size || 0)].filter(Boolean).join(' · ');
+    foot.textContent = `${facts} · Double-click to open`;
+    pane.append(head, hero, foot);
+    // As the app's: the hint only where it fits.
+    if (foot.scrollWidth > foot.clientWidth) foot.textContent = facts;
+  }
+  function paneForMany(entries) {
+    const head = document.createElement('div');
+    head.className = 'insp-head';
+    head.textContent = `${entries.length} selected`;
+    const pile = document.createElement('div');
+    pile.className = 'file-pile';
+    // The first on top, as the app stacks them.
+    pile.append(...entries.slice(0, 6).map((entry, index) => {
+      const icon = fileIcon(entry.file, 32);
+      icon.style.zIndex = 6 - index;
+      return icon;
+    }));
+    const foot = document.createElement('div');
+    foot.className = 'insp-foot';
+    foot.textContent = `${bytes(totalSize(entries))} in all · drag one to take them all`;
+    pane.append(head, pile, foot);
+  }
+
+  function renderFiles(added) {
+    rowsByFile.clear();
+    pane = null;
+    trayFiles.className = 'tray-files';
+    const shown = shownEntries();
+    const removable = feed === 'tray';
+    if (feed === 'tray' && !shown.length) {
+      const zone = document.createElement('div');
+      zone.className = 'drop-zone';
+      zone.innerHTML = `${fileGlyphs.addToTray}<div><b><span class="when-resting">Drop files on the notch</span><span class="when-dropping">Drop to keep it here</span></b><span>They'll wait here until you drag them out.</span></div>`;
+      return trayFiles.replaceChildren(zone);
+    }
+    if (feed === 'downloads' && cleanup && !cleanup.length) {
+      return trayFiles.replaceChildren(feedNote(fileGlyphs.sparkles, 'Nothing to clean up', 'No installers or archives in Downloads older than a week.', ['Done', endCleanup]));
+    }
+    if (!shown.length) {
+      const kind = $('file-kinds').querySelector(`[data-file-kind="${recentKind}"]`);
+      return trayFiles.replaceChildren(feed === 'recent' && recentKind !== 'all'
+        ? feedNote(kind.innerHTML, `No recent ${kind.title.toLowerCase()}`, 'None opened in the last two weeks.')
+        : feedNote(sourceIcon(feed), feed === 'downloads' ? 'Nothing in Downloads' : 'No recent files',
+          feed === 'recent' ? 'Files you open in the last two weeks show up here.' : null));
+    }
+    if (fileLayout === 'icons') {
+      trayFiles.classList.add('icons');
+      const grid = document.createElement('div');
+      grid.className = 'file-grid';
+      grid.setAttribute('role', 'listbox');
+      grid.setAttribute('aria-multiselectable', 'true');
+      grid.append(...shown.map(entry => fileTile(entry, removable)));
+      trayFiles.replaceChildren(grid);
+    } else {
+      const rows = document.createElement('div');
+      rows.className = 'file-rows';
+      rows.setAttribute('role', 'listbox');
+      rows.setAttribute('aria-multiselectable', 'true');
+      const sectioned = feed !== 'tray' && !cleanup;
+      if (feed === 'downloads' && cleanup) rows.insertAdjacentHTML('beforeend', '<div class="file-group">INSTALLERS AND ARCHIVES OLDER THAN A WEEK</div>');
+      let day = null;
+      shown.forEach((entry, index) => {
+        const its = dayOf(entry.at);
+        // Today needs no heading at the top: the ages say it.
+        if (sectioned && its !== day && (index > 0 || its !== 'TODAY')) {
+          const heading = document.createElement('div');
+          heading.className = 'file-group';
+          heading.textContent = its;
+          rows.appendChild(heading);
+        }
+        day = its;
+        rows.appendChild(fileRow(entry, removable));
+      });
+      trayFiles.replaceChildren(rows);
+      if (filePreview) {
+        pane = document.createElement('div');
+        pane.className = 'clip-inspect';
+        trayFiles.appendChild(pane);
+        renderPane();
+      }
+    }
+    if (added) {
+      const scroller = fileLayout === 'icons' ? trayFiles : trayFiles.querySelector('.file-rows');
+      scroller?.scrollTo({ top: scroller.scrollHeight, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  }
+  // A click beside the files, not on one, clears the selection.
+  trayFiles.addEventListener('click', event => {
+    if (!event.target.closest('.file-row, .file-tile, button')) clearSelection();
+  });
+
   function renderTray(added = 0) {
     document.querySelectorAll('[data-feed]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.feed === feed)));
     trayPage.classList.toggle('clips', feed === 'clipboard');
+    $('file-kinds').hidden = feed !== 'recent';
+    document.querySelectorAll('[data-file-kind]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.fileKind === recentKind)));
     if (feed === 'clipboard') {
-      trayPage.classList.remove('empty');
       renderClips();
       return;
     }
     trayPage.classList.remove('listed', 'note');
-    const files = feeds[feed];
-    $('tray-title').textContent = `${feedNames[feed]} · ${files.length}`;
-    $('tray-clear').hidden = feed !== 'tray' || files.length === 0;
-    trayPage.classList.toggle('empty', files.length === 0);
-    trayFiles.replaceChildren(...files.map((file, index) => {
-      const tile = document.createElement('div');
-      tile.className = 'file';
-      tile.title = file.name;
-      if (index < files.length - added) tile.style.animation = 'none';
-      tile.appendChild(thumbFor(file));
-      const name = document.createElement('span');
-      name.className = 'name';
-      name.textContent = file.name;
-      tile.appendChild(name);
-      if (feed === 'tray') {
-        const remove = document.createElement('button');
-        remove.type = 'button';
-        remove.className = 'remove';
-        remove.setAttribute('aria-label', `Remove ${file.name}`);
-        remove.innerHTML = '<svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg>';
-        remove.addEventListener('click', () => {
-          const [gone] = feeds.tray.splice(index, 1);
-          if (gone.url) URL.revokeObjectURL(gone.url);
-          renderTray();
-        });
-        tile.appendChild(remove);
-      }
-      return tile;
-    }));
-    if (added) trayFiles.scrollTo({ left: trayFiles.scrollWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
+    // What's selected and no longer listed isn't selected any more.
+    const listed = new Set(shownEntries().map(entry => entry.file));
+    picked = new Set([...picked].filter(file => listed.has(file)));
+    renderTrayHead();
+    renderFiles(added);
   }
-  function setFeed(name) { feed = name; renderTray(); }
-  document.querySelectorAll('[data-feed]').forEach(button => button.addEventListener('click', () => setFeed(button.dataset.feed)));
-  $('tray-clear').addEventListener('click', () => {
-    feeds.tray.forEach(file => file.url && URL.revokeObjectURL(file.url));
-    feeds.tray = [];
+  function setFeed(name) {
+    if (name !== feed) {
+      picked = new Set();
+      cleanup = null;
+      hovered = null;
+    }
+    feed = name;
+    closeTrayMenus();
     renderTray();
-  });
+  }
+  document.querySelectorAll('[data-feed]').forEach(button => button.addEventListener('click', () => setFeed(button.dataset.feed)));
+  document.querySelectorAll('[data-file-kind]').forEach(button => button.addEventListener('click', () => {
+    recentKind = button.dataset.fileKind;
+    renderTray();
+  }));
 
   // Dropping files anywhere on the page opens the Tray, like dragging to the
   // notch. Files stay in this browser tab: nothing is sent.
@@ -2267,11 +2943,24 @@ footer nav a:hover { color: var(--ink); }
     dropDepth = 0;
     stage.classList.remove('dropping');
     const files = [...event.dataTransfer.files].slice(0, 20);
-    files.forEach(file => {
-      const image = file.type.startsWith('image/');
-      const url = image ? URL.createObjectURL(file) : null;
-      const ext = (file.name.includes('.') ? file.name.split('.').pop() : '').slice(0, 4).toUpperCase();
-      feeds.tray.push({ name: file.name, thumb: url, url, kind: file.type.startsWith('audio/') ? 'audio' : 'doc', ext });
+    files.forEach(dropped => {
+      const image = dropped.type.startsWith('image/');
+      const url = URL.createObjectURL(dropped);
+      const ext = (dropped.name.includes('.') ? dropped.name.split('.').pop() : '').slice(0, 4).toUpperCase();
+      const file = {
+        name: dropped.name, folder: null, real: true, url, thumb: image ? url : null, ext,
+        icon: dropped.type.startsWith('audio/') ? 'audio' : null, size: dropped.size,
+        type: ext ? `${ext} ${image ? 'image' : 'file'}` : 'File',
+      };
+      // A picture's size, once the browser has read it.
+      if (image) {
+        const probe = new Image();
+        probe.onload = () => { file.detail = `${probe.naturalWidth}×${probe.naturalHeight}`; renderPane(); };
+        probe.src = url;
+      }
+      if (!feeds.tray.some(entry => entry.file.real && entry.file.name === file.name && entry.file.size === file.size)) {
+        feeds.tray.push({ file, at: Date.now() });
+      }
     });
     renderTray(files.length);
   });
@@ -2590,7 +3279,7 @@ footer nav a:hover { color: var(--ink); }
       clearTimeout(transition);
       if (inside) {
         if (!expanded) { pinned = false; transition = setTimeout(expand, openDelay); }
-      } else if (expanded && !pinned && !seeking && !wedgeDrag) {
+      } else if (expanded && !pinned && !seeking && !wedgeDrag && !trayMenus.length) {
         transition = setTimeout(collapse, 400);
       }
     }
@@ -2675,7 +3364,7 @@ footer nav a:hover { color: var(--ink); }
   });
   // Clicking anywhere else on the page puts a pinned notch away.
   document.addEventListener('pointerdown', event => {
-    if (!expanded || !pinned || stripLocked || stage.contains(event.target) || event.target.closest('[data-try], .menu')) return;
+    if (!expanded || !pinned || stripLocked || stage.contains(event.target) || event.target.closest('[data-try], .menu, .tray-menu')) return;
     pinned = false;
     if (!pointerInside) transition = setTimeout(collapse, 150);
   });
@@ -3582,7 +4271,8 @@ footer nav a:hover { color: var(--ink); }
       });
     });
   }
-  document.querySelectorAll('.pic').forEach(element => dress(element,
+  // The feature pictures; the notch's own small `.pic` icons aren't ones.
+  document.querySelectorAll('.shot .pic').forEach(element => dress(element,
     parseFloat(element.style.getPropertyValue('--w')), parseFloat(element.style.getPropertyValue('--h')) || 152,
     { closed: element.dataset.notch === 'closed', always: element.dataset.look === 'glass' }));
   dress(document.querySelector('.mac-notch'), 1224, 152);
