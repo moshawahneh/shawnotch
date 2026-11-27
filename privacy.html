@@ -64,12 +64,12 @@ footer .wrap { padding-block: 26px 44px; border-top: 1px solid var(--line); font
     <a href="terms.html">Terms</a>
     <a href="refunds.html">Refunds</a>
   </nav>
-  <a class="download" href="https://github.com/moshawahneh/shawnotch/releases/latest/download/ShawNotch.dmg">Download</a>
+  <a class="download" href="https://github.com/shawnotch/shawnotch/releases/latest/download/ShawNotch.dmg">Download</a>
 </div></header>
 <main><article class="wrap">
   <h1>Privacy policy</h1>
-  <p class="effective">Effective 23 November 2026</p>
-  <p class="lede">ShawNotch is a Mac app made by an independent developer based in Jordan ("I" or "me"). This policy explains what the app and this website do with information about you. In short: the app works on your Mac, collects nothing about you, and only goes online to check your licence and look for updates.</p>
+  <p class="effective">Effective 26 November 2026</p>
+  <p class="lede">ShawNotch is a Mac app made by an independent developer ("I" or "me"). This policy explains what the app and this website do with information about you. In short: the app works on your Mac, collects nothing about you, and only goes online to check your licence and look for updates.</p>
 
   <h2>What the app uses, and where it stays</h2>
   <p>ShawNotch shows things from your Mac in the notch. It reads them on your Mac, uses them there, and doesn't send them anywhere or keep copies, except as listed here.</p>
@@ -88,26 +88,46 @@ footer .wrap { padding-block: 26px 44px; border-top: 1px solid var(--line); font
 
   <h2>What goes online</h2>
   <ul>
-    <li><b>Your licence.</b> When you enter a licence key, and from time to time after that, ShawNotch checks it with Lemon Squeezy. The check sends the key and a random identifier ShawNotch creates for your Mac (not its name or serial number), so that a licence can be limited to 3 Macs.</li>
+    <li><b>Your licence.</b> When you enter a licence key, and from time to time after that, ShawNotch checks it with ShawNotch's licence server, which runs on Cloudflare. The check sends the key and a random identifier ShawNotch creates for your Mac (not its name or serial number), so that a licence can be limited to 3 Macs. Like any web request, it shows the server your IP address.</li>
     <li><b>Sales.</b> Once a day, ShawNotch reads a small file on this website that says whether ShawNotch is on sale yet. The request carries nothing about you or your Mac, but like any web request, it shows the website your IP address.</li>
     <li><b>Updates.</b> ShawNotch asks this website whether a newer version exists. Like any web request, this shows the website your IP address and the app's version. A new version downloads from GitHub, which hosts ShawNotch's downloads.</li>
     <li><b>Nothing else.</b> ShawNotch has no analytics, advertising, tracking or crash reporting of its own. If you've chosen in macOS's settings to share crash reports with app developers, Apple may pass ShawNotch's crash reports on to me under Apple's terms.</li>
   </ul>
 
   <h2>Buying ShawNotch</h2>
-  <p>Orders are handled by Lemon Squeezy, our reseller and merchant of record. Lemon Squeezy collects your name, email address, billing details, payment information and IP address to take payment, charge the right tax and prevent fraud, and its <a href="https://www.lemonsqueezy.com/privacy">privacy policy</a> covers that. I receive your name, email address, country and order details, and use them only to provide your licence, help you when you ask, and meet tax and legal obligations. I never see your full card details.</p>
+  <p>Our order process is conducted by our online reseller Paddle.com, which is the merchant of record for all our orders. Paddle collects your name, email address, billing details, payment information and IP address to take payment, charge the right tax and prevent fraud, and its <a href="https://www.paddle.com/legal/privacy">privacy policy</a> covers that. I receive your name, email address, country and order details, and use them only to provide your licence, help you when you ask, and meet tax and legal obligations. I never see your full card details.</p>
+  <p>Your licence key is made by ShawNotch's licence server when Paddle confirms your payment. The server keeps the key with your email address and order number, so it can check the key and send it to you again if you lose it, and turns the key off if the order is refunded. The server is hosted by Cloudflare, and the email with your key is sent through Brevo, an email delivery service; both handle this data only on my behalf. The Lost your key page sends the email address you type to the licence server, which emails that address its keys if it has any, and keeps only a scrambled fingerprint of the address for a day, so the page can't be used to flood someone's inbox.</p>
 
   <h2>This website</h2>
-  <p>This website and ShawNotch's downloads are hosted by GitHub. GitHub may record visitors' IP addresses for security, and counts how many times each download is fetched, without saying who fetched it; see <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. The website sets no cookies and uses no analytics or trackers, and its fonts are served from this site rather than a font service. The Mirror demo on the home page shows your camera only if you click Use my camera: the picture stays in your browser, nothing is recorded or sent anywhere, and the camera turns off when the mirror closes.</p>
+  <p>This website and ShawNotch's downloads are hosted by GitHub. GitHub may record visitors' IP addresses for security, and counts how many times each download is fetched, without saying who fetched it; see <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. The website sets no cookies and uses no analytics or trackers, and its fonts are served from this site rather than a font service. The Buy page loads Paddle's checkout only when you press Buy; the checkout runs on Paddle's servers under Paddle's privacy policy and may use the cookies it needs for payment and fraud prevention. The Mirror demo on the home page shows your camera only if you click Use my camera: the picture stays in your browser, nothing is recorded or sent anywhere, and the camera turns off when the mirror closes.</p>
 
   <h2>Emails</h2>
   <p>If you email me, I use your message and email address to reply, and keep them for as long as I need to help you. Request a Feature and Report a Problem, in the app's Settings, start an email in your own mail app with ShawNotch's version, your macOS version and your Mac's model filled in. You can read and change it first, and nothing is sent unless you send it.</p>
 
+  <h2>Why I use your information</h2>
+  <ul>
+    <li><b>To provide what you bought.</b> Your licence key, email address and order details, and the checks that limit a licence to 3 Macs, are needed to give you the licence you paid for and to send it to you again if you lose it.</li>
+    <li><b>Because the law requires it.</b> Some order records have to be kept for tax and accounting.</li>
+    <li><b>For legitimate interests.</b> Keeping the licence system working and stopping it being misused (for example, limiting how often keys are sent again), answering your emails, and the update and sales checks, which carry nothing about you beyond what any web request shows.</li>
+  </ul>
+
+  <h2>How long it's kept</h2>
+  <ul>
+    <li><b>Licence records</b> (your key, email address, order number, and the made-up identifiers of the Macs using it): for as long as your licence can be used, so the key keeps working and can be sent to you again. If you ask me to delete them, your key stops working and can't be sent again.</li>
+    <li><b>A Mac's activation</b> is deleted when you deactivate that Mac in ShawNotch's Settings.</li>
+    <li><b>Lost key requests:</b> only a scrambled fingerprint of the address, deleted after a day.</li>
+    <li><b>Order records needed for tax:</b> for as long as tax law requires, usually six years.</li>
+    <li><b>Emails:</b> for as long as I need them to help you.</li>
+  </ul>
+
+  <h2>Where it's handled</h2>
+  <p>The licence server runs on Cloudflare's network, which has servers around the world. The key emails are sent by Brevo, in the European Union. Paddle and GitHub handle data in the United Kingdom, the European Union and the United States. Where your information leaves the UK or the EU, it's covered by these companies' data protection agreements, which include the safeguards UK and EU law require, such as standard contractual clauses.</p>
+
   <h2>Children</h2>
-  <p>ShawNotch isn't aimed at children and collects no personal data from anyone who uses it. Purchases are made through Lemon Squeezy under its own terms, including its age requirements.</p>
+  <p>ShawNotch isn't aimed at children and collects no personal data from anyone who uses it. Purchases are made through Paddle under its own terms, including its age requirements.</p>
 
   <h2>Your rights</h2>
-  <p>You can ask me what information I hold about you (your order details and our emails), ask me to correct it, or ask me to delete it, by emailing <a href="mailto:support@shawnotch.com">support@shawnotch.com</a>. I'll reply within 30 days. Some order records have to be kept for tax reasons, and Lemon Squeezy keeps its own records as the law requires. Depending on where you live, you may also have the right to complain to your data protection authority.</p>
+  <p>You can ask me what information I hold about you (your order details and our emails), ask me to correct it, ask me to delete it, ask for a copy to take elsewhere, or object to how I use it, by emailing <a href="mailto:support@shawnotch.com">support@shawnotch.com</a>. I'll reply within 30 days. Some order records have to be kept for tax reasons, and Paddle keeps its own records as the law requires. Depending on where you live, you may also have the right to complain to your data protection authority; in the UK, that's the Information Commissioner's Office (<a href="https://ico.org.uk/make-a-complaint/">ico.org.uk</a>).</p>
 
   <h2>Changes</h2>
   <p>If this policy changes, I'll update this page and the date at the top.</p>
@@ -116,6 +136,6 @@ footer .wrap { padding-block: 26px 44px; border-top: 1px solid var(--line); font
   <p>ShawNotch, <a href="mailto:support@shawnotch.com">support@shawnotch.com</a></p>
 
 </article></main>
-<footer><div class="wrap">ShawNotch is made by an independent developer in Jordan. Orders are handled by Lemon Squeezy, our reseller and merchant of record. Contact: <a href="mailto:support@shawnotch.com">support@shawnotch.com</a></div></footer>
+<footer><div class="wrap">ShawNotch is made by an independent developer. Our order process is conducted by our online reseller Paddle.com, which is the merchant of record for all our orders. Contact: <a href="mailto:support@shawnotch.com">support@shawnotch.com</a></div></footer>
 </body>
 </html>

@@ -3,22 +3,19 @@
     <channel>
         <title>ShawNotch</title>
         <item>
-            <title>1.9.0</title>
-            <pubDate>Wed, 25 Nov 2026 21:00:02 +0000</pubDate>
+            <title>1.9.1</title>
+            <pubDate>Fri, 27 Nov 2026 00:01:18 +0000</pubDate>
             <link>https://shawnotch.com</link>
-            <sparkle:version>10900</sparkle:version>
-            <sparkle:shortVersionString>1.9.0</sparkle:shortVersionString>
+            <sparkle:version>10901</sparkle:version>
+            <sparkle:shortVersionString>1.9.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h2>What's new in ShawNotch 1.9.0</h2>
+            <description><![CDATA[<h2>What's new in ShawNotch 1.9.1</h2>
 <ul>
-<li>The Tray, Downloads and Recent are new. Select several files at once (⌘-click, ⇧-click, or the ✓ for all) and drag them out together, or copy, move, zip, AirDrop or trash them in one go. Each list shows as rows with a bigger preview of the file beside them, or as icons.</li>
-<li>Downloads and Recent are split by day. Clean Up in Downloads gathers old installers and archives for one Move to Trash, and Recent can show just documents, PDFs, pictures or code.</li>
-<li>The Waves equalizer moves with the whole song: the front wave with voices, snares and hi-hats, the one behind with the bass. Quiet parts lie nearly flat, and drops hit harder.</li>
-<li>Scroll records the song as it plays: each moment comes in as tall as it stands out and slides away, and silence leaves a line of dots. Pausing and playing again move the waves smoothly instead of jumping.</li>
-<li>Settings can set ShawNotch up the way its creator uses it, in one click, with a way back if you change your mind.</li>
+<li>Getting ready for launch: licence keys now come from ShawNotch's own licence server, with Paddle handling payment. ShawNotch is still free to use, and nothing changes for you until it goes on sale.</li>
+<li>Signed with a renewed Apple certificate. Your permissions for the camera, calendars and Spotify carry over.</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/moshawahneh/shawnotch/releases/download/v1.9.0/ShawNotch-1.9.0.zip" length="8130268" type="application/octet-stream" sparkle:edSignature="vbsyVcY/KbHNFtK0VudhJyTJhAQQHmJ8AktZkvC1tT5aGagF+GY2A9BV90vWE38hgT6IDQnXH6JFDjBuBPoQAQ=="/>
+            <enclosure url="https://github.com/shawnotch/shawnotch/releases/download/v1.9.1/ShawNotch-1.9.1.zip" length="8124570" type="application/octet-stream" sparkle:edSignature="CLfvX6oIIJVGGe8I3skjxpxsHPHxfAWjR8HZKGYtQYTKkcBAJkdmKNLBFKpmVuTqoDRY11sxhfoX1OZABH1WCA=="/>
         </item>
     </channel>
 </rss>

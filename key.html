@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://shawnotch.com/key.html">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Lost your key? · ShawNotch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 500 800; font-display: swap; src: url(fonts/bricolage-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 500 800; font-display: swap; src: url(fonts/bricolage-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/hanken-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/hanken-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url(fonts/jetbrains-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C4, U+2C60-2C7F, U+A720-A7FF; }
+/* Layout: one reading column under a slim bar, in the home page's dark, type and pink. */
+:root {
+  --bg: #09080D; --card: #131218; --ink: #F4F1F8; --muted: #A8A3B7; --faint: #7A7589; --line: rgba(255, 255, 255, 0.08); --pink: #FF6FAE;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Hanken Grotesk", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: radial-gradient(ellipse 55% 380px at 8% 0, rgba(255, 90, 160, 0.2), transparent 70%), radial-gradient(ellipse 45% 360px at 96% 0, rgba(169, 116, 255, 0.18), transparent 70%), var(--bg) no-repeat; color: var(--ink); font: 400 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(9, 8, 13, 0.7); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); }
+header .wrap { max-width: 1100px; display: flex; align-items: center; gap: 22px; height: 58px; }
+header a.home { display: flex; align-items: center; gap: 10px; margin-right: auto; font: 700 1.05rem/1 var(--display); letter-spacing: -0.01em; text-decoration: none; }
+header a.home img { width: 26px; height: 26px; }
+header nav { display: flex; gap: 18px; font-size: 15px; color: var(--muted); }
+header nav a { text-decoration: none; }
+header nav a:hover { color: var(--ink); }
+header nav a[aria-current="page"] { color: var(--pink); }
+header .download { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; background: var(--pink); color: #1A0710; font: 600 14px/1 var(--body); text-decoration: none; white-space: nowrap; }
+article { padding-block: 64px 88px; display: grid; gap: 14px; }
+h1 { margin: 0 0 4px; font: 800 clamp(2.5rem, 7vw, 3.8rem)/1 var(--display); letter-spacing: -0.04em; text-wrap: balance; }
+h2 { margin: 30px 0 0; font: 700 1.38rem/1.25 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
+p, ul { margin: 0; max-width: 66ch; }
+article p, article li { color: rgba(244, 241, 248, 0.82); }
+ul { padding-left: 1.2em; display: grid; gap: 8px; }
+li::marker { color: var(--pink); }
+b, strong { color: var(--ink); }
+.effective { font: 400 13px/1.5 var(--mono); color: var(--faint) !important; }
+.lede { font-size: 1.15rem; color: var(--muted) !important; }
+.draft { padding: 12px 14px; border: 1.5px dashed var(--line); border-radius: 12px; font: 400 13px/1.5 var(--mono); color: var(--muted) !important; }
+footer .wrap { padding-block: 26px 44px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint); }
+@media (max-width: 520px) {
+  header .download { display: none; }
+}
+/* The buy and lost-key pages: a panel, a pink button, the price, the keys. */
+.panel { display: grid; gap: 14px; margin-top: 18px; padding: clamp(20px, 4vw, 32px); border: 1px solid var(--line); border-radius: 22px; background: var(--card); }
+.panel h2 { margin: 0; }
+.cta { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--pink); color: #1A0710; font: 600 16px/1 var(--body); text-decoration: none; cursor: pointer; }
+.cta:disabled { opacity: 0.6; cursor: default; }
+.price { font: 400 1.1rem/1 var(--body); color: var(--muted) !important; }
+.price span { font: 800 3rem/1 var(--display); letter-spacing: -0.03em; color: var(--ink); margin-right: 6px; }
+.small { font-size: 14px; color: var(--muted) !important; }
+.error { color: #FF9AB8 !important; }
+.sandbox { padding: 10px 12px; border: 1.5px dashed var(--line); border-radius: 12px; font-family: var(--mono); font-size: 13px; }
+.keys { list-style: none; padding: 0; }
+.keys li { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.keys code { font: 500 clamp(15px, 3.4vw, 20px)/1.4 var(--mono); letter-spacing: 0.02em; color: var(--ink); user-select: all; }
+.copy { height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); font: 500 14px/1 var(--body); cursor: pointer; }
+label { font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; }
+input[type=email] { flex: 1 1 240px; height: 48px; padding: 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); color: var(--ink); font: 400 16px/1 var(--body); }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="home" href="./"><img src="images/app-icon.png?v=a29d318c1f" alt="" width="26" height="26">ShawNotch</a>
+  <nav aria-label="Legal">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="refunds.html">Refunds</a>
+  </nav>
+  <a class="download" href="https://github.com/shawnotch/shawnotch/releases/latest/download/ShawNotch.dmg">Download</a>
+</div></header>
+<main><article class="wrap">
+  <h1>Lost your key?</h1>
+  <p class="lede">Enter the email address you bought ShawNotch with, and your licence keys will be emailed to it again.</p>
+
+  <form class="panel" id="send">
+    <label for="email">Email address</label>
+    <div class="row">
+      <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+      <button type="submit" class="cta" id="send-button">Email my key</button>
+    </div>
+    <p class="small" id="send-answer" role="status" hidden></p>
+  </form>
+
+  <p>Can't find the email? Check your spam folder; it comes from support@shawnotch.com. Bought with an address you no longer use? Email <a href="mailto:support@shawnotch.com">support@shawnotch.com</a> with your Paddle receipt or order number.</p>
+  <p class="small sandbox" id="sandbox-note" hidden>Sandbox: this page is using the test licence server.</p>
+</article></main>
+<footer><div class="wrap">ShawNotch is made by an independent developer. Our order process is conducted by our online reseller Paddle.com, which is the merchant of record for all our orders and handles payment, invoices and sales tax. Contact: <a href="mailto:support@shawnotch.com">support@shawnotch.com</a></div></footer>
+
+<script>
+// Asks ShawNotch's licence server to email an address its keys. The answer
+// is the same whether or not the address bought anything.
+(() => {
+  const local = ["localhost", "127.0.0.1"].includes(location.hostname);
+  const server = local ? "https://licence-sandbox.shawnotch.com" : "https://licence.shawnotch.com";
+  const $ = (id) => document.getElementById(id);
+  $("sandbox-note").hidden = !local;
+
+  $("send").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const answer = $("send-answer");
+    const button = $("send-button");
+    button.disabled = true;
+    answer.hidden = true;
+    try {
+      const response = await fetch(`${server}/v1/licences/send`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: $("email").value.trim() }),
+      });
+      answer.textContent = response.status === 400
+        ? "That doesn't look like an email address. Check it and try again."
+        : response.ok
+          ? "Done. If that address bought ShawNotch, its keys are on their way. They should arrive within a few minutes."
+          : "Something went wrong on our side. Please try again in a few minutes, or email support@shawnotch.com.";
+    } catch {
+      answer.textContent = "Couldn't reach the server. Check your connection and try again.";
+    }
+    answer.hidden = false;
+    button.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>
